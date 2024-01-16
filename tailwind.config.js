@@ -5,7 +5,11 @@ export default {
     "./resources/**/*.jsx"
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'biru-1': '#0093DD'
+      }
+    },
   },
   plugins: [],
 }
