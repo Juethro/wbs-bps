@@ -17,3 +17,6 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('FormPengaduan');
 });
+Route::get('/status', function () {
+    return Inertia::render('FormStatus');
+});
