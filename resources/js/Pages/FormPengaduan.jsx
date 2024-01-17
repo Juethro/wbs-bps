@@ -2,7 +2,7 @@ import React from "react";
 
 function FormPengaduan(){
     return(
-        <div className="bg-contain bg-fixed bg-center" style={{ backgroundImage: "url('images/bpssby.jpg')" }}>
+        <div className="bg-contain bg-fixed bg-center" style={{ backgroundImage: "url('images/bpssby.jpg')", backgroundSize: "cover" }}>
             <div className="bg-blue-500 bg-contain bg-opacity-45">
             <div className="container mx-auto p-4">
                 <div className="flex flex-col mt-40">
@@ -13,7 +13,7 @@ function FormPengaduan(){
                         Kami disini untuk membantu masalah anda,
                     </div>
                     <div className="flex justify-center text-sm text-white">
-                        silahkan mengisi form terlebih dahulu untuk mendapatkan tiket pengaduan
+                        silahkan mengisi form terlebih dahulu untuk mendapatkan tiket pengaduan.
                     </div>
                 </div>
                 <div className="bg-white shadow-md rounded mx-40 px-8 pt-1 pb-8 mt-12 mb-4">
@@ -22,21 +22,21 @@ function FormPengaduan(){
                     </div>
                     <div className="flex flex-col mx-40">
                         <div className="mt-7 mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2 " htmlFor="nama">
+                            <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="nama">
                                 Nama
                             </label>
                         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nama" type="text" placeholder="Isi nama anda" />
                         </div>
 
                         <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="whatsapp">
+                        <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="whatsapp">
                             Nomor WhatsApp
                         </label>
                         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="whatsapp" type="text" placeholder="Isi nomor whatsapp anda" />
                         </div>
 
                         <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                        <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="email">
                             Email
                         </label>
                         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Isi email anda" />
@@ -59,7 +59,7 @@ function FormPengaduan(){
                     </div>
                     <div className="flex flex-col mx-40">
                         <div className="mt-7 mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="masalah">
+                            <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="masalah">
                                 Masalah yang dihadapi
                             </label>
                             <div className="relative">
@@ -77,14 +77,14 @@ function FormPengaduan(){
                         </div>
 
                         <div className="">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+                            <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="description">
                                 Deskripsi Masalah
                             </label>
                             <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="description" placeholder="Berikan deskripsi masalah sedetail dan sejelas mungkin" />
                         </div>
 
                         <div className="mb-4">
-                            <label htmlFor="lampiran" className="block text-gray-700 text-sm font-bold mb-2">
+                            <label htmlFor="lampiran" className="block text-gray-700 text-md font-bold mb-2">
                                 Lampiran
                             </label>
                             <p className="text-gray-600 text-xs mb-2">Lampirkan bukti foto dan video anda</p>
