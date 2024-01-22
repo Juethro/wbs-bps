@@ -20,3 +20,6 @@ Route::get('/', function () {
 Route::get('/status', function () {
     return Inertia::render('FormStatus');
 });
+Route::get('/loginadmin', function () {
+    return Inertia::render('LoginAdmin');
+});
