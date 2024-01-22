@@ -23,3 +23,6 @@ Route::get('/status', function () {
 Route::get('/loginadmin', function () {
     return Inertia::render('LoginAdmin');
 });
+Route::get('/DashboardUser', function () {
+    return Inertia::render('DashboardUser');
+});

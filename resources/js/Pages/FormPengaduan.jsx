@@ -1,11 +1,15 @@
 import React from "react";
+import NavbarForm from "../Components/NavbarForm";
 import FormPelanggar from "../Components/FormPelanggar";
 
 function FormPengaduan(){
     return(
         <div className="bg-contain bg-fixed bg-center" style={{ backgroundImage: "url('images/bpssby.jpg')", backgroundSize: "cover" }}>
             <div className="bg-blue-500 bg-contain bg-opacity-45">
-            <div className="container mx-auto p-4">
+            <div className="">
+                <div>
+                    <NavbarForm/>
+                </div>
                 <div className="flex flex-col mt-40">
                     <div className="flex justify-center text-2xl font-bold text-white">
                         Buat Pengaduan

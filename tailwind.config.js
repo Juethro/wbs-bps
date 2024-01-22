@@ -11,7 +11,8 @@ export default {
         'biru-2': '#002B6A'
       },
       backgroundImage: {
-        'foto-bps': "url('/images/bpssby.jpg')"
+        'foto-bps': "url('/images/bpssby.jpg')",
+        'logo-bps': "url('/images/logobps.png')"
       }
     },
   },
