@@ -53,7 +53,7 @@ function FormPelanggar(){
                         </div>
                     </div>
                     <div className="border-b border-biru-1 py-1">
-                        <h1 className="text-sm text-biru-1 inline-block">Identitas Pelapor</h1>
+                        <h1 className="text-sm text-biru-1 inline-block">Keterangan Masalah</h1>
                     </div>
                     <div className="flex flex-col mx-40">
                         <div className="mt-7 mb-4">
@@ -72,6 +72,32 @@ function FormPelanggar(){
                                     </svg>
                                 </div>
                             </div>
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="NamaPelanggan">
+                                Nama Pelanggar
+                            </label>
+                            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="whatsapp" type="text" placeholder="Isi nama orang yang melakukan pelanggaran" />
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="TempatKejadian">
+                                Tempat Kejadian
+                            </label>
+                            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="whatsapp" type="text" placeholder="Isi tempat dimana pelanggaran terjadi" />
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="TanggalKejadian">
+                                Tanggal Kejadian
+                            </label>
+                            <input
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="tanggalKejadian"
+                                type="date"
+                                placeholder="Pilih tanggal kejadian"
+                            />
                         </div>
 
                         <div className="">
