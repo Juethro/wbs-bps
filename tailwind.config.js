@@ -8,7 +8,9 @@ export default {
     extend: {
       colors: {
         'biru-1': '#0093DD',
-        'biru-2': '#002B6A'
+        'biru-2': '#002B6A',
+        'kuning-1': '#F79633',
+        'hijau-1' : '#8FC74A'
       },
       backgroundImage: {
         'foto-bps': "url('/images/bpssby.jpg')",
