@@ -9,6 +9,8 @@ export default {
       colors: {
         'biru-1': '#0093DD',
         'biru-2': '#002B6A',
+        'biru-3': '#04214A',
+        'biru-4': '#071322',
         'kuning-1': '#F79633',
         'hijau-1' : '#8FC74A'
       },
