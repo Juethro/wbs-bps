@@ -16,4 +16,27 @@ Route::get('/logout', [LoginController::class, 'logout']);
 Route::get('/cek', [LoginController::class, 'check']);
 
 // Dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::group(['prefix' => 'dashboard'], function () {
+
+    // Dashboard Admin
+    Route::middleware(['auth', 'onlyAdmin'])->group(function () {
+        Route::get('/admin', [DashboardController::class, 'index'])->name('dashboard.admin');
+    });
+    
+    // Dashboard Humas
+    Route::middleware(['auth', 'onlyHumas'])->group(function () {
+        Route::get('/humas', [DashboardController::class, 'humas'])->name('dashboard.humas');
+    });
+
+    // Dashboard Direksi
+    Route::middleware(['auth', 'onlyDireksi'])->group(function () {
+        Route::get('/direksi', [DashboardController::class, 'direksi'])->name('dashboard.direksi');
+    });
+
+    // Dashboard Dewan
+    Route::middleware(['auth', 'onlyDewan'])->group(function () {
+        Route::get('/dewan', [DashboardController::class, 'dewan'])->name('dashboard.dewan');
+    });
+
+});
+

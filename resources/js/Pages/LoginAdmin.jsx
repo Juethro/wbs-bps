@@ -9,7 +9,7 @@ function LoginAdmin(){
         rememberMe: false,
     });
 
-    const [responseMessage, setResponseMessage] = useState(null);
+    const [error, setError] = useState(null);
     
     const handleChange = (e) => {
         const { id, value, type, checked } = e.target;
@@ -19,22 +19,25 @@ function LoginAdmin(){
         }));
     };
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = router.post('/login', formData);
-        console.log(response);
-        // setResponseMessage(response.msg);
-    }
+        // Validasi di sisi klien
+        if (!formData.email || !formData.password) {
+            setError("Semua kolom wajib diisi");
+            return;
+        }
 
-    const renderResponsePopup = () => {
-        if (!responseMessage) return null;
-    
-        // You can customize this part based on your UI library or preference
-        return (
-          <div className="bg-white p-4 border border-green-400 rounded-md shadow-md">
-            <p className="text-green-500">{responseMessage}</p>
-          </div>
-        );
+        try {
+            const response = await router.post('/login', formData);
+            if (response.status === 200) {
+
+            } else {
+                setError("Email atau Password salah!");
+            }
+        } catch (error) {
+            setError("Email atau Password salah!");
+        }
+        
     };
 
     return(
@@ -49,6 +52,13 @@ function LoginAdmin(){
                             <h1 className="text-md p-4 font-bold text-center text-white">Login</h1>
                         </div>
                         <div className="bg-white p-16 rounded-b-lg shadow-lg w-[100%]">
+                            {error ? (
+                                <div className="bg-white p-4 border border-red-400 rounded-md shadow-md">
+                                    <p className="text-red-500">{error}</p>
+                                </div>
+                            ) : null}
+
+
                             <form >  
                                 <div className="mb-4">
                                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">

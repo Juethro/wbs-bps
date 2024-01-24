@@ -12,10 +12,22 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Dashboard'); 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function humas()
+    {
+        dd('ini dashboard humas');
+    }
+
+    public function direksi()
+    {
+        dd('ini dashboard direksi');
+    }
+
+    public function dewan()
+    {
+        dd('ini dashboard dewan');
+    }
+
 }

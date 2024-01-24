@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
@@ -20,22 +21,24 @@ class LoginController extends Controller
         $credentials = Validator::make($request->all(), [
             'email' => ['required', 'email'],
             'password' => ['required'],
+            'rememberMe' => ['required'],
         ])->validate();
 
         $email = $credentials['email'];
         $passw = $credentials['password'];
+        $remem = $credentials['rememberMe'];
         
         if(Auth::attempt([
             'email' => $email,
             'password' => $passw
-        ])){
+        ], $remem)){
             $request->session()->regenerate();
 
-            return response()->json(['msg' => 'Berhasil Login!'],200);
+            return redirect('/dashboard/admin');
         }
         else{
             
-            return response()->json(['msg' => 'Email atau Password Salah!'], 401);
+            return redirect()->back()->with(['msg' => 'Email atau password salah!'], 401)->withInput();
         }
 
     }
@@ -52,7 +55,7 @@ class LoginController extends Controller
         if (Auth::check()) {
             dd("Logged In");
         } else {
-            // Pengguna sudah logout
+            dd("Logged Out");
         }        
     }
 }
