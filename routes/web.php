@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Form Pelaporan & Tracking Status
@@ -21,6 +22,11 @@ Route::group(['prefix' => 'dashboard'], function () {
     // Dashboard Admin
     Route::middleware(['auth', 'onlyAdmin'])->group(function () {
         Route::get('/admin', [DashboardController::class, 'index'])->name('dashboard.admin');
+
+
+        Route::post('/admin/user/new', [UserController::class, 'create'])->name('user.create');
+        Route::update('/admin/user/update', [UserController::class], 'update')->name('user.update');
+        Route::delete('/admin/user/delete', [UserController::class], 'destroy')->name('user.delete');
     });
     
     // Dashboard Humas
