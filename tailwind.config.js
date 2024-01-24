@@ -12,7 +12,9 @@ export default {
         'biru-3': '#04214A',
         'biru-4': '#071322',
         'kuning-1': '#F79633',
-        'hijau-1' : '#8FC74A'
+        'hijau-1' : '#8FC74A',
+        'abu-1': '#EFEFEF',
+        'abu-2': '#D9D9D9'
       },
       backgroundImage: {
         'foto-bps': "url('/images/bpssby.jpg')",
