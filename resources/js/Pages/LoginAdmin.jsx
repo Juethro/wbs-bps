@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import NavbarForm from "../Components/NavbarForm";
 import { router } from '@inertiajs/react';
 
@@ -53,11 +53,10 @@ function LoginAdmin(){
                         </div>
                         <div className="bg-white p-16 rounded-b-lg shadow-lg w-[100%]">
                             {error ? (
-                                <div className="bg-white p-4 border border-red-400 rounded-md shadow-md">
+                                <div className="bg-white px-4 py-2 border border-red-400 rounded-md shadow-md">
                                     <p className="text-red-500">{error}</p>
                                 </div>
                             ) : null}
-
 
                             <form >  
                                 <div className="mb-4">

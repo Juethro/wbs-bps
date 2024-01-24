@@ -26,11 +26,11 @@ function FormPengaduan(){
                             silahkan mengisi form terlebih dahulu untuk mendapatkan tiket pengaduan.
                         </div>
                     </div>
-                    <div className="bg-white shadow-md rounded mx-40 px-8 pt-1 pb-8 mt-12 mb-4">
+                    <div className="bg-white shadow-md rounded landscape:mx-40 portrait:mx-0 px-8 pt-1 pb-8 mt-12 mb-4">
                         <div className="border-b border-biru-1 py-1 mt-5">
                             <h1 className="text-sm text-biru-1 inline-block">Identitas Pelapor</h1>
                         </div>
-                        <div className="flex flex-col mx-40">
+                        <div className="flex flex-col landscape:mx-40 portrait:mx-[5vw]">
                             <div className="mt-7 mb-4">
                                 <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="nama">
                                     Nama
@@ -69,7 +69,7 @@ function FormPengaduan(){
                             <h1 className="text-sm text-biru-1 inline-block">Keterangan Masalah</h1>
                         </div>
 
-                        <div className="flex flex-col mx-40">
+                        <div className="flex flex-col landscape:mx-40 portrait:mx-0">
                             <div className="mt-7 mb-4">
                                 <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="masalah">
                                     Masalah yang dihadapi
