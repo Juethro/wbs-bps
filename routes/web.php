@@ -25,7 +25,7 @@ Route::group(['prefix' => 'dashboard'], function () {
 
 
         Route::post('/admin/user/new', [UserController::class, 'create'])->name('user.create');
-        Route::update('/admin/user/update', [UserController::class], 'update')->name('user.update');
+        Route::patch('/admin/user/update', [UserController::class], 'update')->name('user.update');
         Route::delete('/admin/user/delete', [UserController::class], 'destroy')->name('user.delete');
     });
     

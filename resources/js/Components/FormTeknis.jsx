@@ -1,20 +1,30 @@
 import React from "react";
 
-function FormPelanggar(){
+function FormTeknis(){
     return(
         <div>
+            <div className="">
+                <p className="text-xs text-black">
+                    Contoh teknis : Melaporkan kegiatan teknis di lapangan terkait pendataan.
+                </p>
+            </div>
+            <div className="my-2">
+                <p className="text-xs text-black opacity-25">
+                    form:Teknis
+                </p>
+            </div>
             <div className="mb-4">
                 <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="NamaPelanggan">
                     Nama Pelanggar
                 </label>
-                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="whatsapp" type="text" placeholder="Isi nama orang yang melakukan pelanggaran" />
+                <input className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1" id="whatsapp" type="text" placeholder="Isi nama orang yang melakukan pelanggaran" />
             </div>
 
             <div className="mb-4">
                 <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="TempatKejadian">
                     Tempat Kejadian
                 </label>
-                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="whatsapp" type="text" placeholder="Isi tempat dimana pelanggaran terjadi" />
+                <input className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1" id="whatsapp" type="text" placeholder="Isi tempat dimana pelanggaran terjadi" />
             </div>
 
             <div className="mb-4">
@@ -22,7 +32,7 @@ function FormPelanggar(){
                     Tanggal Kejadian
                 </label>
                 <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1"
                     id="tanggalKejadian"
                     type="date"
                     placeholder="Pilih tanggal kejadian"
@@ -33,7 +43,7 @@ function FormPelanggar(){
                 <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="description">
                     Deskripsi Masalah
                 </label>
-                <textarea className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="description" placeholder="Berikan deskripsi masalah sedetail dan sejelas mungkin" />
+                <textarea className="h-32 shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:border-biru-1" id="description" placeholder="Berikan deskripsi masalah sedetail dan sejelas mungkin" />
             </div>
 
             <div className="mb-4">
@@ -71,7 +81,7 @@ function FormPelanggar(){
                     </span>
                 </div>
                 <div className="flex justify-center mt-7">
-                    <button className="bg-biru-1 hover:bg-blue-700 text-white font-bold py-2 px-24 rounded focus:outline-none focus:shadow-outline" type="button">
+                    <button className="bg-biru-1 hover:bg-biru-2 text-white font-bold py-2 px-24 rounded focus:outline-none focus:shadow-outline" type="button">
                         Buat Pengaduan
                     </button>
                 </div>
@@ -80,4 +90,4 @@ function FormPelanggar(){
     )
 };
 
-export default FormPelanggar;
+export default FormTeknis;

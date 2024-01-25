@@ -49,10 +49,6 @@ function DashboardUser(){
                             <p className="text-white text-sm">Teknis</p>
                         </button>
 
-                        <button className="bg-biru-2 rounded-r-lg mr-2 p-4 mt-2 hover:bg-biru-4">
-                            <p className="text-white text-sm">Pelanggaran</p>
-                        </button>
-
                         <p className="text-white text-center mt-8">
                             User
                         </p>
