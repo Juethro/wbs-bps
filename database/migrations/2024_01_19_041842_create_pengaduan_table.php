@@ -12,16 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pengaduan', function (Blueprint $table) {
-            $table->increments('Id');
+            $table->string('ticketID')->primary();
             $table->string('email')->unique();
             $table->string('nama');
-            $table->string('no telp');
-            $table->string('jenis masalah');
-            $table->string('deskripsi masalah');
-            $table->string('lampiran_nama')->nullable(); 
-            $table->string('lampiran_media')->nullable(); 
-            $table->timestamp('tanggal_perubahan')->useCurrent();
-            $table->enum('review', ['A', 'B', 'C']);
+            $table->string('no_telp');
+            $table->string('nama_pelanggar');
+            $table->string('tempat_kejadian');
+            $table->date('tanggal_kejadian');
+            $table->enum('jenis_masalah', [0,1]);
+            $table->text('deskripsi_masalah');
+            $table->json('lampiran_file')->nullable(); 
+            $table->enum('form_status', [0,1]);
+            $table->enum('review', [1,2,3,4,5,6,7]);
             $table->timestamps();
         });
     }

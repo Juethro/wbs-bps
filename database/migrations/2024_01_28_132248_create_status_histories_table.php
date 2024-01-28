@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('login', function (Blueprint $table) {
-            $table->string('username');
-            $table->string('password');
-            $table->string('role');
+        Schema::create('status_histories', function (Blueprint $table) {
+            $table->id();
+            $table->string('ticketID');
+            $table->enum('review',[1,2,3,4,5,6,7]);
+            $table->timestamps();
+            $table->foreign('ticketID')->references('ticketID')->on('pengaduan');
         });
     }
 
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('login');
+        Schema::dropIfExists('status_histories');
     }
 };
