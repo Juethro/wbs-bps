@@ -45,5 +45,21 @@ class FormController extends Controller
          * - Validasi Request
          * - Update database
          */
+
     }
+
+    function dashboard()
+    {
+        return Inertia::render('Dashboard');
+    }
+
+    function showLogin()
+    {
+        return Inertia::render('LoginAdmin');
+    }
+
+    // function cobaUser()
+   // {
+      //  return Inertia::render('UserCoba');
+   // }
 }
