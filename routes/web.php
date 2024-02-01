@@ -5,6 +5,7 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FormPengaduanController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -23,6 +24,7 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout']);
 Route::get('/cek', [LoginController::class, 'check']);
 
+
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {
 
@@ -35,16 +37,18 @@ Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/admin/user', [DashboardController::class, 'user'])->name('admin.user');
         Route::get('/admin/email', [DashboardController::class, 'email'])->name('admin.email');
 
-        Route::post('/admin/user/new', [UserController::class, 'create'])->name('user.create');
-        Route::patch('/admin/user/update', [UserController::class], 'update')->name('user.update');
-        Route::delete('/admin/user/delete', [UserController::class], 'destroy')->name('user.delete');
+        Route::get('/users', [UserController::class, 'index'])->name('user.index');
+        Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
+        Route::post('/users/store', [UserController::class, 'store'])->name('user.store');
+        Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+        Route::patch('/users/{user}/update', [UserController::class, 'update'])->name('user.update');
+        Route::delete('/users/{user}/destroy', [UserController::class, 'destroy'])->name('user.destroy');
 
         Route::post('/admin/email/new', [EmailController::class, 'create'])->name('email.create');
         Route::patch('/admin/email/update', [EmailController::class, 'update'])->name('email.update');
         Route::delete('/admin/email/delete', [EmailController::class, 'delete'])->name('email.delete');
 
     });
-
 
     // Dashboard Tim Validator
     Route::middleware(['auth', 'onlyDireksi'])->group(function () {
@@ -75,4 +79,21 @@ Route::group(['prefix' => 'dashboard'], function () {
     });
 
 });
+
+//Form Pengaduan
+Route::get('/FormPengaduan', [FormPengaduanController::class, 'showForm'])->name('form.show');
+Route::post('/FormPengaduan', [FormPengaduanController::class, 'submitForm'])->name('form.submit');
+
+
+///User
+// Route::get('/usercoba', function () {
+//     return Inertia::render('UserCoba');
+// });
+
+Route::get('/users', [UserController::class, 'index'])->name('user.index');
+Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
+Route::post('/users/store', [UserController::class, 'store'])->name('user.store');
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+Route::patch('/users/{user}/update', [UserController::class, 'update'])->name('user.update');
+Route::delete('/users/{user}/destroy', [UserController::class, 'destroy'])->name('user.destroy');
 
