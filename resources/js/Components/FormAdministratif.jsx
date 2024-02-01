@@ -1,6 +1,60 @@
-import React from "react";
+import React, {useState} from "react";
 
-function FormAdministratif(){
+const FormAdministratif = () => {
+    const [files, setFiles] = useState([]);
+    const [error, setError] = useState(null);
+
+    const handleRemoveFile = (indexToRemove) => {
+        setFiles((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
+      };
+
+    const handleSubmit = () => {
+        // Add your submit logic here
+        console.log("Form submitted successfully!");
+        // You can also trigger form submission if it's inside a form element
+        // document.getElementById("yourFormId").submit();
+    };
+
+    const handleFileChange = (event) => {
+        const selectedFiles = event.target.files;
+    
+        const newFiles = Array.from(selectedFiles);
+    
+        // Check each file individually
+        for (const file of newFiles) {
+          if (file.size > 5 * 1024 * 1024) {
+            setError(`File "${file.name}" exceeds the 5MB limit. Please choose a smaller file.`);
+            return; // Stop processing further files on the first violation
+          }
+        }
+    
+        setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+        setError(null);
+    };
+
+    const handleDragOver = (event) => {
+        event.preventDefault();
+    };
+
+    const handleDrop = (event) => {
+        event.preventDefault();
+    
+        const droppedFiles = event.dataTransfer.files;
+    
+        const newFiles = Array.from(droppedFiles);
+    
+        // Check each file individually
+        for (const file of newFiles) {
+          if (file.size > 5 * 1024 * 1024) {
+            setError(`File "${file.name}" exceeds the 5MB limit. Please choose a smaller file.`);
+            return; // Stop processing further files on the first violation
+          }
+        }
+    
+        setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+        setError(null);
+    };
+
     return(
         <div>
             <div className="">
@@ -52,19 +106,49 @@ function FormAdministratif(){
                 </label>
                     <p className="text-gray-600 text-xs mb-2">Lampirkan bukti foto dan video anda</p>
                 <div 
-                    className="w-full h-32 bg-white text-gray-700 border-2 border-dashed border-gray-300 rounded-lg flex justify-center items-center relative cursor-pointer"
+                    className="w-full h-20 bg-white text-gray-700 border-2 border-dashed border-gray-300 rounded-lg flex justify-center items-center relative cursor-pointer"
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}
                 >
                     <input 
                     type="file"
                     id="lampiran"
                     className="absolute inset-0 w-full h-full opacity-0"
                     accept=".jpg,.jpeg,.png"
-                    onChange={(event) => console.log(event.target.files)}
+                    onChange={handleFileChange}
+                    multiple
                     />
                     <div className="pointer-events-none flex justify-center items-center">
+                    {files.length > 0 ? (
+                        <span className="text-gray-700">/ tambahkan file berikutnya</span>
+                    ) : (
                         <span className="text-gray-700">/ tambah atau tarik file disini</span>
+                    )}
                     </div>
                 </div>
+
+                {files.length > 0 && (
+                    <div className="mt-4">
+                        <p className="text-gray-700">Files submitted:</p>
+                        <div className="flex flex-wrap">
+                        {files.map((file, index) => (
+                            <div key={index} className="bg-gray-200 p-2 m-1 rounded flex items-center">
+                            <span className="mr-2">{file.name}</span>
+                            <button
+                                className="text-red-500 hover:text-gray-700 cursor-pointer"
+                                onClick={() => handleRemoveFile(index)}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                            </button>
+                            </div>
+                        ))}
+                        </div>
+                    </div>
+                )}
+
+                {error && <div className="text-red-500 text-xs italic mt-2">{error}</div>}
 
                 <div className="text-red-500 text-xs italic flex items-center mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4 mr-1">
@@ -81,13 +165,16 @@ function FormAdministratif(){
                     </span>
                 </div>
                 <div className="flex justify-center mt-7">
-                    <button className="bg-biru-1 hover:bg-biru-2 text-white font-bold py-2 px-24 rounded focus:outline-none focus:shadow-outline" type="button">
+                    <button className="bg-biru-1 hover:bg-biru-2 text-white font-bold py-2 px-24 rounded focus:outline-none focus:shadow-outline" 
+                    type="button"
+                    onClick={handleSubmit}>
                         Buat Pengaduan
                     </button>
                 </div>
             </div>
         </div>
-    )
+    );
 };
+
 
 export default FormAdministratif;
