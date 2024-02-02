@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 
 const DashboardUser = () => {
+    const [isPopoverVisible, setIsPopoverVisible] = useState(false);
+
     const initialData = [
         {
         id: '#TR32190312089',
@@ -93,12 +95,11 @@ const DashboardUser = () => {
                 <div className="bg-abu-1 h-20 w-screen shadow-inner">
                     <div className="flex bg-abu-1 h-full w-32">
                         <div className="flex ml-36">
-                            <button className="bg-gray-700 p-3 px-6 mt-4 mx-2 rounded-t-lg">
+                            <button className="bg-gray-700 p-3 px-6 mt-4 mr-2 rounded-t-lg hover:bg-gray-700">
                                 <p className="text-abu-1 text-sm">
                                     Validasi
                                 </p>
                             </button>
-
                             <button className="bg-gray-600 p-3 px-6 mt-4 mr-2 rounded-t-lg hover:bg-gray-700">
                                 <p className="text-abu-1 text-sm">
                                     Review
@@ -121,16 +122,16 @@ const DashboardUser = () => {
                 </div>
 
                 <div className="flex bg-white h-full w-screen">
-                    <div className="flex flex-col bg-biru-2 h-full w-32">
+                    <div className="flex flex-col bg-biru-5 h-full w-32">
                         <p className="text-white text-center mt-4">
                             Status
                         </p>
 
-                        <button className="bg-biru-4 rounded-r-lg mr-3 py-3 px-2 mt-2 hover:bg-biru-4">
+                        <button className="bg-biru-6 rounded-r-lg mr-3 py-3 px-2 mt-2 hover:bg-biru-5">
                             <p className="text-white text-xs">Administratif</p>
                         </button>
 
-                        <button className="bg-biru-3 rounded-r-lg mr-2 py-3 px-2 mt-2 hover:bg-biru-4">
+                        <button className="bg-biru-5 rounded-r-lg mr-2 py-3 px-2 mt-2 hover:bg-biru-6">
                             <p className="text-white text-xs">Teknis</p>
                         </button>
 
@@ -138,7 +139,7 @@ const DashboardUser = () => {
                             User
                         </p>
 
-                        <button className="bg-biru-3 rounded-r-lg mr-2 py-3 px-2 mt-2 hover:bg-biru-4">
+                        <button className="bg-biru-5 rounded-r-lg mr-2 py-3 px-2 mt-2 hover:bg-biru-6">
                             <p className="text-white text-xs">Role</p>
                         </button>
                     </div>
