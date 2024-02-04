@@ -85,11 +85,12 @@ const FormAdministratif = () => {
                 <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="TanggalKejadian">
                     Tanggal Kejadian
                 </label>
-                <input
+                <input 
+                    inline-datepicker
                     className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1"
                     id="tanggalKejadian"
                     type="date"
-                    placeholder="Pilih tanggal kejadian"
+                    placeholder="Pilih tanggal kejadian" 
                 />
             </div>
 
