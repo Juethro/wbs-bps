@@ -1,18 +1,49 @@
 import React, {useState} from "react";
+import { router, usePage } from '@inertiajs/react';
 
-const FormTeknis = () => {
-    const [files, setFiles] = useState([]);
-    const [error, setError] = useState(null);
+const FormTeknis = ({simpleData}) => {
+    const [fileError, setFileError] = useState(null);
+    const { errors } = usePage().props;
+
+    const [formData, setFormData] = useState({
+        namaPelanggar : "",
+        tempatKejadian : "",
+        tanggalKejadian : "",
+        deskripsi : "",
+        lampiran : [],
+    });
+
+    const handleChange = (e) =>{
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    }
 
     const handleRemoveFile = (indexToRemove) => {
-        setFiles((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
-      };
+        setFormData((prevData) => {
+          const updatedFiles = [...prevData.lampiran];
+          updatedFiles.splice(indexToRemove, 1);
+      
+          return {
+            ...prevData,
+            lampiran: updatedFiles,
+          };
+        });
+    };
 
-    const handleSubmit = () => {
-        // Add your submit logic here
-        console.log("Form submitted successfully!");
-        // You can also trigger form submission if it's inside a form element
-        // document.getElementById("yourFormId").submit();
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        const latestData = {
+            nama : simpleData["nama"],
+            whatsapp : simpleData["whatsapp"],
+            email : simpleData["email"],
+            masalah : simpleData["masalah"],
+            ...formData
+        };
+        router.post('/pengaduan/submit', latestData);
     };
 
     const handleFileChange = (event) => {
@@ -23,13 +54,16 @@ const FormTeknis = () => {
         // Check each file individually
         for (const file of newFiles) {
           if (file.size > 5 * 1024 * 1024) {
-            setError(`File "${file.name}" exceeds the 5MB limit. Please choose a smaller file.`);
+            setFileError(`File "${file.name}" exceeds the 5MB limit. Please choose a smaller file.`);
             return; // Stop processing further files on the first violation
           }
         }
     
-        setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-        setError(null);
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            lampiran: newFiles,
+          }));
+        setFileError(null);
     };
 
     const handleDragOver = (event) => {
@@ -46,13 +80,16 @@ const FormTeknis = () => {
         // Check each file individually
         for (const file of newFiles) {
           if (file.size > 5 * 1024 * 1024) {
-            setError(`File "${file.name}" exceeds the 5MB limit. Please choose a smaller file.`);
+            setFileError(`File "${file.name}" exceeds the 5MB limit. Please choose a smaller file.`);
             return; // Stop processing further files on the first violation
           }
         }
     
-        setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-        setError(null);
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            lampiran: newFiles,
+        }));
+        setFileError(null);
     };
 
     return(
@@ -68,17 +105,33 @@ const FormTeknis = () => {
                 </p>
             </div>
             <div className="mb-4">
-                <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="NamaPelanggan">
+                <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="namaPelanggar">
                     Nama Pelanggar
                 </label>
-                <input className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1" id="whatsapp" type="text" placeholder="Isi nama orang yang melakukan pelanggaran" />
+                <input 
+                    className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1" 
+                    id="namaPelanggar" 
+                    name="namaPelanggar"
+                    type="text" 
+                    placeholder="Isi nama orang yang melakukan pelanggaran" 
+                    value={formData.namaPelanggar}
+                    onChange={handleChange}
+                />
             </div>
 
             <div className="mb-4">
-                <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="TempatKejadian">
+                <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="tempatKejadian">
                     Tempat Kejadian
                 </label>
-                <input className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1" id="whatsapp" type="text" placeholder="Isi tempat dimana pelanggaran terjadi" />
+                <input 
+                    className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1" 
+                    id="tempatKejadian" 
+                    name="tempatKejadian"
+                    type="text" 
+                    placeholder="Isi tempat dimana pelanggaran terjadi" 
+                    value={formData.tempatKejadian}
+                    onChange={handleChange}
+                />
             </div>
 
             <div className="mb-4">
@@ -88,8 +141,11 @@ const FormTeknis = () => {
                 <input
                     className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1"
                     id="tanggalKejadian"
+                    name="tanggalKejadian"
                     type="date"
                     placeholder="Pilih tanggal kejadian"
+                    value={formData.tanggalKejadian}
+                    onChange={handleChange}
                 />
             </div>
 
@@ -97,7 +153,14 @@ const FormTeknis = () => {
                 <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="description">
                     Deskripsi Masalah
                 </label>
-                <textarea className="h-32 shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:border-biru-1" id="description" placeholder="Berikan deskripsi masalah sedetail dan sejelas mungkin" />
+                <textarea 
+                    className="h-32 shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:border-biru-1" 
+                    id="description" 
+                    name="deskripsi"
+                    placeholder="Berikan deskripsi masalah sedetail dan sejelas mungkin" 
+                    value={formData.deskripsi}
+                    onChange={handleChange}
+                />
             </div>
 
             <div className="mb-4">
@@ -119,7 +182,7 @@ const FormTeknis = () => {
                     multiple
                     />
                     <div className="pointer-events-none flex justify-center items-center">
-                    {files.length > 0 ? (
+                    {formData.lampiran.length > 0 ? (
                         <span className="text-gray-700">/ tambahkan file berikutnya</span>
                     ) : (
                         <span className="text-gray-700">/ tambah atau tarik file disini</span>
@@ -127,19 +190,19 @@ const FormTeknis = () => {
                     </div>
                 </div>
 
-                {files.length > 0 && (
+                {formData.lampiran.length > 0 && (
                     <div className="mt-4">
                         <p className="text-gray-700">Files submitted:</p>
                         <div className="flex flex-wrap">
-                        {files.map((file, index) => (
+                        {formData.lampiran.map((file, index) => (
                             <div key={index} className="bg-gray-200 p-2 m-1 rounded flex items-center">
                             <span className="mr-2">{file.name}</span>
                             <button
                                 className="text-red-500 hover:text-gray-700 cursor-pointer"
                                 onClick={() => handleRemoveFile(index)}
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-4 h-4">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
                             </button>
                             </div>
@@ -148,8 +211,13 @@ const FormTeknis = () => {
                     </div>
                 )}
 
+                {errors && Object.keys(errors).map(key => (
+                    <div key={key} className="text-red-500 text-xs italic mt-2">
+                        {errors[key]}
+                    </div>
+                ))}
 
-                {error && <div className="text-red-500 text-xs italic mt-2">{error}</div>}
+                {fileError && <div className="text-red-500 text-xs italic mt-2">{fileError}</div>}
 
                 <div className="text-red-500 text-xs italic flex items-center mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4 mr-1">

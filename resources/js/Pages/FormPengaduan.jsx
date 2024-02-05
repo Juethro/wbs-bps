@@ -4,7 +4,21 @@ import FormAdministratif from "../Components/FormAdministratif";
 import FormTeknis from "../Components/FormTeknis";
 
 function FormPengaduan(){
-    const [opsi, setOpsi] = useState('Administratif');
+    // const [opsi, setOpsi] = useState('Administratif');
+    const [simpleData, setSimpleData] = useState({
+        nama: "",
+        whatsapp: "",
+        email: "",
+        masalah: "Administratif",
+    });
+    
+    const handleChange = (e) =>{
+        const { name, value } = e.target;
+        setSimpleData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    }
 
     return(
         <div className="bg-contain bg-fixed bg-center" style={{ backgroundImage: "url('images/bpssby.jpg')", backgroundSize: "cover" }}>
@@ -26,23 +40,23 @@ function FormPengaduan(){
                             silahkan mengisi form terlebih dahulu untuk mendapatkan tiket pengaduan.
                         </div>
                     </div>
-                    <div className="bg-white shadow-md rounded landscape:mx-40 portrait:mx-0 px-8 pt-1 pb-8 mt-12 mb-4">
+                    <div className="bg-white shadow-md rounded landscape:lg:mx-40 portrait:mx-0 landscape:px-8 portrait:px-4 pt-1 pb-8 mt-12 mb-4">
                         <div className="border-b border-biru-1 py-1 mt-5">
                             <h1 className="text-sm text-biru-1 inline-block">Identitas Pelapor</h1>
                         </div>
-                        <div className="flex flex-col landscape:mx-40 portrait:mx-[5vw]">
+                        <div className="flex flex-col landscape:mx-40 portrait:mx-0">
                             <div className="mt-7 mb-4">
                                 <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="nama">
                                     Nama
                                 </label>
-                                <input className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1" id="nama" type="text" placeholder="Isi nama anda" />
+                                <input className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1" id="nama" name="nama" type="text" placeholder="Isi nama anda" value={simpleData.nama} onChange={handleChange}/>
                             </div>
 
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="whatsapp">
                                     Nomor Telepon (WhatsApp)
                                 </label>
-                                <input className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1" id="whatsapp" type="text" placeholder="Isi nomor whatsapp anda" />
+                                <input className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1" id="whatsapp" name="whatsapp" type="text" placeholder="Isi nomor whatsapp anda" value={simpleData.whatsapp}  onChange={handleChange}/>
                             </div>
 
                             <div className="mb-4">
@@ -50,7 +64,7 @@ function FormPengaduan(){
                                     Email
                                 </label>
 
-                                <input className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1" id="email" type="email" placeholder="Isi email anda" />
+                                <input className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1" id="email" name="email" type="email" placeholder="Isi email anda" value={simpleData.email} onChange={handleChange} />
 
                                 <div className="flex items-center text-red-500 text-xs italic mt-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4 mr-1">
@@ -77,7 +91,8 @@ function FormPengaduan(){
                                 <div className="relative">
                                     <select className="block appearance-none w-full bg-white border border-black hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:border-biru-1 text-sm" 
                                     id="masalah"
-                                    onChange={(e) => setOpsi(e.target.value)}>
+                                    name="masalah"
+                                    onChange={handleChange}>
                                         <option value="Administratif">Administratif</option>
                                         <option value="Teknis">Teknis</option>
                                     </select>
@@ -88,8 +103,8 @@ function FormPengaduan(){
                                     </div>
                                 </div>
                             </div>
-                            {opsi === 'Administratif' && <FormAdministratif />}
-                            {opsi === 'Teknis' && <FormTeknis />}
+                            {simpleData.masalah === 'Administratif' && <FormAdministratif simpleData={simpleData} />}
+                            {simpleData.masalah === 'Teknis' && <FormTeknis simpleData={simpleData} />}
                         </div>
                     </div>
                 </div>
