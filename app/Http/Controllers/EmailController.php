@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use app\Models\email;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class EmailController extends Controller
 {
@@ -15,8 +16,8 @@ class EmailController extends Controller
                 'email' => ['required', 'email', 'unique:emails,email'],
                 'role' => ['required', 'in:1,2,3']
             ])->validate();
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()->back()->with(['msg' => 'Email sudah ada!'], 402)->withInput();
+        } catch (ValidationException $e) {
+            return redirect()->back()->with(['msg' => $e], 402)->withInput();
         }
 
         email::create($validated);
@@ -34,7 +35,7 @@ class EmailController extends Controller
                 'newRole' => ['required', 'in:1,2,3']
             ])->validate();
 
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             return redirect()->back()->with(['msg' => 'Email sudah ada!'], 402)->withInput();
         }
 
@@ -65,8 +66,8 @@ class EmailController extends Controller
                 'email' => ['required', 'email', 'unique:emails,email'],
                 'role' => ['required', 'in:1,2,3']
             ])->validate();
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()->back()->with(['msg' => 'Error!'], 401)->withInput();
+        } catch (ValidationException $e) {
+            return redirect()->back()->with(['msg' => $e], 401)->withInput();
         }
 
         $foundEmail = Email::where('email', $validated['email'])
