@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use Inertia\Inertia;
 
 // Form Pelaporan & Tracking Status
 Route::get('/', [FormController::class, 'home'])->name('home');
