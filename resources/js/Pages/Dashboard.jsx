@@ -1,4 +1,5 @@
 import React, {useState, useSyncExternalStore} from "react";
+import DetailModal from "../Components/DetailModal";
 
 const DashboardUser = () => {
     const [isPopoverVisible, setIsPopoverVisible] = useState(false);
@@ -12,87 +13,115 @@ const DashboardUser = () => {
         namaPelanggar: 'Kenang Alfa A.',
         tempatKejadian: 'Surabaya, Rungkut',
         tanggalKejadian: '27-02-2003',
+        deskripsi: 'Penggunaan HP saat berkendara',
+        lampiran: 'bukti.pdf',
         },
         {
         id: '#TR23178312782',
         namaPelanggar: 'Dennis M. Jethro',
         tempatKejadian: 'Surabaya, Jambangan',
         tanggalKejadian: '02-03-2039',
+        deskripsi: 'Penggunaan HP saat berkendara',
+        lampiran: 'bukti.pdf',
         },
         {
         id: '#TR23078329782',
         namaPelanggar: 'Asfa Lazuardi W.',
         tempatKejadian: 'Surabaya, Mulyosari',
         tanggalKejadian: '09-09-2045',
+        deskripsi: 'Penggunaan HP saat berkendara',
+        lampiran: 'bukti.pdf',
         },
         {
         id: '#TR32190332131',
         namaPelanggar: 'Kenang Alfa A.',
         tempatKejadian: 'Surabaya, Rungkut',
         tanggalKejadian: '27-02-2003',
+        deskripsi: 'Penggunaan HP saat berkendara',
+        lampiran: 'bukti.pdf',
         },
         {
         id: '#TR23179870234',
         namaPelanggar: 'Dennis M. Jethro',
         tempatKejadian: 'Surabaya, Jambangan',
         tanggalKejadian: '02-03-2039',
+        deskripsi: 'Penggunaan HP saat berkendara',
+        lampiran: 'bukti.pdf',
         },
         {
         id: '#TR23078312894',
         namaPelanggar: 'Asfa Lazuardi W.',
         tempatKejadian: 'Surabaya, Mulyosari',
         tanggalKejadian: '09-09-2045',
+        deskripsi: 'Penggunaan HP saat berkendara',
+        lampiran: 'bukti.pdf',
         },
         {
         id: '#TR93412323133',
         namaPelanggar: 'Kenang Alfa A.',
         tempatKejadian: 'Surabaya, Rungkut',
         tanggalKejadian: '27-02-2003',
+        deskripsi: 'Penggunaan HP saat berkendara',
+        lampiran: 'bukti.pdf',
         },
         {
         id: '#TR09312989921',
         namaPelanggar: 'Dennis M. Jethro',
         tempatKejadian: 'Surabaya, Jambangan',
         tanggalKejadian: '02-03-2039',
+        deskripsi: 'Penggunaan HP saat berkendara',
+        lampiran: 'bukti.pdf',
         },
         {
         id: '#TR23321032978',
         namaPelanggar: 'Asfa Lazuardi W.',
         tempatKejadian: 'Surabaya, Mulyosari',
         tanggalKejadian: '09-09-2045',
+        deskripsi: 'Penggunaan HP saat berkendara',
+        lampiran: 'bukti.pdf',
         },
         {
         id: '#TR32196252089',
         namaPelanggar: 'Kenang Alfa A.',
         tempatKejadian: 'Surabaya, Rungkut',
         tanggalKejadian: '27-02-2003',
+        deskripsi: 'Penggunaan HP saat berkendara',
+        lampiran: 'bukti.pdf',
         },
         {
         id: '#TR23178312709',
         namaPelanggar: 'Dennis M. Jethro',
         tempatKejadian: 'Surabaya, Jambangan',
         tanggalKejadian: '02-03-2039',
+        deskripsi: 'Penggunaan HP saat berkendara',
+        lampiran: 'bukti.pdf',
         },
         {
         id: '#TR23321032910',
         namaPelanggar: 'Asfa Lazuardi W.',
         tempatKejadian: 'Surabaya, Mulyosari',
         tanggalKejadian: '09-09-2045',
+        deskripsi: 'Penggunaan HP saat berkendara',
+        lampiran: 'bukti.pdf',
         },
         {
         id: '#TR32196252323',
         namaPelanggar: 'Kenang Alfa A.',
         tempatKejadian: 'Surabaya, Rungkut',
         tanggalKejadian: '27-02-2003',
+        deskripsi: 'Penggunaan HP saat berkendara',
+        lampiran: 'bukti.pdf',
         },
         {
         id: '#TR23178312921',
         namaPelanggar: 'Dennis M. Jethro',
         tempatKejadian: 'Surabaya, Jambangan',
         tanggalKejadian: '02-03-2039',
+        deskripsi: 'Penggunaan HP saat berkendara',
+        lampiran: 'bukti.pdf',
         },
     ];
-  
+    
     const [data, setData] = useState(initialData);
     const [sortConfig, setSortConfig] = useState({
         key: null,
@@ -286,13 +315,8 @@ const DashboardUser = () => {
                                 <td className="px-6 py-4">{item.namaPelanggar}</td>
                                 <td className="px-6 py-4">{item.tempatKejadian}</td>
                                 <td className="px-6 py-4">{item.tanggalKejadian}</td>
-                                <td className="px-6 py-4 text-right">
-                                    <a
-                                    href="#"
-                                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                    >
-                                    Detail
-                                    </a>
+                                <td className="px-6 py-4">
+                                    <DetailModal data={item} />
                                 </td>
                                 </tr>
                             ))}
