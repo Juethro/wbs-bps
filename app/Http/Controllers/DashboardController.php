@@ -41,9 +41,9 @@ class DashboardController extends Controller
     {
         /**
          * - Mengubah review di Database
-        * - Mail Notifikasi
-        * - Simpan Histori Review
-        */
+         * - Mail Notifikasi
+         * - Simpan Histori Review
+         */
     }
 
     public function editLaporan(Request $request, $ticket)
@@ -98,15 +98,6 @@ class DashboardController extends Controller
          */
     }
 
-    public function beyondOurJurisdiction($ticket)
-    {
-        /**
-         * - Mengubah review di Database
-         * - Mail Notifikasi
-         * - Simpan Histori Review
-         */
-    }
-
     public function deniedLaporanDewan(Request $request, $ticket)
     {
         /**
@@ -118,8 +109,20 @@ class DashboardController extends Controller
         
     }
 
+    public function beyondOurJurisdiction($ticket)
+    {
+        /**
+         * - Mengubah review di Database
+         * - Mail Notifikasi
+         * - Simpan Histori Review
+         */
+    }
+
     public function continue(Request $request, $ticket)
     {
-        
+        /**
+         * - Meneruskan Hasil penyelidikan + tindak lanjut dari atas
+         * - Mail Notifikasi
+         */
     }
 }

@@ -5,10 +5,8 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\FormPengaduanController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-use Inertia\Inertia;
 
 // Form Pelaporan & Tracking Status
 Route::get('/', [FormController::class, 'home'])->name('home');
@@ -85,20 +83,9 @@ Route::group(['prefix' => 'dashboard'], function () {
 
 });
 
-//Form Pengaduan
-Route::get('/FormPengaduan', [FormPengaduanController::class, 'showForm'])->name('form.show');
-Route::post('/FormPengaduan', [FormPengaduanController::class, 'submitForm'])->name('form.submit');
-
 
 ///User
 // Route::get('/usercoba', function () {
 //     return Inertia::render('UserCoba');
 // });
-
-Route::get('/users', [UserController::class, 'index'])->name('user.index');
-Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
-Route::post('/users/store', [UserController::class, 'store'])->name('user.store');
-Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
-Route::patch('/users/{user}/update', [UserController::class, 'update'])->name('user.update');
-Route::delete('/users/{user}/destroy', [UserController::class, 'destroy'])->name('user.destroy');
 
