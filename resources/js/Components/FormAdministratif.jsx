@@ -86,7 +86,6 @@ const FormAdministratif = () => {
                     Tanggal Kejadian
                 </label>
                 <input 
-                    inline-datepicker
                     className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1"
                     id="tanggalKejadian"
                     type="date"

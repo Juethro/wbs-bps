@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FormPengaduanController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use Inertia\Inertia;
 
 // Form Pelaporan & Tracking Status
 Route::get('/', [FormController::class, 'home'])->name('home');
@@ -24,6 +25,10 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout']);
 Route::get('/cek', [LoginController::class, 'check']);
 
+// HomePage
+Route::get('/home', function() {
+    return inertia::render('HomePage');
+});
 
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {
