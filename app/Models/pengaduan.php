@@ -11,9 +11,8 @@ class pengaduan extends Model
 
     protected $table = 'pengaduan';
 
-    protected $primaryKey = 'ticketID';
-
     protected $fillable = [
+        'ticketID',
         'email',
         'nama',
         'no_telp',

@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('pengaduan', function (Blueprint $table) {
             $table->string('ticketID')->primary();
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('nama');
             $table->string('no_telp');
             $table->string('nama_pelanggar');
             $table->string('tempat_kejadian');
             $table->date('tanggal_kejadian');
-            $table->enum('jenis_masalah', [0,1]);
+            $table->enum('jenis_masalah', ['0','1'])->default('0');
             $table->text('deskripsi_masalah');
             $table->json('lampiran_file')->nullable(); 
-            $table->enum('form_status', [0,1]);
-            $table->enum('review', [1,2,3,4,5,6,7]);
+            $table->enum('form_status', ['0','1'])->default('0');
+            $table->enum('review', ['1','2','3','4','5','6','7'])->default('1');
             $table->timestamps();
         });
     }

@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavbarForm from "../Components/NavbarForm";
 import FormAdministratif from "../Components/FormAdministratif";
 import FormTeknis from "../Components/FormTeknis";
 
 function FormPengaduan(){
-    // const [opsi, setOpsi] = useState('Administratif');
     const [simpleData, setSimpleData] = useState({
         nama: "",
         whatsapp: "",

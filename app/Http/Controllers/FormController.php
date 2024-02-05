@@ -14,7 +14,8 @@ class FormController extends Controller
 {
     function home()
     {
-        return Inertia::render('FormPengaduan');
+        // return Inertia::render('FormPengaduan');
+        dd("this is Home");
     }
 
     function pengaduan()
@@ -66,9 +67,9 @@ class FormController extends Controller
                 ];
             }
         }
-        $validated['masalah'] = ($validated['masalah'] === 'Teknis') ? 1 : 0;
+        $validated['masalah'] = ($validated['masalah'] === 'Teknis') ? '1' : '0';
 
-        if($validated['masalah'] === 0){
+        if($validated['masalah'] === '0'){
             pengaduan::create([
                 'ticketID' => $ticket,
                 'email'=> $validated['email'],
@@ -79,12 +80,13 @@ class FormController extends Controller
                 'tanggal_kejadian' => $validated['tanggalKejadian'],
                 'jenis_masalah' => $validated['masalah'],
                 'deskripsi_masalah' => $validated['deskripsi'],
-                'lampiran_file' => $validated['lampiran'],
-                'form_status' => 0, // Status Un-Editable
+                'lampiran_file' => json_encode($lampiran),
+                'form_status' => '0', // Status Un-Editable
                 'review' => 1       // Status Problem Administratif
             ]);
         } else{
             pengaduan::create([
+                'ticketID' => $ticket,
                 'email'=> $validated['email'],
                 'nama' => $validated['nama'],
                 'no_telp' => $validated['whatsapp'],
@@ -93,12 +95,15 @@ class FormController extends Controller
                 'tanggal_kejadian' => $validated['tanggalKejadian'],
                 'jenis_masalah' => $validated['masalah'],
                 'deskripsi_masalah' => $validated['deskripsi'],
-                'lampiran_file' => $validated['lampiran'],
-                'form_status' => 0, // Status Un-Editable
-                'review' => 2       // Status Problem Teknis
+                'lampiran_file' => $lampiran,
+                'form_status' => '0', // Status Un-Editable
+                'review' => '2'       // Status Problem Teknis
             ]);
         }
+        
         // Mail to Tim Validator
+        
+        return redirect()->route('home');
     }
 
     function generateTicketID() {
