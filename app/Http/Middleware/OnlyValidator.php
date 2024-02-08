@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class OnlyDireksi
+class OnlyValidator
 {
     /**
      * Handle an incoming request.
@@ -24,11 +24,11 @@ class OnlyDireksi
 
             return redirect()->route('dashboard.admin');
 
-        } else if (Auth::user()->role == 'humas'){
+        } else if (Auth::user()->role == 'kurator'){
 
-            return redirect()->route('dashboard.humas');
+            return redirect()->route('dashboard.kurator');
 
-        } else if (Auth::user()->role == 'direksi'){
+        } else if (Auth::user()->role == 'validator'){
 
             return $next($request);
 

@@ -68,8 +68,8 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
         'onlyAdmin' => \App\Http\Middleware\OnlyAdmin::class,
-        'onlyHumas' => \App\Http\Middleware\OnlyHumas::class,
-        'onlyDireksi' => \App\Http\Middleware\OnlyDireksi::class,
+        'onlyKurator' => \App\Http\Middleware\OnlyKurator::class,
+        'onlyValidator' => \App\Http\Middleware\OnlyValidator::class,
         'onlyDewan' => \App\Http\Middleware\OnlyDewan::class 
     ];
 }

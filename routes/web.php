@@ -38,15 +38,12 @@ Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/admin', [DashboardController::class, 'admin'])->name('dashboard.admin');
         Route::get('/admin/status/administratif', [DashboardController::class, 'statusAdministratif'])->name('admin.status.administratif');
         Route::get('/admin/status/teknis', [DashboardController::class, 'statusTeknis'])->name('admin.status.teknis');
-        Route::get('/admin/user', [DashboardController::class, 'user'])->name('admin.user');
-        Route::get('/admin/email', [DashboardController::class, 'email'])->name('admin.email');
+        // Route::get('/admin/email', [DashboardController::class, 'email'])->name('admin.email');
 
-        Route::get('/users', [UserController::class, 'index'])->name('user.index');
-        Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
+        Route::get('/users', [UserController::class, 'fetchUser'])->name('user.fetchuser');
         Route::post('/users/store', [UserController::class, 'store'])->name('user.store');
-        Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
-        Route::patch('/users/{user}/update', [UserController::class, 'update'])->name('user.update');
-        Route::delete('/users/{user}/destroy', [UserController::class, 'destroy'])->name('user.destroy');
+        // Route::patch('/users/{user}/update', [UserController::class, 'update'])->name('user.update');
+        Route::delete('/users/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
         Route::post('/admin/email/new', [EmailController::class, 'create'])->name('email.create');
         Route::patch('/admin/email/update', [EmailController::class, 'update'])->name('email.update');
@@ -55,7 +52,7 @@ Route::group(['prefix' => 'dashboard'], function () {
     });
 
     // Dashboard Tim Validator
-    Route::middleware(['auth', 'onlyDireksi'])->group(function () {
+    Route::middleware(['auth', 'onlyValidator'])->group(function () {
         Route::get('/validator', [DashboardController::class, 'validator'])->name('dashboard.validator');
 
         Route::post('/validator/approve/{ticket}', [DashboardController::class, 'approveLaporanValidator'])->name('validator.approve');
@@ -64,7 +61,7 @@ Route::group(['prefix' => 'dashboard'], function () {
 
 
     // Dashboard Tim Kurator
-    Route::middleware(['auth', 'onlyHumas'])->group(function () {
+    Route::middleware(['auth', 'onlyKurator'])->group(function () {
         Route::get('/kurator', [DashboardController::class, 'kurator'])->name('dashboard.kurator');
 
         Route::post('/kurator/approve/{ticket}', [DashboardController::class, 'approveLaporanKurator'])->name('kurator.approve');

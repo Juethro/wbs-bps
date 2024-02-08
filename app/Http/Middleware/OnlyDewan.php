@@ -24,13 +24,13 @@ class OnlyDewan
 
             return redirect()->route('dashboard.admin');
 
-        } else if (Auth::user()->role == 'humas'){
+        } else if (Auth::user()->role == 'kurator'){
 
-            return redirect()->route('dashboard.humas');
+            return redirect()->route('dashboard.kurator');
 
-        } else if (Auth::user()->role == 'direksi'){
+        } else if (Auth::user()->role == 'validator'){
 
-            return redirect()->route('dashboard.direksi');
+            return redirect()->route('dashboard.validator');
 
         } else if (Auth::user()->role == 'dewan'){
 
