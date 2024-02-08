@@ -4,73 +4,74 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function index()
+    public function fetchUser()
     {
         $users = User::all();
-        $data = [
-            'users' => $users,
-        ];
-
-        return Inertia::render('UserIndex', $data);
-    }
-
-    public function create()
-    {
-        return Inertia::render('UserCreate');
+        
+        return response()->json($users);
     }
 
     public function store(Request $request)
     {
-        // Validate the incoming request data
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|unique:users,email',
-            'password' => 'required|min:6',
-            'role' => 'required|in:admin,direksi,humas,dewan',
+        // Validate the incoming request
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required',
+            'email' => 'required|email|unique:users',
+            'passw' => 'required|min:6',
+            'role' => 'required|in:admin,validator,kurator,dewan',
         ]);
 
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $validated = $validator->validate();
+        // dd("Validate Complete");
         User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role' => $request->role,
-        ]);
-        return redirect()->route('user.index')->with('success', 'User berhasil dibuat');
-    }
-
-    public function edit(User $user)
-    {
-        return Inertia::render('UserEdit', ['user' => $user]);
-    }
-
-    public function update(Request $request, User $user)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|unique:users,email,' . $user->id,
-            'role' => 'required|in:admin,direksi,humas,dewan',
+            'name' => $validated["nama"],
+            'email' => $validated["email"],
+            'password' => Hash::make($validated["passw"]),
+            'role' => $validated["role"],
         ]);
 
-        // Update the user
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'role' => $request->role,
-        ]);
-
-        return redirect()->route('user.index')->with('success', 'User berhasil diperbaharui');
+        return redirect()->back()->with(['msg' => 'Success'], 202)->withInput();
     }
 
-    public function destroy(User $user)
+    // Archived
+    // public function update(Request $request, User $user)
+    // {
+    //     $request->validate([
+    //         'name' => 'required',
+    //         'email' => 'required|unique:users,email,' . $user->id,
+    //         'role' => 'required|in:admin,direksi,humas,dewan',
+    //     ]);
+
+    //     // Update the user
+    //     $user->update([
+    //         'name' => $request->name,
+    //         'email' => $request->email,
+    //         'role' => $request->role,
+    //     ]);
+
+    //     return redirect()->route('user.index')->with('success', 'User berhasil diperbaharui');
+    // }
+
+    public function destroy(String $id)
     {
         // Delete the user
-        $user->delete();
+        $res=User::where('id', $id)->delete();
         
-        return redirect()->route('user.index')->with('success', 'User berhasil dihapus');
+        if($res){
+            return redirect()->back()->with(['msg' => 'Success'], 204)->withInput();
+        }else{
+            return redirect()->back()->with(['msg' => 'Failed'], 404)->withInput();   
+        }
     }
 }
 
