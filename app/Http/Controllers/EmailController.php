@@ -3,86 +3,83 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use app\Models\email;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
+use App\Models\email;
+
 class EmailController extends Controller
 {
+    function fetchEmail()
+    {
+        $emaildata = email::all();
+
+        return response()->json($emaildata);
+        
+    }
+
     function create(Request $request)
     {
-        try {
-            $validated = Validator::make($request->all(), [
-                'email' => ['required', 'email', 'unique:emails,email'],
-                'role' => ['required', 'in:1,2,3']
-            ])->validate();
-        } catch (ValidationException $e) {
-            return redirect()->back()->with(['msg' => $e], 402)->withInput();
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:emails',
+            'role' => 'required|in:validator,kurator,dewan',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
         }
+
+        $validated = $validator->validate();
 
         email::create($validated);
         
-        return redirect()->back()->with(['msg' => 'Email Saved!'], 200)->withInput();
+        return redirect()->back()->with(['msg' => 'Email Saved!'], 202)->withInput();
     }
 
-    function edit(Request $request)
+    // Archived
+    // function edit(Request $request)
+    // {
+    //     try {
+    //         $validated = Validator::make($request->all(), [
+    //             'oldEmail' => ['required', 'email'],
+    //             'oldRole' => ['required', 'in:1,2,3'],
+    //             'newEmail' => ['required', 'email'],
+    //             'newRole' => ['required', 'in:1,2,3']
+    //         ])->validate();
+
+    //     } catch (ValidationException $e) {
+    //         return redirect()->back()->with(['msg' => 'Email sudah ada!'], 402)->withInput();
+    //     }
+
+    //     $foundEmail = Email::where('email', $validated['oldEmail'])
+    //                        ->where('role', $validated['oldRole'])
+    //                        ->first();
+
+    //     if ($foundEmail) {
+    //         // Update data dengan nilai baru
+    //         $foundEmail->update([
+    //             'email' => $validated['newEmail'],
+    //             'role' => $validated['newRole']
+    //         ]);
+
+    //         // Redirect atau response sukses jika diperlukan
+    //         return redirect()->back()->with(['msg' => 'Email Updated!'], 200)->withInput();
+
+    //     } else {
+    //         // Data tidak ditemukan
+    //         return redirect()->back()->with(['msg' => 'Data Tidak Ditemukan!'], 404)->withInput();
+    //     }
+    // }
+
+    function destroy(String $id)
     {
-        try {
-            $validated = Validator::make($request->all(), [
-                'oldEmail' => ['required', 'email'],
-                'oldRole' => ['required', 'in:1,2,3'],
-                'newEmail' => ['required', 'email'],
-                'newRole' => ['required', 'in:1,2,3']
-            ])->validate();
-
-        } catch (ValidationException $e) {
-            return redirect()->back()->with(['msg' => 'Email sudah ada!'], 402)->withInput();
-        }
-
-        $foundEmail = Email::where('email', $validated['oldEmail'])
-                           ->where('role', $validated['oldRole'])
-                           ->first();
-
-        if ($foundEmail) {
-            // Update data dengan nilai baru
-            $foundEmail->update([
-                'email' => $validated['newEmail'],
-                'role' => $validated['newRole']
-            ]);
-
-            // Redirect atau response sukses jika diperlukan
-            return redirect()->back()->with(['msg' => 'Email Updated!'], 200)->withInput();
-
-        } else {
-            // Data tidak ditemukan
-            return redirect()->back()->with(['msg' => 'Data Tidak Ditemukan!'], 404)->withInput();
-        }
-    }
-
-    function delete(Request $request)
-    {
-        try {
-            $validated = Validator::make($request->all(), [
-                'email' => ['required', 'email', 'unique:emails,email'],
-                'role' => ['required', 'in:1,2,3']
-            ])->validate();
-        } catch (ValidationException $e) {
-            return redirect()->back()->with(['msg' => $e], 401)->withInput();
-        }
-
-        $foundEmail = Email::where('email', $validated['email'])
-                           ->where('role', $validated['role'])
-                           ->first();
+        // Delete the user
+        $res=email::where('id', $id)->delete();
         
-        if ($foundEmail) {
-
-            $foundEmail->delete();
-
-            return redirect()->back()->with(['msg' => 'Email Deleted!'],200)->withInput();
-        } else {
-
-            return redirect()->back()->with(['msg' => 'Email not found.'], 404)->withInput();
-
+        if($res){
+            return redirect()->back()->with(['msg' => 'Success'], 204)->withInput();
+        }else{
+            return redirect()->back()->with(['msg' => 'Failed'], 404)->withInput();   
         }
     }
 

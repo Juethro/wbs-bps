@@ -17,7 +17,8 @@ return new class extends Migration
         Schema::create('emails', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique();
-            $table->enum('role',[1,2,3]);
+            $table->enum('role', ['kurator', 'validator', 'dewan'])->default('kurator');
+            $table->timestamps();
         });
     }
 

@@ -38,16 +38,15 @@ Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/admin', [DashboardController::class, 'admin'])->name('dashboard.admin');
         Route::get('/admin/status/administratif', [DashboardController::class, 'statusAdministratif'])->name('admin.status.administratif');
         Route::get('/admin/status/teknis', [DashboardController::class, 'statusTeknis'])->name('admin.status.teknis');
-        // Route::get('/admin/email', [DashboardController::class, 'email'])->name('admin.email');
+        
 
         Route::get('/users', [UserController::class, 'fetchUser'])->name('user.fetchuser');
         Route::post('/users/store', [UserController::class, 'store'])->name('user.store');
-        // Route::patch('/users/{user}/update', [UserController::class, 'update'])->name('user.update');
         Route::delete('/users/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
-        Route::post('/admin/email/new', [EmailController::class, 'create'])->name('email.create');
-        Route::patch('/admin/email/update', [EmailController::class, 'update'])->name('email.update');
-        Route::delete('/admin/email/delete', [EmailController::class, 'delete'])->name('email.delete');
+        Route::get('/email', [EmailController::class, 'fetchEmail'])->name('admin.fetchemail');
+        Route::post('/email/store', [EmailController::class, 'create'])->name('email.store');
+        Route::delete('/email/destroy/{id}', [EmailController::class, 'destroy'])->name('email.delete');
 
     });
 
