@@ -14,8 +14,7 @@ class FormController extends Controller
 {
     function home()
     {
-        // return Inertia::render('FormPengaduan');
-        dd("this is Home");
+        return Inertia::render('HomePage');
     }
 
     function pengaduan()
@@ -95,7 +94,7 @@ class FormController extends Controller
                 'tanggal_kejadian' => $validated['tanggalKejadian'],
                 'jenis_masalah' => $validated['masalah'],
                 'deskripsi_masalah' => $validated['deskripsi'],
-                'lampiran_file' => $lampiran,
+                'lampiran_file' => json_encode($lampiran),
                 'form_status' => '0', // Status Un-Editable
                 'review' => '2'       // Status Problem Teknis
             ]);
