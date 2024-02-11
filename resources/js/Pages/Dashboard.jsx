@@ -21,11 +21,11 @@ const DashboardUser = () => {
                     </p>
 
                     <button 
-                        className={"bg-biru-5 rounded-r-lg mr-2 py-3 px-2 mt-2 hover:bg-biru-6"+
+                        className={"bg-biru-5 rounded-lg mr-2 py-3 px-2 mt-2 ml-2 hover:bg-white text-white hover:text-black"+
                         (menu === 'Administratif'? ' bg-biru-6' : '')}
                         onClick={()=>handleChage('Administratif')}
                     >
-                        <p className="text-white text-xs">Administratif</p>
+                        <p className="text-xs">Administratif</p>
                     </button>
 
                     <button 
