@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-const DetailModal = ({ data }) => {
+const DetailModal = ({ pengaduanData }) => {
     const [isOpen, setIsOpen] = useState(false);
   
     const openModal = () => {
@@ -45,22 +45,22 @@ const DetailModal = ({ data }) => {
                   </h3>
                   <div className="mt-5">
                     <p className="text-sm text-gray-500">
-                      <strong>ID:</strong> {data.id}
+                      <strong>ID:</strong> {pengaduanData.ticketID}
                     </p>
                     <p className="text-sm text-gray-500">
-                      <strong>Nama Pelanggar:</strong> {data.namaPelanggar}
+                      <strong>Nama Pelanggar:</strong> {pengaduanData.nama_pelanggar}
                     </p>
                     <p className="text-sm text-gray-500">
-                      <strong>Tempat Kejadian:</strong> {data.tempatKejadian}
+                      <strong>Tempat Kejadian:</strong> {pengaduanData.tempat_kejadian}
                     </p>
                     <p className="text-sm text-gray-500">
-                      <strong>Tanggal Kejadian:</strong> {data.tanggalKejadian}
+                      <strong>Tanggal Kejadian:</strong> {pengaduanData.tanggal_kejadian}
                     </p>
                     <p className="text-sm text-gray-500">
-                      <strong>Deskripsi:</strong> {data.deskripsi}
+                      <strong>Deskripsi:</strong> {pengaduanData.deskripsi_masalah}
                     </p>
                     <p className="text-sm text-gray-500">
-                      <strong>Lampiran:</strong> {data.lampiran}
+                      <strong>Lampiran:</strong> {pengaduanData.lampiran_masalah}
                     </p>
                   </div>
                   <div className="mt-4">

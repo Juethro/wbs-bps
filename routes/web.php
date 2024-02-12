@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\LoginController;
@@ -39,6 +40,7 @@ Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/admin/status/administratif', [DashboardController::class, 'statusAdministratif'])->name('admin.status.administratif');
         Route::get('/admin/status/teknis', [DashboardController::class, 'statusTeknis'])->name('admin.status.teknis');
         
+        Route::get('/admin/data', [DataController::class, 'fetchdata'])->name('dashboard.fetchemail');
 
         Route::get('/users', [UserController::class, 'fetchUser'])->name('user.fetchuser');
         Route::post('/users/store', [UserController::class, 'store'])->name('user.store');
