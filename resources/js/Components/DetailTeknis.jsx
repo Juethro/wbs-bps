@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-const DetailModal = ({ pengaduanData }) => {
+const DetailTeknis = ({ dataTeknis }) => {
     const [isOpen, setIsOpen] = useState(false);
   
     const openModal = () => {
@@ -45,22 +45,22 @@ const DetailModal = ({ pengaduanData }) => {
                   </h3>
                   <div className="mt-5">
                     <p className="text-sm text-gray-500">
-                      <strong>ID:</strong> {pengaduanData.ticketID}
+                      <strong>ID:</strong> {dataTeknis.ticketID}
                     </p>
                     <p className="text-sm text-gray-500">
-                      <strong>Nama Pelanggar:</strong> {pengaduanData.nama_pelanggar}
+                      <strong>Nama Pelanggar:</strong> {dataTeknis.nama_pelanggar}
                     </p>
                     <p className="text-sm text-gray-500">
-                      <strong>Tempat Kejadian:</strong> {pengaduanData.tempat_kejadian}
+                      <strong>Tempat Kejadian:</strong> {dataTeknis.tempat_kejadian}
                     </p>
                     <p className="text-sm text-gray-500">
-                      <strong>Tanggal Kejadian:</strong> {pengaduanData.tanggal_kejadian}
+                      <strong>Tanggal Kejadian:</strong> {dataTeknis.tanggal_kejadian}
                     </p>
                     <p className="text-sm text-gray-500">
-                      <strong>Deskripsi:</strong> {pengaduanData.deskripsi_masalah}
+                      <strong>Deskripsi:</strong> {dataTeknis.deskripsi_masalah}
                     </p>
                     <p className="text-sm text-gray-500">
-                      <strong>Lampiran:</strong> {pengaduanData.lampiran_masalah}
+                      <strong>Lampiran:</strong> {dataTeknis.lampiran_masalah}
                     </p>
                   </div>
                   <div className="mt-4">
@@ -80,4 +80,4 @@ const DetailModal = ({ pengaduanData }) => {
       );
     };
     
-export default DetailModal;
+export default DetailTeknis;

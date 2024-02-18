@@ -1,38 +1,24 @@
-import React, {useState} from "react";
-import DetailModal from "../DetailModal";
+import React, {useState, useEffect} from "react";
+import DetailAdministratif from "../DetailAdministratif";
 
 function AdministratifSelesai(){
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(11);
+    const [pengaduanData, setPengaduanData] = useState([]);
 
-    const initialData = [
-        {
-        id: '#TR32190312089',
-        namaPelanggar: 'Kenang Alfa',
-        tempatKejadian: 'Surabaya, Rungkut',
-        tanggalKejadian: '27-02-2003',
-        deskripsi: 'Penggunaan HP saat berkendara',
-        lampiran: 'bukti.pdf',
-        },
-        {
-        id: '#TR23178312782',
-        namaPelanggar: 'Dennis M.',
-        tempatKejadian: 'Surabaya, Jambangan',
-        tanggalKejadian: '02-03-2039',
-        deskripsi: 'Penggunaan HP saat berkendara',
-        lampiran: 'bukti.pdf',
-        },
-        {
-        id: '#TR23078329782',
-        namaPelanggar: 'Asfa Lazuardi',
-        tempatKejadian: 'Surabaya, Mulyosari',
-        tanggalKejadian: '09-09-2045',
-        deskripsi: 'Penggunaan HP saat berkendara',
-        lampiran: 'bukti.pdf',
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+          const response = await fetch('/dashboard/admin/data'); // Mengganti dengan endpoint yang sesuai di Laravel Anda
+          const jsonData = await response.json();
+          setPengaduanData(jsonData);
+        } catch (error) {
+          console.error('Error fetching data:', error);
         }
-    ];
-
-    const [data, setData] = useState(initialData);
+    };
 
     const [sortConfig, setSortConfig] = useState({
         key: null,
@@ -47,11 +33,13 @@ function AdministratifSelesai(){
         setSortConfig({ key, direction });
     };
 
+    const dataAdministratif = pengaduanData.filter(item => item.review === '7');
+    
     const sortedData = () => {
-        const sorted = [...data];
+        const sorted = [...dataAdministratif];
         if (sortConfig.key) {
           sorted.sort((a, b) => {
-            if (sortConfig.key === 'tanggalKejadian') {
+            if (sortConfig.key === 'tanggal_kejadian') {
               // Konversi tanggal ke format yang bisa dibandingkan langsung
               const dateA = new Date(
                 a[sortConfig.key].split('-').reverse().join('-')
@@ -100,7 +88,7 @@ function AdministratifSelesai(){
 
     const lastPostIndex = currentPage * postPerPage;
     const firstPostIndex = lastPostIndex - postPerPage;
-    const currentPosts = sortedData(initialData, sortConfig).slice(firstPostIndex, lastPostIndex);
+    const currentPosts = sortedData(fetchData, sortConfig).slice(firstPostIndex, lastPostIndex);
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -114,41 +102,41 @@ function AdministratifSelesai(){
                     <th
                     scope="col"
                     className="px-6 py-3 cursor-pointer"
-                    onClick={() => requestSort('id')}
+                    onClick={() => requestSort('ticketID')}
                     >
                         <div className="flex items-center">
                             ID Pengaduan
-                            {renderArrow('id')}
+                            {renderArrow('ticketID')}
                         </div>
                     </th>
                     <th
                     scope="col"
                     className="px-6 py-3 cursor-pointer"
-                    onClick={() => requestSort('namaPelanggar')}
+                    onClick={() => requestSort('nama_pelanggar')}
                     >
                         <div className="flex items-center">
                             Nama Pelanggar
-                            {renderArrow('namaPelanggar')}
+                            {renderArrow('nama_pelanggar')}
                         </div>
                     </th>
                     <th
                     scope="col"
                     className="px-6 py-3 cursor-pointer"
-                    onClick={() => requestSort('tempatKejadian')}
+                    onClick={() => requestSort('tempat_kejadian')}
                     >
                         <div className="flex items-center">
                             Tempat Kejadian
-                            {renderArrow('tempatKejadian')}
+                            {renderArrow('tempat_kejadian')}
                         </div>
                     </th>
                     <th
                     scope="col"
                     className="px-6 py-3 cursor-pointer"
-                    onClick={() => requestSort('tanggalKejadian')}
+                    onClick={() => requestSort('tanggal_kejadian')}
                     >
                         <div className="flex items-center">
                             Tanggal Kejadian
-                            {renderArrow('tanggalKejadian')}
+                            {renderArrow('tanggal_kejadian')}
                         </div>
                     </th>
                     <th scope="col" className="px-6 py-3">
@@ -160,20 +148,20 @@ function AdministratifSelesai(){
                 <tbody>
                 {currentPosts.map((item) => (
                     <tr
-                    key={item.id}
+                    key={item.ticketID}
                     className="bg-white border-b dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
                     <th
                         scope="row"
                         className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                     >
-                        {item.id}
+                        {item.ticketID}
                     </th>
-                    <td className="px-6 py-4">{item.namaPelanggar}</td>
-                    <td className="px-6 py-4">{item.tempatKejadian}</td>
-                    <td className="px-6 py-4">{item.tanggalKejadian}</td>
+                    <td className="px-6 py-4">{item.nama_pelanggar}</td>
+                    <td className="px-6 py-4">{item.tempat_kejadian}</td>
+                    <td className="px-6 py-4">{item.tanggal_kejadian}</td>
                     <td className="px-6 py-4">
-                        <DetailModal data={item} />
+                        <DetailAdministratif dataAdministratif={item} />
                     </td>
                     </tr>
                 ))}
