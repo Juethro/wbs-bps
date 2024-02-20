@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text('deskripsi_masalah');
             $table->json('lampiran_file')->nullable(); 
             $table->enum('form_status', ['0','1'])->default('0');
-            $table->enum('review', ['1','2','3','4','5','6','7'])->default('1');
+            $table->enum('review', ['1','2','3','4','5','6','7','8','9'])->default('1');
             $table->timestamps();
         });
     }
