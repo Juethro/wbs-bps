@@ -12,13 +12,21 @@ use Illuminate\Queue\SerializesModels;
 class reviewer_notification extends Mailable
 {
     use Queueable, SerializesModels;
+    public $kode;
+    public $subject;
+    public $tujuan;
+    public $konten;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($kode, $subject, $tujuan, $konten)
     {
-        //
+        $this->kode = $kode;
+        $this->subject = $subject;
+        $this->tujuan = $tujuan;
+        $this->konten = $konten;
+
     }
 
     /**
@@ -27,7 +35,8 @@ class reviewer_notification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Reviewer Notification',
+            to: $this->tujuan,
+            subject: $this->subject,
         );
     }
 
@@ -37,7 +46,7 @@ class reviewer_notification extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            html: 'reviewerMail',
         );
     }
 
