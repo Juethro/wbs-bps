@@ -7,7 +7,6 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use Inertia\Inertia;
 
 // Form Pelaporan & Tracking Status
@@ -51,14 +50,18 @@ Route::group(['prefix' => 'dashboard'], function () {
         Route::post('/email/store', [EmailController::class, 'create'])->name('email.store');
         Route::delete('/email/destroy/{id}', [EmailController::class, 'destroy'])->name('email.delete');
 
+        Route::post('/validator/approve/{ticket}', [DataController::class, 'approveLaporanValidator'])->name('validator.approve');
+        Route::post('/validator/edit/{ticket}', [DataController::class, 'revisiLaporan'])->name('validator.revisi');
+        Route::get('/validator/download/{ticket}/{uniqueId}', [DataController::class, 'downloadFile'])->name('validator.download');
+
     });
 
     // Dashboard Tim Validator
     Route::middleware(['auth', 'onlyValidator'])->group(function () {
         Route::get('/validator', [DashboardController::class, 'validator'])->name('dashboard.validator');
 
-        Route::post('/validator/approve/{ticket}', [DashboardController::class, 'approveLaporanValidator'])->name('validator.approve');
-        Route::post('/validator/edit/{ticket}', [DashboardController::class, 'editLaporan'])->name('validator.editable');
+        // Route::post('/validator/approve/{ticket}', [DataController::class, 'approveLaporanValidator'])->name('validator.approve');
+        // Route::post('/validator/edit/{ticket}', [DataController::class, 'revisiLaporan'])->name('validator.revisi');
     });
 
 
@@ -66,8 +69,8 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::middleware(['auth', 'onlyKurator'])->group(function () {
         Route::get('/kurator', [DashboardController::class, 'kurator'])->name('dashboard.kurator');
 
-        Route::post('/kurator/approve/{ticket}', [DashboardController::class, 'approveLaporanKurator'])->name('kurator.approve');
-        Route::post('/kurator/denied/{ticket}', [DashboardController::class, 'deniedLaporanKurator'])->name('kurator.denied');
+        Route::post('/kurator/approve/{ticket}', [DataController::class, 'approveLaporanKurator'])->name('kurator.approve');
+        Route::post('/kurator/denied/{ticket}', [DataController::class, 'deniedLaporanKurator'])->name('kurator.denied');
     });
 
 
@@ -75,17 +78,10 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::middleware(['auth', 'onlyDewan'])->group(function () {
         Route::get('/dewan', [DashboardController::class, 'dewan'])->name('dashboard.dewan');
 
-        Route::post('/dewan/approve/{ticket}', [DashboardController::class, 'approveLaporanDewan'])->name('dewan.approve');
-        Route::post('/dewan/denied/{ticket}', [DashboardController::class, 'deniedLaporanDewan'])->name('dewan.denied');
-        Route::post('/dewan/beyond/{ticket}', [DashboardController::class, 'beyondOurJurisdiction'])->name('dewan.beyondOurJurisdiction');
-        Route::post('/dewan/continue/{ticket}', [DashboardController::class, ''])->name('dewan.continue');
+        Route::post('/dewan/approve/{ticket}', [DataController::class, 'approveLaporanDewan'])->name('dewan.approve');
+        Route::post('/dewan/denied/{ticket}', [DataController::class, 'deniedLaporanDewan'])->name('dewan.denied');
+        Route::post('/dewan/beyond/{ticket}', [DataController::class, 'beyondOurJurisdiction'])->name('dewan.beyondOurJurisdiction');
+        Route::post('/dewan/continue/{ticket}', [DataController::class, ''])->name('dewan.continue');
     });
 
 });
-
-
-///User
-// Route::get('/usercoba', function () {
-//     return Inertia::render('UserCoba');
-// });
-

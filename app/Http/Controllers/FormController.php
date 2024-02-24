@@ -55,12 +55,14 @@ class FormController extends Controller
         $lampiran = [];
         foreach ($validated['lampiran'] as &$item) {
             if (isset($item) && $item instanceof UploadedFile) {
-                $uniqueFilename = uniqid() . '_' . $item->getClientOriginalName(); // Generate Unique Name
+                $uniqueID = uniqid();
+                $uniqueFilename = $uniqueID . '_' . $item->getClientOriginalName(); // Generate Unique Name
                 $oriFileName = $item->getClientOriginalName(); // Sim
                 $item->storeAs('public/formUploadFile', $uniqueFilename); // Simpan Gambar ke Storage
                 
                 // Simpan nama + path
                 $lampiran[] = [
+                    'uniqueId' => $uniqueID,
                     'oriFileName' => $oriFileName,
                     'path' => 'public/formUploadFile/' . $uniqueFilename,
                 ];
