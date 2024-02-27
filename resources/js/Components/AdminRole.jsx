@@ -23,7 +23,7 @@ function AdminRole(){
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log({...createData});
+        // console.log({...createData});
         router.post('/dashboard/users/store', {...createData});
         fetchData();
     };
@@ -129,7 +129,7 @@ function AdminRole(){
                     <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="passw">
                         Password
                     </label>
-                    <input className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1" id="passw" name="passw" type="password" placeholder="Password" value={createData.passw} onChange={handleChange}/>
+                    <input className="shadow appearance-none border border-black rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-biru-1" id="passw" name="passw" type="password" placeholder="Minimal 6 karakter" value={createData.passw} onChange={handleChange}/>
                 </div>
                 <div className="flex align-middle p-4 flex-col">
                     <label className=" text-gray-700 text-md font-bold mb-2" htmlFor="role">
