@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('status_histories', function (Blueprint $table) {
-            $table->id();
-            $table->string('ticketID');
-            $table->enum('review',[1,2,3,4,5,6,7]);
+        Schema::create('status_details', function (Blueprint $table) {
+            $table->id('detail_id');
+            $table->text('description')->nullable();
+            $table->json('file')->nullable();
             $table->timestamps();
-            $table->foreign('ticketID')->references('ticketID')->on('pengaduan');
         });
     }
 
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('status_histories');
+        Schema::dropIfExists('status_details');
     }
 };

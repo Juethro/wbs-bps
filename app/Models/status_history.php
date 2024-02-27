@@ -19,4 +19,9 @@ class status_history extends Model
     {
         return $this->belongsTo(pengaduan::class, 'ticketID');
     }
+
+    public function statusDetail()
+    {
+        return $this->belongsTo(status_detail::class, 'detail_id', 'detail_id');
+    }
 }
