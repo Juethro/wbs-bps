@@ -34,7 +34,7 @@ function AdministratifValidasi(){
     };
 
     const dataAdministratif = pengaduanData.filter(item => item.jenis_masalah === '0' && item.review === '1');
-    
+
     const sortedData = () => {
         const sorted = [...dataAdministratif];
         if (sortConfig.key) {
@@ -92,32 +92,6 @@ function AdministratifValidasi(){
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
-    };
-
-    const handleSetujuClick = (ticketID) => {
-        // Kirim permintaan pembaruan ke server
-        fetch('/admin/update-review', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json', 
-            },
-            body: JSON.stringify({
-                ticketID: ticketID,
-                review: '4', // Menyetujui dengan memberikan nilai '4' untuk review
-            }),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Gagal memperbarui review');
-            }
-            // Jika berhasil, perbarui data lokal atau tampilkan pesan sukses
-            // Misalnya, Anda dapat memperbarui state atau menampilkan pesan sukses kepada pengguna
-            console.log('Review berhasil diperbarui');
-        })
-        .catch(error => {
-            // Tangani kesalahan jika terjadi
-            console.error('Error:', error);
-        });
     };
 
     return(
@@ -187,7 +161,7 @@ function AdministratifValidasi(){
                     <td className="px-6 py-4">{item.tempat_kejadian}</td>
                     <td className="px-6 py-4">{item.tanggal_kejadian}</td>
                     <td className="px-6 py-4">
-                        <DetailAdministratif dataAdministratif={item} handleSetujuClick={handleSetujuClick}/>
+                        <DetailAdministratif dataAdministratif={item} />
                     </td>
                     </tr>
                 ))}
