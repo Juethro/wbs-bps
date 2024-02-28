@@ -6,9 +6,7 @@ use App\Mail\pelapor_notification;
 use App\Mail\reviewer_notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Date;
 
 use App\Models\email;
 
@@ -93,10 +91,8 @@ class EmailController extends Controller
         }
     }
 
-    function pelapor_email(String $ticket, String $status, )
+    function pelapor_email(String $ticket, String $status,String $tanggal, String $tujuan)
     {
-        $tanggal = Date::now()->format('d/m/y');
-        $tujuan = "denisjethro@gmail.com";
         switch ($status)
         {
             case 2:
@@ -167,7 +163,7 @@ class EmailController extends Controller
                                 Halo,
                                 <br>
                                 <br>
-                                Laporan yang anda kirim dengan ID '. $ticket .' sedang diproses oleh Tim Kurator kami. Harap menunggu kabar berikutnya. Untuk Tracking Laporan anda bisa kunjungi link ini.'.
+                                Laporan yang anda kirim dengan ID '. $ticket .' sedang diproses oleh Tim Dewan kami. Harap menunggu kabar berikutnya. Untuk Tracking Laporan anda bisa kunjungi link ini.'.
                                 ' <br>
                                 <br>
                                 Terima kasih,
@@ -275,9 +271,8 @@ class EmailController extends Controller
         }
     }
 
-    function reviewer_email(String $ticket,String $status)
+    function reviewer_email(String $ticket,String $status, String $tujuan)
     {
-        $tujuan = "denisjethro@gmail.com";
         switch ($status)
         {
             case 1:
@@ -295,8 +290,8 @@ class EmailController extends Controller
                             </p>
                         </section>';
 
-                // Mail::send(new reviewer_notification($ticket, $subject ,$tujuan, $konten));
-                return new reviewer_notification($ticket, $tujuan ,$subject, $konten);
+                Mail::send(new reviewer_notification($ticket, $subject ,$tujuan, $konten));
+                // return new reviewer_notification($ticket, $tujuan ,$subject, $konten);
                 break;
             case 2:
                 $subject = "[Laporan Teknis] - Ticket ID ". $ticket;
@@ -313,8 +308,8 @@ class EmailController extends Controller
                             </p>
                         </section>';
 
-                // Mail::send(new reviewer_notification($ticket, $subject ,$tujuan, $konten));
-                return new reviewer_notification($ticket, $tujuan ,$subject, $konten);
+                Mail::send(new reviewer_notification($ticket, $subject ,$tujuan, $konten));
+                // return new reviewer_notification($ticket, $tujuan ,$subject, $konten);
                 break;
             case 3:
                 $subject = "Laporan Direvisi";
@@ -331,8 +326,8 @@ class EmailController extends Controller
                             </p>
                         </section>';
 
-                // Mail::send(new reviewer_notification($ticket, $subject ,$tujuan, $konten));
-                return new reviewer_notification($ticket, $tujuan ,$subject, $konten);
+                Mail::send(new reviewer_notification($ticket, $subject ,$tujuan, $konten));
+                // return new reviewer_notification($ticket, $tujuan ,$subject, $konten);
                 break;
             case 4:
                 $subject = "[Laporan Administratif] - Ticket ID ". $ticket;
@@ -341,7 +336,7 @@ class EmailController extends Controller
                                 Halo Tim Dewan,
                                 <br>
                                 <br>
-                                Laporan baru telah diajukan untuk direview dengan ID ' . $ticket . '. Mohon tinjau dan berikan anda.'.
+                                Laporan baru telah diajukan untuk direview dengan ID ' . $ticket . '. Mohon tinjau dan berikan hasil penyelidikan anda.'.
                                 ' <br>
                                 <br>
                                 Terima kasih,
@@ -349,8 +344,8 @@ class EmailController extends Controller
                             </p>
                         </section>';
 
-                // Mail::send(new reviewer_notification($ticket, $subject ,$tujuan, $konten));
-                return new reviewer_notification($ticket, $tujuan ,$subject, $konten);
+                Mail::send(new reviewer_notification($ticket, $subject ,$tujuan, $konten));
+                // return new reviewer_notification($ticket, $tujuan ,$subject, $konten);
                 break;
             case 5:
                 $subject = "[Laporan Teknis] - Ticket ID ". $ticket;
@@ -359,7 +354,7 @@ class EmailController extends Controller
                                 Halo Tim Kurator,
                                 <br>
                                 <br>
-                                Laporan baru telah diajukan untuk direview dengan ID ' . $ticket . '. Mohon tinjau dan berikan anda.'.
+                                Laporan baru telah diajukan untuk direview dengan ID ' . $ticket . '. Mohon tinjau dan berikan penyelidikan anda.'.
                                 ' <br>
                                 <br>
                                 Terima kasih,
@@ -367,8 +362,8 @@ class EmailController extends Controller
                             </p>
                         </section>';
 
-                // Mail::send(new reviewer_notification($ticket, $subject ,$tujuan, $konten));
-                return new reviewer_notification($ticket, $tujuan ,$subject, $konten);
+                Mail::send(new reviewer_notification($ticket, $subject ,$tujuan, $konten));
+                // return new reviewer_notification($ticket, $tujuan ,$subject, $konten);
                 break;
             case 6:
                 dd($ticket);

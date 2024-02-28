@@ -7,8 +7,11 @@ use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Date;
 
 use App\Models\pengaduan;
+use App\Models\email;
+use App\Http\Controllers\EmailController;
 
 class FormController extends Controller
 {
@@ -102,7 +105,29 @@ class FormController extends Controller
             ]);
         }
         
-        // Mail to Tim Validator
+        // Mail to Pelapor & Tim Validator
+        $tanggal = Date::now()->format('d/m/y');
+        $tujuan_pelapor = $validated['email'];
+        $tujuan_reviewer = email::where('role', 'validator')->pluck('email');
+
+        if($validated['masalah'] === '0'){
+            // Administratif
+            $mail = new EmailController();
+            $mail->pelapor_email($ticket, 1, $tanggal, $tujuan_pelapor);
+            
+            foreach ($tujuan_reviewer as $email) {
+                $mail->reviewer_email($ticket, 1, $email);
+            }
+
+        } else{
+            // Teknis
+            $mail = new EmailController();
+            $mail->pelapor_email($ticket, 2, $tanggal, $tujuan_pelapor);
+            
+            foreach ($tujuan_reviewer as $email) {
+                $mail->reviewer_email($ticket, 2, $email);
+            }
+        }
         
         return redirect()->route('home');
     }
