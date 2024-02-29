@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Date;
 
 use App\Models\pengaduan;
 use App\Models\email;
+use App\Models\status_detail;
+use App\Models\status_history;
 use App\Http\Controllers\EmailController;
 
 class FormController extends Controller
@@ -128,6 +130,24 @@ class FormController extends Controller
                 $mail->reviewer_email($ticket, 2, $email);
             }
         }
+
+        // Simpan di Status_history
+        $statusDetail = new status_detail();
+        $statusDetail->description = 'Laporan Diterima';
+        $statusDetail->save();
+
+        $statusHistory = new status_history();
+        $statusHistory->ticketID = $ticket;
+        if($validated['masalah'] === 0 ){
+            // Administratif
+            $statusHistory->review = '1';
+        } else{
+            // Teknis
+            $statusHistory->review = '2';
+        }
+        $statusHistory->detail_id = $statusDetail->id; // Menggunakan ID dari status_details yang baru saja dimasukkan
+        $statusHistory->save();
+
         
         return redirect()->route('home');
     }
