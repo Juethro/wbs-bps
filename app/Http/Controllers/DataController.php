@@ -18,7 +18,10 @@ class DataController extends Controller
     function fetchData()
     {
         $pengaduandata = json_decode(pengaduan::all());
-        $pengaduandata[0]->lampiran_file = json_decode($pengaduandata[0]->lampiran_file);
+        $pengaduandata = array_map(function ($pengaduan) {
+            $pengaduan->lampiran_file = json_decode($pengaduan->lampiran_file);
+            return $pengaduan;
+        }, $pengaduandata);
 
         return response()->json($pengaduandata);
     }
@@ -112,10 +115,10 @@ class DataController extends Controller
         $statusHistory->detail_id = $statusDetail->id; // Menggunakan ID dari status_details yang baru saja dimasukkan
         $statusHistory->save();
 
-        return redirect()->route('dashboard.admin');
+        return to_route('dashboard.admin');
      }
  
-     public function revisiLaporan(Request $request, $ticket)
+     public function revisiLaporan(Request $request)
      {
          /**
           * - Validasi Request
@@ -123,9 +126,40 @@ class DataController extends Controller
           * - Update status editable
           * - Simpan Histori Review
           */
-        
 
- 
+        $validator = Validator::make($request->all(), [
+            'ticket' => 'required',
+            'instruksi' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $validated = $validator->validate();
+        
+        // Save status_histori
+        $statusDetail = new status_detail();
+        $statusDetail->description = $validated['instruksi'];
+        // $statusDetail->save();
+
+        $history = new status_history();
+        $history->ticketID = $validated['ticket'];
+        $history->review = '3';
+        $history->detail_id = $statusDetail->id;
+        // $history->save();
+
+        // Mail Pelapor
+        $tanggal = Date::now()->format('d/m/y');
+        $tujuan_pelapor = pengaduan::where('ticketID', $validated['ticket'])->pluck('email');
+        $mail = new EmailController();
+        $mail->pelapor_email($validated['ticket'], 3, $tanggal, $tujuan_pelapor[0], $validated['instruksi']);
+
+        // Update form_status, review (pengaduan)
+        pengaduan::where('ticketID', $validated['ticket'])->update(['review'=> '3']);
+        pengaduan::where('ticketID', $validated['ticket'])->update(['form_status'=> '1']);
+        
+        return to_route('dashboard.admin');
      }
  
  

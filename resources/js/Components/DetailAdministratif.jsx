@@ -1,9 +1,13 @@
 import { router } from "@inertiajs/react";
 import React, { useState } from "react";
 
-const DetailAdministratif = ({ dataAdministratif, isApproved }) => {
+const DetailAdministratif = ({ dataAdministratif}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isTabHidden, setIsTabHidden] = useState(true);
+  const [revisiData, setRevisiData] = useState({
+    "ticket": dataAdministratif.ticketID,
+    "instruksi": ""
+  });
 
   const openModal = () => {
     setIsOpen(true);
@@ -11,6 +15,14 @@ const DetailAdministratif = ({ dataAdministratif, isApproved }) => {
 
   const handleRevisiClick = () => {
     setIsTabHidden(!isTabHidden);
+  };
+
+  const handleChange = (e) =>{
+    const { name, value } = e.target;
+    setRevisiData((prev) => ({
+        ...prev,
+        [name]: value,
+    }));
   };
 
   const closeModal = () => {
@@ -21,6 +33,10 @@ const DetailAdministratif = ({ dataAdministratif, isApproved }) => {
     router.patch('validator/approve/', ticketID);
     setIsOpen(false);
   };
+
+  const submitRevisi = (data) => {
+    router.post("/dashboard/validator/revisi",data);
+  }
 
   return (
     <React.Fragment>
@@ -143,9 +159,16 @@ const DetailAdministratif = ({ dataAdministratif, isApproved }) => {
               </div>
               {!isTabHidden && (
                 <div className="mt-4">
-                  {<textarea
-                  className="w-full h-24 p-2 border rounded-md"
-                  placeholder="Apa yang perlu direvisi"/>}
+                  <textarea
+                    className="w-full h-24 p-2 border rounded-md"
+                    placeholder="Apa yang perlu direvisi"
+                    name="instruksi"
+                    value={revisiData.instruksi}
+                    onChange={handleChange}
+                  />
+                  <div className="flex justify-end">
+                    <button className="bg-red-500 text-white rounded-md py-1 px-3" onClick={()=>submitRevisi(revisiData)}>Submit</button>
+                  </div>
                 </div>
               )}
               
