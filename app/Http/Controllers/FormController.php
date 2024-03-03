@@ -138,7 +138,7 @@ class FormController extends Controller
 
         $statusHistory = new status_history();
         $statusHistory->ticketID = $ticket;
-        if($validated['masalah'] === 0 ){
+        if($validated['masalah'] === '0' ){
             // Administratif
             $statusHistory->review = '1';
         } else{

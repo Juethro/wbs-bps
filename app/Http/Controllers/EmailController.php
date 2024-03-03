@@ -91,7 +91,7 @@ class EmailController extends Controller
         }
     }
 
-    function pelapor_email(String $ticket, String $status,String $tanggal, String $tujuan)
+    function pelapor_email(String $ticket, String $status,String $tanggal, String $tujuan, String $instruksi = "")
     {
         switch ($status)
         {
@@ -135,7 +135,6 @@ class EmailController extends Controller
 
             case 3:
                 $subject = "Laporan Perlu Diperbarui";
-                $instruksi = "Fotonya kurang, tambahkan foto lagi";
                 $konten = '<section class="teks" style="padding: 0px 20px 20px 20px;">
                             <p>
                                 Halo,
@@ -152,8 +151,8 @@ class EmailController extends Controller
                         </section>';
 
 
-                // Mail::send(new pelapor_notification($ticket, $tanggal, $subject, $tujuan, $konten));
-                return new pelapor_notification($ticket, $tanggal, $tujuan ,$subject, $konten);
+                Mail::send(new pelapor_notification($ticket, $tanggal, $subject, $tujuan, $konten));
+                // return new pelapor_notification($ticket, $tanggal, $tujuan ,$subject, $konten);
                 break;
 
             case 4:
