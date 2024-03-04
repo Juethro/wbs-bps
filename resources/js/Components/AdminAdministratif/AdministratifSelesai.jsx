@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import DetailAdministratif from "../DetailAdministratif";
+import DetailAdminAdministratif from "../PopupDetail/DetailAdminAdministratif";
 
 function AdministratifSelesai(){
     const [currentPage, setCurrentPage] = useState(1);
@@ -161,7 +161,7 @@ function AdministratifSelesai(){
                     <td className="px-6 py-4">{item.tempat_kejadian}</td>
                     <td className="px-6 py-4">{item.tanggal_kejadian}</td>
                     <td className="px-6 py-4">
-                        <DetailAdministratif dataAdministratif={item} />
+                        <DetailAdminAdministratif dataAdministratif={item} />
                     </td>
                     </tr>
                 ))}

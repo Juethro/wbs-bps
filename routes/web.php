@@ -60,6 +60,8 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::middleware(['auth', 'onlyValidator'])->group(function () {
         Route::get('/validator', [DashboardController::class, 'validator'])->name('dashboard.validator');
 
+        Route::get('/validator/data', [DataController::class, 'fetchdata'])->name('dashboard.validator.fetchdata');
+
         // Route::post('/validator/approve/{ticket}', [DataController::class, 'approveLaporanValidator'])->name('validator.approve');
         // Route::post('/validator/edit/{ticket}', [DataController::class, 'revisiLaporan'])->name('validator.revisi');
     });
@@ -68,6 +70,8 @@ Route::group(['prefix' => 'dashboard'], function () {
     // Dashboard Tim Kurator
     Route::middleware(['auth', 'onlyKurator'])->group(function () {
         Route::get('/kurator', [DashboardController::class, 'kurator'])->name('dashboard.kurator');
+
+        Route::get('/kurator/data', [DataController::class, 'fetchdata'])->name('dashboard.kurator.fetchdata');
 
         Route::post('/kurator/approve/{ticket}', [DataController::class, 'approveLaporanKurator'])->name('kurator.approve');
         Route::post('/kurator/denied/{ticket}', [DataController::class, 'deniedLaporanKurator'])->name('kurator.denied');

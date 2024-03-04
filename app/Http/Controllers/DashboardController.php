@@ -15,17 +15,17 @@ class DashboardController extends Controller
      */
     public function admin()
     {
-        return Inertia::render('Dashboard'); 
+        return Inertia::render('DashboardAdmin'); 
     }
 
     public function kurator()
     {
-        dd('ini dashboard kurator');
+        return Inertia::render('DashboardReviewer');
     }
 
     public function validator()
     {
-        dd('ini dashboard validator');
+        return Inertia::render('DashboardValidator');
     }
 
     public function dewan()

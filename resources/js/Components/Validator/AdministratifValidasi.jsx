@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
-import DetailAdminTeknis from "../PopupDetail/DetailAdminTeknis";
+import DetailAdministratif from "../PopupDetail/DetailAdministratif";
 
-function TeknisSelesai(){
+function AdministratifValidasi(){
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(11);
     const [pengaduanData, setPengaduanData] = useState([]);
@@ -12,11 +12,11 @@ function TeknisSelesai(){
 
     const fetchData = async () => {
         try {
-          const response = await fetch('/dashboard/admin/data'); // Mengganti dengan endpoint yang sesuai di Laravel Anda
+          const response = await fetch('/dashboard/validator/data'); // Mengganti dengan endpoint yang sesuai di Laravel Anda
           const jsonData = await response.json();
           setPengaduanData(jsonData);
         } catch (error) {
-          console.error('Error fetching data:', error);
+          console.error('Error fetching data:', error); 
         }
     };
 
@@ -33,10 +33,10 @@ function TeknisSelesai(){
         setSortConfig({ key, direction });
     };
 
-    const dataTeknis = pengaduanData.filter(item => item.review === '7');
+    const dataAdministratif = pengaduanData.filter(item => item.jenis_masalah === '0' && item.review === '1');
     
     const sortedData = () => {
-        const sorted = [...dataTeknis];
+        const sorted = [...dataAdministratif];
         if (sortConfig.key) {
           sorted.sort((a, b) => {
             if (sortConfig.key === 'tanggal_kejadian') {
@@ -94,8 +94,34 @@ function TeknisSelesai(){
         setCurrentPage(pageNumber);
     };
 
+    const handleSetujuClick = (ticketID) => {
+        // Kirim permintaan pembaruan ke server
+        fetch('/admin/update-review', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json', 
+            },
+            body: JSON.stringify({
+                ticketID: ticketID,
+                review: '4', // Menyetujui dengan memberikan nilai '4' untuk review
+            }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Gagal memperbarui review');
+            }
+            // Jika berhasil, perbarui data lokal atau tampilkan pesan sukses
+            // Misalnya, Anda dapat memperbarui state atau menampilkan pesan sukses kepada pengguna
+            console.log('Review berhasil diperbarui');
+        })
+        .catch(error => {
+            // Tangani kesalahan jika terjadi
+            console.error('Error:', error);
+        });
+    };
+
     return(
-        <div className="h-full w-full flex flex-col relative overflow-x-auto shadow-md w-full bg-gray-700">
+        <div className="h-full flex flex-col relative overflow-x-auto shadow-md w-full bg-gray-700">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -161,7 +187,7 @@ function TeknisSelesai(){
                     <td className="px-6 py-4">{item.tempat_kejadian}</td>
                     <td className="px-6 py-4">{item.tanggal_kejadian}</td>
                     <td className="px-6 py-4">
-                        <DetailAdminTeknis dataTeknis={item} />
+                        <DetailAdministratif dataAdministratif={item} handleSetujuClick={handleSetujuClick}/>
                     </td>
                     </tr>
                 ))}
@@ -224,4 +250,4 @@ function TeknisSelesai(){
     )
 }
 
-export default TeknisSelesai;
+export default AdministratifValidasi;

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
-import DetailAdminTeknis from "../PopupDetail/DetailAdminTeknis";
+import DetailAdministratif from "../PopupDetail/DetailAdministratif";
 
-function TeknisSelesai(){
+function AdministratifReview(){
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(11);
     const [pengaduanData, setPengaduanData] = useState([]);
@@ -12,7 +12,7 @@ function TeknisSelesai(){
 
     const fetchData = async () => {
         try {
-          const response = await fetch('/dashboard/admin/data'); // Mengganti dengan endpoint yang sesuai di Laravel Anda
+          const response = await fetch('/dashboard/kurator/data'); // Mengganti dengan endpoint yang sesuai di Laravel Anda
           const jsonData = await response.json();
           setPengaduanData(jsonData);
         } catch (error) {
@@ -33,13 +33,13 @@ function TeknisSelesai(){
         setSortConfig({ key, direction });
     };
 
-    const dataTeknis = pengaduanData.filter(item => item.review === '7');
-    
+    const dataAdministratif = pengaduanData.filter(item => item.jenis_masalah === '0' && item.review === '4');
+
     const sortedData = () => {
-        const sorted = [...dataTeknis];
+        const sorted = [...dataAdministratif];
         if (sortConfig.key) {
           sorted.sort((a, b) => {
-            if (sortConfig.key === 'tanggal_kejadian') {
+            if (sortConfig.key === 'tanggalKejadian') {
               // Konversi tanggal ke format yang bisa dibandingkan langsung
               const dateA = new Date(
                 a[sortConfig.key].split('-').reverse().join('-')
@@ -161,7 +161,7 @@ function TeknisSelesai(){
                     <td className="px-6 py-4">{item.tempat_kejadian}</td>
                     <td className="px-6 py-4">{item.tanggal_kejadian}</td>
                     <td className="px-6 py-4">
-                        <DetailAdminTeknis dataTeknis={item} />
+                        <DetailAdministratif dataAdministratif={item} />
                     </td>
                     </tr>
                 ))}
@@ -224,4 +224,4 @@ function TeknisSelesai(){
     )
 }
 
-export default TeknisSelesai;
+export default AdministratifReview;

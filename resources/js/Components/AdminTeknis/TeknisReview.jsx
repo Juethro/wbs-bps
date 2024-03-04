@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import DetailTeknis from "../DetailTeknis";
+import DetailAdminTeknis from "../PopupDetail/DetailAdminTeknis";
 
 function TeknisReview(){
     const [currentPage, setCurrentPage] = useState(1);
@@ -161,7 +161,7 @@ function TeknisReview(){
                     <td className="px-6 py-4">{item.tempat_kejadian}</td>
                     <td className="px-6 py-4">{item.tanggal_kejadian}</td>
                     <td className="px-6 py-4">
-                        <DetailTeknis dataTeknis={item} />
+                        <DetailAdminTeknis dataTeknis={item} />
                     </td>
                     </tr>
                 ))}
