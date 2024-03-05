@@ -13,11 +13,11 @@ class status_history extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['ticketID', 'review'];
+    protected $fillable = ['ticketID', 'review', 'created_at'];
 
     public function pengaduan()
     {
-        return $this->belongsTo(pengaduan::class, 'ticketID');
+        return $this->belongsTo(pengaduan::class, 'ticketID', 'ticketID');
     }
 
     public function statusDetail()

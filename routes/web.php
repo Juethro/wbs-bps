@@ -62,8 +62,9 @@ Route::group(['prefix' => 'dashboard'], function () {
 
         Route::get('/validator/data', [DataController::class, 'fetchdata'])->name('dashboard.validator.fetchdata');
 
-        // Route::post('/validator/approve/{ticket}', [DataController::class, 'approveLaporanValidator'])->name('validator.approve');
-        // Route::post('/validator/edit/{ticket}', [DataController::class, 'revisiLaporan'])->name('validator.revisi');
+        // Route::patch('/validator/approve', [DataController::class, 'approveLaporanValidator'])->name('validator.approve');
+        // Route::post('/validator/revisi', [DataController::class, 'revisiLaporan'])->name('validator.revisi');
+        // Route::get('/validator/download/{ticket}/{uniqueId}', [DataController::class, 'downloadFile'])->name('validator.download');
     });
 
 

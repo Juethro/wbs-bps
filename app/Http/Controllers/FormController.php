@@ -32,6 +32,26 @@ class FormController extends Controller
         return Inertia::render('FormStatus');
     }
 
+    // Fungsi untuk mendapatkan nama bulan
+    private function getMonthName($monthNumber) {
+        $months = [
+        '01' => 'Januari',
+        '02' => 'Februari',
+        '03' => 'Maret',
+        '04' => 'April',
+        '05' => 'Mei',
+        '06' => 'Juni',
+        '07' => 'Juli',
+        '08' => 'Agustus',
+        '09' => 'September',
+        '10' => 'Oktober',
+        '11' => 'November',
+        '12' => 'Desember',
+        ];
+    
+        return $months[$monthNumber];
+    }
+
     function submitStore(Request $request)
     {
         /**
@@ -170,11 +190,45 @@ class FormController extends Controller
     function track(Request $request)
     {
         /**
-         * - Validasi Request
          * - Return Data dari Database
          */
-        
+        $ticket = $request->ticket;
+        // $ticket = 'TD6ZgyVW54';
+        $history = status_history::select('id','review', 'detail_id','created_at')->where('ticketID', $ticket)->orderBy('created_at', 'desc')->get();
 
+        // Check if any data is found
+        if ($history->isEmpty()) {
+            // Ticket not found, return appropriate message
+            return response()->json([
+                'message' => 'Ticket not found.',
+                'status' => 'error',
+            ], 404);
+        }
+
+        $i = 0;
+
+        foreach ($history as $item) {
+            $datesPart = explode(' ', $item->created_at)[0];
+            $date = explode('-', $datesPart);
+            $newDate = $date[2] . ' ' . $this->getMonthName($date[1]) . ' ' . $date[0];
+
+            $jam = explode(' ', $item->created_at)[1];
+            $jamSplit = explode(':', $jam);
+            $jamHanya = $jamSplit[0]; // Ambil jam
+            $menit = $jamSplit[1]; // Ambil menit
+
+            $data[] = [
+                'id' => $i,
+                'description' => $item->statusDetail->description,
+                'jam' => $jamHanya . ':' . $menit . ' WIB',
+                'tanggal' => $newDate,
+              ];
+              
+            $i++;
+        }
+        // dd(json_encode($data));
+
+        return json_encode($data);
     }
 
     function submitRevision(Request $request)
