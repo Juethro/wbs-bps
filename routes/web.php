@@ -22,7 +22,6 @@ Route::post('/pengaduan/submitrevisi', [FormController::class, 'submitRevision']
 Route::get('/login', [LoginController::class, 'showLogin']);
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout']);
-Route::get('/cek', [LoginController::class, 'check']);
 
 // HomePage
 Route::get('/home', function() {

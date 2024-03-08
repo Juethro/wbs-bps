@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import DetailTeknis from "../PopupDetail/DetailValidator";
+import DetailValidator from "../PopupDetail/DetailValidator";
 
 function TeknisValidasi(){
     const [currentPage, setCurrentPage] = useState(1);
@@ -94,16 +94,6 @@ function TeknisValidasi(){
         setCurrentPage(pageNumber);
     };
 
-    const handleSetujuClick = (id) => {
-        const updatedData = pengaduanData.map(item => {
-          if (item.id === id) {
-            return { ...item, review: '4' }; // Mengubah nilai review menjadi '4'
-          }
-          return item;
-        });
-        setPengaduanData(updatedData); // Memperbarui state pengaduanData dengan data yang telah diperbarui
-    };
-
     return(
         <div className="h-full w-full flex flex-col relative overflow-x-auto shadow-md w-full bg-gray-700">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -150,7 +140,7 @@ function TeknisValidasi(){
                         </div>
                     </th>
                     <th scope="col" className="px-6 py-3">
-                    <span className="sr-only">Detail</span>
+                        <span className="sr-only">Detail</span>
                     </th>
                 </tr>
                 </thead>
@@ -171,7 +161,7 @@ function TeknisValidasi(){
                     <td className="px-6 py-4">{item.tempat_kejadian}</td>
                     <td className="px-6 py-4">{item.tanggal_kejadian}</td>
                     <td className="px-6 py-4">
-                        <DetailTeknis dataTeknis={item} />
+                        <DetailValidator dataAdministratif={item} />
                     </td>
                     </tr>
                 ))}
