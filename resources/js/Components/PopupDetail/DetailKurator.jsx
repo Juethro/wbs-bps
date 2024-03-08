@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-const DetailAdminTeknis = ({ dataTeknis }) => {
+const DetailKurator = ({ dataTeknis }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const [isTabHidden, setIsTabHidden] = useState(true);
@@ -69,6 +69,35 @@ const DetailAdminTeknis = ({ dataTeknis }) => {
                       <strong>Lampiran:</strong> {dataTeknis.lampiran_masalah}
                     </p>
                   </div>
+                  <div className="flex flex-row justify-center mt-4">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-500 border border-transparent rounded-md hover:bg-green-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      // onClick={() => handleSetujuClick(dataAdministratif.ticketID)}
+                    >
+                      Setuju
+                    </button>
+                    <button
+                      type="button"
+                      className="ml-4 inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-500 border border-transparent rounded-md hover:bg-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
+                      onClick={handleRevisiClick}>
+                        Revisi
+                    </button>
+                    <button
+                      type="button"
+                      className="ml-4 inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-blue-500 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={closeModal}
+                    >
+                      Tutup
+                    </button>
+                  </div>
+                  {!isTabHidden && (
+                    <div className="mt-4">
+                      {<textarea
+                      className="w-full h-24 p-2 border rounded-md"
+                      placeholder="Apa yang perlu direvisi"/>}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -77,4 +106,4 @@ const DetailAdminTeknis = ({ dataTeknis }) => {
       );
     };
     
-export default DetailAdminTeknis;
+export default DetailKurator;

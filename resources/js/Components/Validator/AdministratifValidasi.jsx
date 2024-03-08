@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import DetailAdministratif from "../PopupDetail/DetailAdministratif";
+import DetailAdministratif from "../PopupDetail/DetailValidator";
 
 function AdministratifValidasi(){
     const [currentPage, setCurrentPage] = useState(1);

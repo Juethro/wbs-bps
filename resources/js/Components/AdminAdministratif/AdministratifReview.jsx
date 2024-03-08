@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import DetailAdministratif from "../PopupDetail/DetailAdminAdministratif";
+import DetailAdministratif from "../PopupDetail/DetailAdmin";
 
 function AdministratifReview(){
     const [currentPage, setCurrentPage] = useState(1);

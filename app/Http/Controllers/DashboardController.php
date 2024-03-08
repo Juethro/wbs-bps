@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\pengaduan;
-use App\Models\status_history;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Validator;
+
 
 class DashboardController extends Controller
 {
@@ -20,7 +17,7 @@ class DashboardController extends Controller
 
     public function kurator()
     {
-        return Inertia::render('DashboardReviewer');
+        return Inertia::render('DashboardKurator');
     }
 
     public function validator()
@@ -30,7 +27,7 @@ class DashboardController extends Controller
 
     public function dewan()
     {
-        dd('ini dashboard dewan');
+        return Inertia::render('DashboardDewan');
     }
 
     

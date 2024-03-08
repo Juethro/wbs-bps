@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import DetailTeknis from "../PopupDetail/DetailTeknis";
+import DetailTeknis from "../PopupDetail/DetailValidator";
 
 function TeknisValidasi(){
     const [currentPage, setCurrentPage] = useState(1);

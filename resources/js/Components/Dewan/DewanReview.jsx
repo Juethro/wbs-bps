@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
-import DetailAdministratif from "../PopupDetail/DetailAdministratif";
+import DetailAdministratif from "../PopupDetail/DetailValidator";
 
-function AdministratifReview(){
+function DewanReview(){
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(11);
     const [pengaduanData, setPengaduanData] = useState([]);
@@ -12,7 +12,7 @@ function AdministratifReview(){
 
     const fetchData = async () => {
         try {
-          const response = await fetch('/dashboard/kurator/data'); // Mengganti dengan endpoint yang sesuai di Laravel Anda
+          const response = await fetch('/dashboard/dewan/data'); // Mengganti dengan endpoint yang sesuai di Laravel Anda
           const jsonData = await response.json();
           setPengaduanData(jsonData);
         } catch (error) {
@@ -95,7 +95,7 @@ function AdministratifReview(){
     };
 
     return(
-        <div className="h-full w-full flex flex-col relative overflow-x-auto shadow-md w-full bg-gray-700">
+        <div className="h-full flex flex-col relative overflow-x-auto shadow-md w-full bg-gray-700">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -140,7 +140,7 @@ function AdministratifReview(){
                         </div>
                     </th>
                     <th scope="col" className="px-6 py-3">
-                    <span className="sr-only">Detail</span>
+                        <span className="sr-only">Detail</span>
                     </th>
                 </tr>
                 </thead>
@@ -224,4 +224,4 @@ function AdministratifReview(){
     )
 }
 
-export default AdministratifReview;
+export default DewanReview;

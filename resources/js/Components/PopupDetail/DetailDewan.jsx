@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-const DetailTeknis = ({ dataTeknis }) => {
+const DetailDewan = ({ dataTeknis }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const [isTabHidden, setIsTabHidden] = useState(true);
@@ -106,4 +106,4 @@ const DetailTeknis = ({ dataTeknis }) => {
       );
     };
     
-export default DetailTeknis;
+export default DetailDewan;

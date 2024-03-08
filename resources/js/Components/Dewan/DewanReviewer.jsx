@@ -1,9 +1,10 @@
-import React, {useState} from "react";
-import TeknisReview from "./TeknisReview";
-import TeknisSelesai from '../AdminTeknis/TeknisSelesai';
-import TeknisValidasi from '../AdminTeknis/TeknisValidasi';
+import React, { useState } from "react";
+import AdministratifReview from "./DewanReview";
+import AdministratifSelesai from '../AdminAdministratif/AdministratifSelesai';
+import AdministratifValidasi from '../AdminAdministratif/AdministratifValidasi';
 
-function TeknisReviewer(){
+// Tim Dewan
+function DewanReviewer(){
     const [currentTab, setCurrentTab] = useState('review');
 
     function handleChage(e){
@@ -27,16 +28,15 @@ function TeknisReviewer(){
                     </div>
                 </div>
             </div>
-
+            
             { 
-                currentTab == 'validasi'? <TeknisValidasi/> : 
-                currentTab == 'review'? <TeknisReview/> :
-                <TeknisSelesai/>
+                currentTab == 'review'? <AdministratifReview/> : 
+                currentTab == 'validasi'? <AdministratifValidasi/> :
+                <AdministratifSelesai/>
             }
-
 
         </div>
     );
 }
 
-export default TeknisReviewer;
+export default DewanReviewer;

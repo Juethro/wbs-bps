@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import AdministratifReview from "./AdministratifReview";
-import AdministratifSelesai from '../AdminAdministratif/AdministratifSelesai';
-import AdministratifValidasi from '../AdminAdministratif/AdministratifValidasi';
+import React, {useState} from "react";
+import TeknisReview from "./KuratorReview";
+import TeknisSelesai from '../AdminTeknis/TeknisSelesai';
+import TeknisValidasi from '../AdminTeknis/TeknisValidasi';
 
-function AdministratifReviewer(){
+// Tim Kurator
+function KuratorReviewer(){
     const [currentTab, setCurrentTab] = useState('review');
 
     function handleChage(e){
@@ -27,15 +28,16 @@ function AdministratifReviewer(){
                     </div>
                 </div>
             </div>
-            
+
             { 
-                currentTab == 'review'? <AdministratifReview/> : 
-                currentTab == 'validasi'? <AdministratifValidasi/> :
-                <AdministratifSelesai/>
+                currentTab == 'validasi'? <TeknisValidasi/> : 
+                currentTab == 'review'? <TeknisReview/> :
+                <TeknisSelesai/>
             }
+
 
         </div>
     );
 }
 
-export default AdministratifReviewer;
+export default KuratorReviewer;

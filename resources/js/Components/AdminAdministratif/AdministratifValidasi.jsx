@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import DetailAdminAdministratif from "../PopupDetail/DetailAdminAdministratif";
+import DetailAdmin from "../PopupDetail/DetailAdmin";
 
 function AdministratifValidasi(){
     const [currentPage, setCurrentPage] = useState(1);
@@ -161,7 +161,7 @@ function AdministratifValidasi(){
                     <td className="px-6 py-4">{item.tempat_kejadian}</td>
                     <td className="px-6 py-4">{item.tanggal_kejadian}</td>
                     <td className="px-6 py-4">
-                        <DetailAdminAdministratif dataAdministratif={item} />
+                        <DetailAdmin dataAdministratif={item} />
                     </td>
                     </tr>
                 ))}

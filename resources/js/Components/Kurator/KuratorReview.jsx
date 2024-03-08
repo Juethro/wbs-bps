@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
-import DetailTeknis from "../PopupDetail/DetailTeknis";
+import DetailKurator from "../PopupDetail/DetailKurator";
 
-function TeknisReview(){
+function KuratorReview(){
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(11);
     const [pengaduanData, setPengaduanData] = useState([]);
@@ -95,7 +95,7 @@ function TeknisReview(){
     };
 
     return(
-        <div className="h-full w-full flex flex-col relative overflow-x-auto shadow-md w-full bg-gray-700">
+        <div className="h-full w-full flex flex-col relative overflow-x-auto shadow-md bg-gray-700">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -140,7 +140,7 @@ function TeknisReview(){
                         </div>
                     </th>
                     <th scope="col" className="px-6 py-3">
-                    <span className="sr-only">Detail</span>
+                        <span className="sr-only">Detail</span>
                     </th>
                 </tr>
                 </thead>
@@ -161,7 +161,7 @@ function TeknisReview(){
                     <td className="px-6 py-4">{item.tempat_kejadian}</td>
                     <td className="px-6 py-4">{item.tanggal_kejadian}</td>
                     <td className="px-6 py-4">
-                        <DetailTeknis dataTeknis={item} />
+                        <DetailKurator dataTeknis={item} />
                     </td>
                     </tr>
                 ))}
@@ -224,4 +224,4 @@ function TeknisReview(){
     )
 }
 
-export default TeknisReview;
+export default KuratorReview;

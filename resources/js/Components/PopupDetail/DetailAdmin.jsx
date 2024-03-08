@@ -1,7 +1,7 @@
 import { router } from "@inertiajs/react";
 import React, { useState } from "react";
 
-const DetailAdminAdministratif = ({ dataAdministratif}) => {
+const DetailAdmin = ({ dataAdministratif}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isTabHidden, setIsTabHidden] = useState(true);
   const [revisiData, setRevisiData] = useState({
@@ -143,4 +143,4 @@ const DetailAdminAdministratif = ({ dataAdministratif}) => {
   );
 };
 
-export default DetailAdminAdministratif;
+export default DetailAdmin;
