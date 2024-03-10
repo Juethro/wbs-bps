@@ -28,6 +28,11 @@ Route::get('/home', function() {
     return inertia::render('HomePage');
 });
 
+// Revisi
+Route::get('/revisi', function() {
+    return inertia::render('FormRevisi');
+});
+
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {
 
