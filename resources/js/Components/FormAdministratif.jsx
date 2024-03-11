@@ -1,19 +1,20 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import { router, usePage } from '@inertiajs/react';
 
-const FormAdministratif = ({simpleData}) => {
+const FormAdministratif = ({ simpleData }) => {
+    const [files, setFiles] = useState([]);
     const [fileError, setFileError] = useState(null);
     const { errors } = usePage().props;
 
     const [formData, setFormData] = useState({
-        namaPelanggar : "",
-        tempatKejadian : "",
-        tanggalKejadian : "",
-        deskripsi : "",
-        lampiran : [],
+        namaPelanggar: "",
+        tempatKejadian: "",
+        tanggalKejadian: "",
+        deskripsi: "",
+        lampiran: [],
     });
 
-    const handleChange = (e) =>{
+    const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
@@ -23,48 +24,42 @@ const FormAdministratif = ({simpleData}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         const latestData = {
-            nama : simpleData["nama"],
-            whatsapp : simpleData["whatsapp"],
-            email : simpleData["email"],
-            masalah : simpleData["masalah"],
+            nama: simpleData["nama"],
+            whatsapp: simpleData["whatsapp"],
+            email: simpleData["email"],
+            masalah: simpleData["masalah"],
             ...formData
         };
         router.post('/pengaduan/submit', latestData);
     };
-    
-    // File Drag n Drop setup
-    const handleRemoveFile = (indexToRemove) => {
-        setFormData((prevData) => {
-          const updatedFiles = [...prevData.lampiran];
-          updatedFiles.splice(indexToRemove, 1);
-      
-          return {
-            ...prevData,
-            lampiran: updatedFiles,
-          };
+
+    const handleRemoveFile = (index) => {
+        setFiles((prevFiles) => {
+            const newFiles = [...prevFiles];
+            newFiles.splice(index, 1);
+            return newFiles;
         });
-      };
-      
+    };  
 
     const handleFileChange = (event) => {
         const selectedFiles = event.target.files;
-    
+
         const newFiles = Array.from(selectedFiles);
-    
+
         // Check each file individually
         for (const file of newFiles) {
-          if (file.size > 5 * 1024 * 1024) {
-            setFileError(`File "${file.name}" exceeds the 5MB limit. Please choose a smaller file.`);
-            return; // Stop processing further files on the first violation
-          }
+            if (file.size > 5 * 1024 * 1024) {
+                setFileError(`File "${file.name}" exceeds the 5MB limit. Please choose a smaller file.`);
+                return; // Stop processing further files on the first violation
+            }
         }
-        
+
         setFormData((prevFormData) => ({
             ...prevFormData,
-            lampiran: newFiles,
-          }));
+            lampiran: [...prevFormData.lampiran, ...newFiles],
+        }));
         setFileError(null);
     };
 
@@ -81,18 +76,19 @@ const FormAdministratif = ({simpleData}) => {
     
         // Check each file individually
         for (const file of newFiles) {
-          if (file.size > 5 * 1024 * 1024) {
-            setFileError(`File "${file.name}" exceeds the 5MB limit. Please choose a smaller file.`);
-            return; // Stop processing further files on the first violation
-          }
+            if (file.size > 5 * 1024 * 1024) {
+                setFileError(`File "${file.name}" exceeds the 5MB limit. Please choose a smaller file.`);
+                return; // Stop processing further files on the first violation
+            }
         }
     
+        // Add new files to existing files
         setFormData((prevFormData) => ({
             ...prevFormData,
-            lampiran: newFiles,
-          }));
+            lampiran: [...prevFormData.lampiran, ...newFiles],
+        }));
         setFileError(null);
-    };
+    };    
 
     return(
         <div>
