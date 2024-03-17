@@ -28,12 +28,15 @@ function KuratorReview(){
     const requestSort = (key) => {
         let direction = 'ascending';
         if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-        direction = 'descending';
+            direction = 'descending';
         }
         setSortConfig({ key, direction });
     };
 
-    const dataTeknis = pengaduanData.filter(item => item.jenis_masalah === '1' && item.review === '5');
+    const dataTeknis = pengaduanData.filter(item => {
+        const isReviewValid = item.review === '5' || item.review === '6';
+        return item.jenis_masalah === '1' && isReviewValid;
+    });
     
     const sortedData = () => {
         const sorted = [...dataTeknis];
