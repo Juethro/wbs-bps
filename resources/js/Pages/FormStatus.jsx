@@ -7,6 +7,7 @@ function FormStatus() {
   });
   const [isNotFound, setIsNotFound] = useState(false);
   const [data, setData] = useState(null);
+  console.log(data);
 
   const handleChange = (e) =>{
     const { name, value } = e.target;
@@ -115,6 +116,16 @@ function FormStatus() {
                   Cek Aduan
                 </button>
               </div>
+              {data && data.some(item => item.description === 'Laporan Perlu Direvisi') && (
+                <div className="flex items-center justify-center mt-2">
+                  <button
+                    className="bg-red-500 hover:bg-red-600 text-white font-bold w-full py-2 px-4 rounded"
+                    type="button"
+                  >
+                    Revisi Aduan
+                  </button>
+                </div>
+              )}
             </div>
           </div>
           
