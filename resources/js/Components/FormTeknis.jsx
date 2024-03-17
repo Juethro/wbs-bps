@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { router, usePage } from '@inertiajs/react';
 
 const FormTeknis = ({simpleData}) => {
+    const [files, setFiles] = useState([]);
     const [fileError, setFileError] = useState(null);
     const { errors } = usePage().props;
 
@@ -61,8 +62,8 @@ const FormTeknis = ({simpleData}) => {
     
         setFormData((prevFormData) => ({
             ...prevFormData,
-            lampiran: newFiles,
-          }));
+            lampiran: [...prevFormData.lampiran, ...newFiles],
+        }));
         setFileError(null);
     };
 
@@ -87,7 +88,7 @@ const FormTeknis = ({simpleData}) => {
     
         setFormData((prevFormData) => ({
             ...prevFormData,
-            lampiran: newFiles,
+            lampiran: [...prevFormData.lampiran, ...newFiles],
         }));
         setFileError(null);
     };
