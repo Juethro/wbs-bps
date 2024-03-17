@@ -10,7 +10,8 @@ const DetailKurator = ({ dataTeknis }) => {
     berkas : [],
   });
   const [fileError, setFileError] = useState(null);
-  
+  const [error, setError] = useState(null);
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -22,6 +23,7 @@ const DetailKurator = ({ dataTeknis }) => {
   const handleInvestigate = (ticketID) => {
     router.patch('kurator/investigate/', ticketID);
     setIsOpen(false);
+    window.location.reload(); 
   };
 
   const handleChange = (e) =>{
@@ -33,12 +35,27 @@ const DetailKurator = ({ dataTeknis }) => {
   }
 
   const submitTerbukti = (data) => {
+    if (data.hasil_investigasi === '' || data.berkas.length == 0) {
+      // Set error state
+      setError("Hasil investigasi dan berkas tidak boleh kosong.");
+      return;
+    }
+
     router.post("/dashboard/kurator/proven",data);
     setIsOpen(false);
+    window.location.reload(); 
   }
 
   const submitTidakTerbukti = (data) => {
+    if (data.hasil_investigasi === '' || data.berkas.length == 0) {
+      // Set error state
+      setError("Hasil investigasi dan berkas tidak boleh kosong.");
+      return;
+    }
+
     router.post("/dashboard/kurator/notproven",data);
+    setIsOpen(false);
+    window.location.reload(); 
   }
 
   // File Drag n Drop setup
@@ -291,6 +308,11 @@ const DetailKurator = ({ dataTeknis }) => {
                       >
                         Tidak Terbukti
                       </button>
+                      { error ?
+                        <p className="text-red-500 ml-2">
+                          {'* ' + error}
+                        </p>: ''
+                      }
                     </div>
                     
                   </>

@@ -164,7 +164,7 @@ function KuratorReview(){
                     <td className="px-6 py-4">{item.tempat_kejadian}</td>
                     <td className="px-6 py-4">{item.tanggal_kejadian}</td>
                     <td className="px-6 py-4">
-                        <DetailKurator dataTeknis={item} />
+                        <DetailKurator dataTeknis={item}/>
                     </td>
                     </tr>
                 ))}

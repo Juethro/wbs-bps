@@ -32,10 +32,13 @@ const DetailAdministratif = ({ dataAdministratif}) => {
   const handleSetujuClick = (ticketID) => {
     router.patch('validator/approve/', ticketID);
     setIsOpen(false);
+    window.location.reload(); 
   };
 
   const submitRevisi = (data) => {
     router.post("/dashboard/validator/revisi",data);
+    setIsOpen(false);
+    window.location.reload(); 
   }
 
   return (

@@ -264,13 +264,65 @@ class DataController extends Controller
         return to_route('dashboard.kurator');
      }
  
-     public function notprovenLaporanKurator($ticket)
+     public function notprovenLaporanKurator(Request $request)
      {
          /**
           * - Validasi Request
           * - Mengubah review di database
           * - Email Notifikasi
           */
+        $validator = Validator::make($request->all(), [
+            'ticketID' => 'required',
+            'hasil_investigasi' => 'required',
+            'berkas' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $validated = $validator->validate();
+
+        // File to JSON
+        $berkas = [];
+        foreach ($validated['berkas'] as &$item) {
+            if (isset($item) && $item instanceof UploadedFile) {
+                $uniqueID = uniqid();
+                $uniqueFilename = $uniqueID . '_' . $item->getClientOriginalName(); // Generate Unique Name
+                $oriFileName = $item->getClientOriginalName(); // Sim
+                $item->storeAs('berkas/', $uniqueFilename); // Simpan Gambar ke Storage
+                
+                // Simpan nama + path
+                $berkas[] = [
+                    'uniqueId' => $uniqueID,
+                    'oriFileName' => $oriFileName,
+                    'path' => 'berkas/' . $uniqueFilename,
+                ];
+            }
+        }
+
+        // Update Review on Pengaduan
+        pengaduan::where('ticketID', $validated['ticketID'])->update(['review'=> '9']);
+
+        // Save status_histori
+        $statusDetail = new status_detail();
+        $statusDetail->description = $validated['hasil_investigasi'];
+        $statusDetail->file = json_encode($berkas);
+        // $statusDetail->save();
+
+        $history = new status_history();
+        $history->ticketID = $validated['ticketID'];
+        $history->review = '9';
+        $history->detail_id = $statusDetail->id;
+        // $history->save();
+
+        // Mail Pelapor
+        $tanggal = Date::now()->format('d/m/y');
+        $tujuan_pelapor = pengaduan::where('ticketID', $validated['ticketID'])->pluck('email');
+        $mail = new EmailController();
+        $mail->pelapor_email($validated['ticketID'], 9, $tanggal, $tujuan_pelapor[0]);
+
+        return to_route('dashboard.kurator');
      }
  
      /**
