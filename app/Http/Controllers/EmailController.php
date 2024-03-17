@@ -96,7 +96,7 @@ class EmailController extends Controller
         switch ($status)
         {
             case 2:
-                $subject = "Laporan Telah Diterima BPS Kota Surabaya";
+                $subject = "[WBS] Laporan Telah Diterima BPS Kota Surabaya";
                 $konten = '<section class="teks" style="padding: 0px 20px 20px 20px;">
                             <p>
                                 Halo,
@@ -115,7 +115,7 @@ class EmailController extends Controller
                 break;
 
             case 1:
-                $subject = "Laporan Telah Diterima BPS Kota Surabaya";
+                $subject = "[WBS] Laporan Telah Diterima BPS Kota Surabaya";
                 $konten = '<section class="teks" style="padding: 0px 20px 20px 20px;">
                             <p>
                                 Halo,
@@ -134,7 +134,7 @@ class EmailController extends Controller
                 break;
 
             case 3:
-                $subject = "Laporan Perlu Diperbarui";
+                $subject = "[WBS] Laporan Perlu Diperbarui";
                 $konten = '<section class="teks" style="padding: 0px 20px 20px 20px;">
                             <p>
                                 Halo,
@@ -156,7 +156,7 @@ class EmailController extends Controller
                 break;
 
             case 4:
-                $subject = "Kabar Laporan - ". $ticket;
+                $subject = "[WBS] Kabar Laporan - ". $ticket;
                 $konten = '<section class="teks" style="padding: 0px 20px 20px 20px;">
                             <p>
                                 Halo,
@@ -175,7 +175,7 @@ class EmailController extends Controller
                 break;
 
             case 5:
-                $subject = "Kabar Laporan - ". $ticket;
+                $subject = "[WBS] Kabar Laporan - ". $ticket;
                 $konten = '<section class="teks" style="padding: 0px 20px 20px 20px;">
                             <p>
                                 Halo,
@@ -193,7 +193,7 @@ class EmailController extends Controller
                 // return new pelapor_notification($ticket, $tanggal, $tujuan ,$subject, $konten);
                 break;
             case 6:
-                $subject = "Kabar Laporan - ". $ticket;
+                $subject = "[WBS] Kabar Laporan - ". $ticket;
                 $konten = '<section class="teks" style="padding: 0px 20px 20px 20px;">
                             <p>
                                 Halo,
@@ -212,7 +212,7 @@ class EmailController extends Controller
                 break;
 
             case 7:
-                $subject = "Kabar Laporan - ". $ticket;
+                $subject = "[WBS] Kabar Laporan - ". $ticket;
                 $konten = '<section class="teks" style="padding: 0px 20px 20px 20px;">
                             <p>
                                 Halo,
@@ -231,7 +231,7 @@ class EmailController extends Controller
                 // return new pelapor_notification($ticket, $tanggal, $tujuan ,$subject, $konten);
                 break;
             case 8:
-                $subject = "Kabar Laporan - ". $ticket;
+                $subject = "[WBS] Kabar Laporan - ". $ticket;
                 $konten = '<section class="teks" style="padding: 0px 20px 20px 20px;">
                             <p>
                                 Halo,
@@ -250,7 +250,7 @@ class EmailController extends Controller
                 // return new pelapor_notification($ticket, $tanggal, $tujuan ,$subject, $konten);
                 break;
             case 9:
-                $subject = "Kabar Laporan - ". $ticket;
+                $subject = "[WBS] Kabar Laporan - ". $ticket;
                 $konten = '<section class="teks" style="padding: 0px 20px 20px 20px;">
                             <p>
                                 Halo,

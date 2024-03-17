@@ -187,13 +187,28 @@ class FormController extends Controller
         return $ticketID;
     }
 
+    function descStatus(String $status){
+        $description = [
+            '1' => 'Laporan Diterima',
+            '2' => 'Laporan Diterima',
+            '3' => 'Laporan Perlu Direvisi',
+            '4' => 'Laporan Sedang Direview',
+            '5' => 'Laporan Sedang Direview',
+            '6' => 'Laporan sedang dilakukan investigasi',
+            '7' => 'Laporan Dikirim Ke Pusat',
+            '8' => 'Laporan Terbukti,',
+            '9' => 'Ticket Telah Ditutup, Terimakasih Atas Pastisipasinya',
+        ];
+        
+        return $description[$status];
+    }
+
     function track(Request $request)
     {
         /**
          * - Return Data dari Database
          */
         $ticket = $request->ticket;
-        // $ticket = 'TD6ZgyVW54';
         $history = status_history::select('id','review', 'detail_id','created_at')->where('ticketID', $ticket)->orderBy('created_at', 'desc')->get();
 
         // Check if any data is found
@@ -219,14 +234,13 @@ class FormController extends Controller
 
             $data[] = [
                 'id' => $i,
-                'description' => $item->statusDetail->description,
+                'description' => $this->descStatus($item->review) ,
                 'jam' => $jamHanya . ':' . $menit . ' WIB',
                 'tanggal' => $newDate,
               ];
               
             $i++;
         }
-        // dd(json_encode($data));
 
         return json_encode($data);
     }
