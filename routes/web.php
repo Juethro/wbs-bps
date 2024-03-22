@@ -83,12 +83,14 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::middleware(['auth', 'onlyDewan'])->group(function () {
         Route::get('/dewan', [DashboardController::class, 'dewan'])->name('dashboard.dewan');
 
-        Route::post('/dewan/investigate/{ticket}', [DataController::class, 'investigateLaporanDewan'])->name('dewan.investigate');
-        Route::post('/dewan/proven/{ticket}', [DataController::class, 'approveLaporanDewan'])->name('dewan.proven');
-        Route::post('/dewan/notproven/{ticket}', [DataController::class, 'deniedLaporanDewan'])->name('dewan.not_proven');
+        Route::get('/dewan/data', [DataController::class, 'fetchdata'])->name('dashboard.dewan.fetchdata');
 
-        Route::post('/dewan/beyond/{ticket}', [DataController::class, 'beyondOurJurisdiction'])->name('dewan.beyondOurJurisdiction');
-        Route::post('/dewan/continue/{ticket}', [DataController::class, ''])->name('dewan.continue');
+        Route::post('/dewan/investigate/', [DataController::class, 'investigateLaporanDewan'])->name('dewan.investigate');
+        Route::post('/dewan/proven/', [DataController::class, 'approveLaporanDewan'])->name('dewan.proven');
+        Route::post('/dewan/notproven/', [DataController::class, 'deniedLaporanDewan'])->name('dewan.not_proven');
+
+        Route::post('/dewan/beyond/', [DataController::class, 'beyondOurJurisdiction'])->name('dewan.beyondOurJurisdiction');
+        Route::post('/dewan/continue/', [DataController::class, ''])->name('dewan.continue');
     });
 
 });

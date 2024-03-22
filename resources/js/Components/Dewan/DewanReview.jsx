@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import DetailAdministratif from "../PopupDetail/DetailValidator";
+import DetailDewan from "../PopupDetail/DetailDewan";
 
 function DewanReview(){
     const [currentPage, setCurrentPage] = useState(1);
@@ -28,18 +28,21 @@ function DewanReview(){
     const requestSort = (key) => {
         let direction = 'ascending';
         if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-        direction = 'descending';
+            direction = 'descending';
         }
         setSortConfig({ key, direction });
     };
 
-    const dataAdministratif = pengaduanData.filter(item => item.jenis_masalah === '0' && item.review === '4');
-
+    const dataTeknis = pengaduanData.filter(item => {
+        const isReviewValid = item.review === '5' || item.review === '6';
+        return item.jenis_masalah === '1' && isReviewValid;
+    });
+    
     const sortedData = () => {
-        const sorted = [...dataAdministratif];
+        const sorted = [...dataTeknis];
         if (sortConfig.key) {
           sorted.sort((a, b) => {
-            if (sortConfig.key === 'tanggalKejadian') {
+            if (sortConfig.key === 'tanggal_kejadian') {
               // Konversi tanggal ke format yang bisa dibandingkan langsung
               const dateA = new Date(
                 a[sortConfig.key].split('-').reverse().join('-')
@@ -95,7 +98,7 @@ function DewanReview(){
     };
 
     return(
-        <div className="h-full flex flex-col relative overflow-x-auto shadow-md w-full bg-gray-700">
+        <div className="h-full w-full flex flex-col relative overflow-x-auto shadow-md bg-gray-700">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -161,7 +164,7 @@ function DewanReview(){
                     <td className="px-6 py-4">{item.tempat_kejadian}</td>
                     <td className="px-6 py-4">{item.tanggal_kejadian}</td>
                     <td className="px-6 py-4">
-                        <DetailAdministratif dataAdministratif={item} />
+                        <DetailDewan dataTeknis={item}/>
                     </td>
                     </tr>
                 ))}

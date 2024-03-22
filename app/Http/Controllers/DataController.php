@@ -336,6 +336,28 @@ class DataController extends Controller
            * - Simpan Histori review
            * - Email Notifikasi
            */
+
+           $ticket = $request->getContent();
+           pengaduan::where('ticketID', $ticket)->update(['review'=> '6']);
+   
+           // Save status_histori
+           $statusDetail = new status_detail();
+           $statusDetail->description = "Laporan Sedang Dalam Proses Investigasi";
+           $statusDetail->save();
+   
+           $history = new status_history();
+           $history->ticketID = $ticket;
+           $history->review = '6';
+           $history->detail_id = $statusDetail->id;
+           $history->save();
+   
+           // Mail Pelapor
+           $tanggal = Date::now()->format('d/m/y');
+           $tujuan_pelapor = pengaduan::where('ticketID', $ticket)->pluck('email');
+           $mail = new EmailController();
+           $mail->pelapor_email($ticket, 6, $tanggal, $tujuan_pelapor[0]);
+   
+           return to_route('dashboard.dewan');
   
       }
  
@@ -348,6 +370,59 @@ class DataController extends Controller
           * - Simpan Histori Review
           * - Email Notifikasi
           */
+
+          $validator = Validator::make($request->all(), [
+            'ticketID' => 'required',
+            'hasil_investigasi' => 'required',
+            'berkas' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $validated = $validator->validate();
+
+        // File to JSON
+        $berkas = [];
+        foreach ($validated['berkas'] as &$item) {
+            if (isset($item) && $item instanceof UploadedFile) {
+                $uniqueID = uniqid();
+                $uniqueFilename = $uniqueID . '_' . $item->getClientOriginalName(); // Generate Unique Name
+                $oriFileName = $item->getClientOriginalName(); // Sim
+                $item->storeAs('berkas/', $uniqueFilename); // Simpan Gambar ke Storage
+                
+                // Simpan nama + path
+                $berkas[] = [
+                    'uniqueId' => $uniqueID,
+                    'oriFileName' => $oriFileName,
+                    'path' => 'berkas/' . $uniqueFilename,
+                ];
+            }
+        }
+
+        // Update Review on Pengaduan
+        pengaduan::where('ticketID', $validated['ticketID'])->update(['review'=> '8']);
+
+        // Save status_histori
+        $statusDetail = new status_detail();
+        $statusDetail->description = $validated['hasil_investigasi'];
+        $statusDetail->file = json_encode($berkas);
+        $statusDetail->save();
+
+        $history = new status_history();
+        $history->ticketID = $validated['ticketID'];
+        $history->review = '8';
+        $history->detail_id = $statusDetail->id;
+        $history->save();
+
+        // Mail Pelapor
+        $tanggal = Date::now()->format('d/m/y');
+        $tujuan_pelapor = pengaduan::where('ticketID', $validated['ticketID'])->pluck('email');
+        $mail = new EmailController();
+        $mail->pelapor_email($validated['ticketID'], 8, $tanggal, $tujuan_pelapor[0]);
+
+        return to_route('dashboard.kurator');
      }
  
      public function deniedLaporanDewan(Request $request, $ticket)
@@ -357,8 +432,59 @@ class DataController extends Controller
           * - Mail Notifikasi
           * - Simpan Histori Review
           */
- 
-         
+          
+          $validator = Validator::make($request->all(), [
+            'ticketID' => 'required',
+            'hasil_investigasi' => 'required',
+            'berkas' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $validated = $validator->validate();
+
+        // File to JSON
+        $berkas = [];
+        foreach ($validated['berkas'] as &$item) {
+            if (isset($item) && $item instanceof UploadedFile) {
+                $uniqueID = uniqid();
+                $uniqueFilename = $uniqueID . '_' . $item->getClientOriginalName(); // Generate Unique Name
+                $oriFileName = $item->getClientOriginalName(); // Sim
+                $item->storeAs('berkas/', $uniqueFilename); // Simpan Gambar ke Storage
+                
+                // Simpan nama + path
+                $berkas[] = [
+                    'uniqueId' => $uniqueID,
+                    'oriFileName' => $oriFileName,
+                    'path' => 'berkas/' . $uniqueFilename,
+                ];
+            }
+        }
+
+        // Update Review on Pengaduan
+        pengaduan::where('ticketID', $validated['ticketID'])->update(['review'=> '9']);
+
+        // Save status_histori
+        $statusDetail = new status_detail();
+        $statusDetail->description = $validated['hasil_investigasi'];
+        $statusDetail->file = json_encode($berkas);
+        // $statusDetail->save();
+
+        $history = new status_history();
+        $history->ticketID = $validated['ticketID'];
+        $history->review = '9';
+        $history->detail_id = $statusDetail->id;
+        // $history->save();
+
+        // Mail Pelapor
+        $tanggal = Date::now()->format('d/m/y');
+        $tujuan_pelapor = pengaduan::where('ticketID', $validated['ticketID'])->pluck('email');
+        $mail = new EmailController();
+        $mail->pelapor_email($validated['ticketID'], 9, $tanggal, $tujuan_pelapor[0]);
+
+        return to_route('dashboard.kurator');
      }
  
      public function beyondOurJurisdiction($ticket)
