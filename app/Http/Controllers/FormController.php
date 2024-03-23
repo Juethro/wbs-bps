@@ -332,6 +332,16 @@ class FormController extends Controller
             'form_status' => '0',                         // Update form status editable to un-editable
         ]);
 
+        // Update status_review
+        if($validated['jenis_masalah'] == '0'){
+            // Administratif
+            pengaduan::where('ticketID', $validated['ticketID'])->update(['review'=> '1']);
+
+        } else if($validated['jenis_masalah'] == '1'){
+            // Teknis
+            pengaduan::where('ticketID', $validated['ticketID'])->update(['review'=> '2']);
+        }
+        
 
         // Save to status_histori
         $statusDetail = new status_detail();

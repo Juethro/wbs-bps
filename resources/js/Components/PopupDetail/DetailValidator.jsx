@@ -170,7 +170,7 @@ const DetailAdministratif = ({ dataAdministratif}) => {
                     onChange={handleChange}
                   />
                   <div className="flex justify-end">
-                    <button className="bg-red-500 text-white rounded-md py-1 px-3" onClick={()=>submitRevisi(revisiData)}>Submit</button>
+                    <button className="bg-blue-500 text-white rounded-md py-1 px-3" onClick={()=>submitRevisi(revisiData)}>Submit</button>
                   </div>
                 </div>
               )}
