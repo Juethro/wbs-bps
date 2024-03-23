@@ -2,17 +2,27 @@ import React, {useState } from "react";
 import { router, usePage } from '@inertiajs/react';
 import NavbarForm from "../Components/NavbarForm";
 
-const FormRevisi = ({simpleData}) => {
+const FormRevisi = () => {
   const [fileError, setFileError] = useState(null);
-  const { errors } = usePage().props;
+  const { props } = usePage();
+  const data = JSON.parse(props.data);
+  const [submitError, setSubmitError] = useState(null);
 
   const [formData, setFormData] = useState({
-    namaPelanggar : "",
-    tempatKejadian : "",
-    tanggalKejadian : "",
-    deskripsi : "",
-    lampiran : [],
+    ticketID : data['ticketID'],
+    nama : data['nama'],
+    no_telp : data['no_telp'],
+    email : data['email'],
+    jenis_masalah : data['jenis_masalah'],
+    namaPelanggar : data['nama_pelanggar'],
+    tempatKejadian : data['tempat_kejadian'],
+    tanggalKejadian : data['tanggal_kejadian'],
+    deskripsi : data['deskripsi_masalah'],
+    lampiran_lama : [JSON.parse(data['lampiran_file'])],
+    lampiran_baru : [],
   });
+  
+  console.table(formData);
 
   const handleChange = (e) =>{
     const { name, value } = e.target;
@@ -22,30 +32,38 @@ const FormRevisi = ({simpleData}) => {
     }));
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    const latestData = {
-        nama : simpleData["nama"],
-        whatsapp : simpleData["whatsapp"],
-        email : simpleData["email"],
-        masalah : simpleData["masalah"],
-        ...formData
-    };
-    router.post('/pengaduan/submit', latestData);
+  const handleSubmit = (someData) => {
+    switch (true) {
+        case someData.namaPelanggar.trim() === "":
+            setSubmitError("*Nama Pelanggar tidak boleh kosong");
+            break;
+        case someData.tempatKejadian.trim() === "":
+            setSubmitError("*Tempat Kejadian tidak boleh kosong");
+            break;
+        case someData.tanggalKejadian.trim() === "":
+            setSubmitError("*Tanggal Kejadian tidak boleh kosong");
+            break
+        case someData.deskripsi.trim() === "":
+            setSubmitError("*Deskripsi Kejadian tidak boleh kosong");
+            break
+        default:
+            // console.log(someData);
+            router.post('/revisi/submitrevisi',someData);
+            break;
+    }
+  }
+
+  const handleRemoveFile = (index) => {
+    const newFormData = {...formData};
+    newFormData.lampiran_baru.splice(index, 1);
+    setFormData(newFormData);
   };
 
-  const handleRemoveFile = (indexToRemove) => {
-    setFormData((prevData) => {
-      const updatedFiles = [...prevData.lampiran];
-      updatedFiles.splice(indexToRemove, 1);
-  
-      return {
-        ...prevData,
-        lampiran: updatedFiles,
-      };
-    });
-  };
+  const handleRemoveFileLama = (index) => {
+    const newFormData = {...formData};
+    newFormData.lampiran_lama[0].splice(index, 1);
+    setFormData(newFormData);
+  };  
 
   const handleFileChange = (event) => {
     const selectedFiles = event.target.files;
@@ -60,10 +78,11 @@ const FormRevisi = ({simpleData}) => {
       }
     }
     
+    // Add new files to existing files
     setFormData((prevFormData) => ({
         ...prevFormData,
-        lampiran: newFiles,
-      }));
+        lampiran_baru: [...prevFormData.lampiran_baru, ...newFiles],
+    }));
     setFileError(null);
 };
 
@@ -86,10 +105,11 @@ const handleDrop = (event) => {
       }
     }
 
+    // Add new files to existing files
     setFormData((prevFormData) => ({
         ...prevFormData,
-        lampiran: newFiles,
-      }));
+        lampiran_baru: [...prevFormData.lampiran_baru, ...newFiles],
+    }));
     setFileError(null);
 };
 
@@ -153,8 +173,29 @@ const handleDrop = (event) => {
                 />
             </div>
 
+            {formData.lampiran_lama.length > 0 && (
+                    <div className="mt-4">
+                        <p className="text-gray-700">File Submitted:</p>
+                        <div className="flex flex-wrap">
+                        {formData.lampiran_lama[0].map((file, index) => (
+                            <div key={index} className="bg-gray-200 p-2 m-1 rounded flex items-center">
+                            <span className="mr-2">{file.oriFileName}</span>
+                            <button
+                                className="text-red-500 hover:text-gray-700 cursor-pointer"
+                                onClick={() => handleRemoveFileLama(index)}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                            </button>
+                            </div>
+                        ))}
+                        </div>
+                    </div>
+                )}
+
             <div className="mb-4">
-                <label htmlFor="lampiran" className="block text-gray-700 text-md font-bold mb-2">
+                <label htmlFor="lampiran_baru" className="block text-gray-700 text-md font-bold mb-2">
                     Lampiran
                 </label>
                     <p className="text-gray-600 text-xs mb-2">Lampirkan bukti foto dan video anda</p>
@@ -165,14 +206,14 @@ const handleDrop = (event) => {
                 >
                     <input 
                     type="file"
-                    id="lampiran"
+                    id="lampiran_baru"
                     className="absolute inset-0 w-full h-full opacity-0"
                     accept=".jpg,.jpeg,.png"
                     onChange={handleFileChange}
                     multiple
                     />
                     <div className="pointer-events-none flex justify-center items-center">
-                    {formData.lampiran.length > 0 ? (
+                    {formData.lampiran_baru.length > 0 ? (
                         <span className="text-gray-700">/ tambahkan file berikutnya</span>
                     ) : (
                         <span className="text-gray-700">/ tambah atau tarik file disini</span>
@@ -180,11 +221,11 @@ const handleDrop = (event) => {
                     </div>
                 </div>
 
-                {formData.lampiran.length > 0 && (
+                {formData.lampiran_baru.length > 0 && (
                     <div className="mt-4">
-                        <p className="text-gray-700">Form Submitted:</p>
+                        <p className="text-gray-700">File Submitted:</p>
                         <div className="flex flex-wrap">
-                        {formData.lampiran.map((file, index) => (
+                        {formData.lampiran_baru.map((file, index) => (
                             <div key={index} className="bg-gray-200 p-2 m-1 rounded flex items-center">
                             <span className="mr-2">{file.name}</span>
                             <button
@@ -201,11 +242,12 @@ const handleDrop = (event) => {
                     </div>
                 )}
 
-                {errors && Object.keys(errors).map(key => (
-                <div key={key} className="text-red-500 text-xs italic mt-2">
-                    {errors[key]}
-                </div>
-                ))}
+                {submitError? (
+                    <div className="text-red-500 text-xs italic mt-2">
+                        {submitError}
+                    </div>
+                    ) : ''
+                }
 
                 {fileError && <div className="text-red-500 text-xs italic mt-2">{fileError}</div>}
 
@@ -226,7 +268,7 @@ const handleDrop = (event) => {
                 <div className="flex justify-center mt-7">
                     <button className="bg-biru-1 hover:bg-biru-2 text-white font-bold py-2 px-24 rounded focus:outline-none focus:shadow-outline" 
                     type="button"
-                    onClick={handleSubmit}>
+                    onClick={() => handleSubmit(formData)}>
                         Revisi
                     </button>
                 </div>

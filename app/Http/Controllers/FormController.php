@@ -210,6 +210,7 @@ class FormController extends Controller
          */
         $ticket = $request->ticket;
         $history = status_history::select('id','review', 'detail_id','created_at')->where('ticketID', $ticket)->orderBy('created_at', 'desc')->get();
+        $form_status = pengaduan::select('form_status')->where('ticketID', $ticket)->get();
 
         // Check if any data is found
         if ($history->isEmpty()) {
@@ -234,6 +235,8 @@ class FormController extends Controller
 
             $data[] = [
                 'id' => $i,
+                'ticket' => $ticket,
+                'form_status' => $form_status->first()->form_status,
                 'description' => $this->descStatus($item->review) ,
                 'jam' => $jamHanya . ':' . $menit . ' WIB',
                 'tanggal' => $newDate,
@@ -245,12 +248,133 @@ class FormController extends Controller
         return json_encode($data);
     }
 
+    function revision(Request $request)
+    {
+        $ticket = $request->ticket;
+        $data = pengaduan::where('ticketID', $ticket)->get();
+
+        return inertia::render('FormRevisi', ['data'=> json_encode($data[0])]);
+    }
+
     function submitRevision(Request $request)
     {
         /**
          * - Validasi Request
          * - Update database
          */
+
+        $validator = Validator::make($request->all(), [
+            'ticketID' => 'required',
+            'nama' => 'required',
+            'no_telp' => 'required',
+            'email' => 'required|email',
+            'jenis_masalah' => 'required',
+            'namaPelanggar' => 'required',
+            'tempatKejadian' => 'required',
+            'tanggalKejadian' => 'required',
+            'deskripsi' => 'required',
+            'lampiran_lama' => 'nullable',
+            'lampiran_baru' => 'nullable'
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $validated = $validator->validate();
+
+        $ticket = $validated['ticketID'];
+
+        // Mencocokan lampiran_lama
+        $lampiran_ori = pengaduan::where('ticketID', $ticket)->pluck('lampiran_file');
+        $lampiran_ori = json_decode($lampiran_ori[0]);
+
+        $uniqueIds_ori = array_column($lampiran_ori, 'uniqueId');
+        $uniqueIds_lama = array_column($validated['lampiran_lama'][0], 'uniqueId');
+
+        $uniqueIds_diff = array_diff($uniqueIds_ori, $uniqueIds_lama);  //yang ada di ori tetapi tidak ada di lama
+
+        // Hapus File yang hilang
+        $files_to_delete = [];
+        foreach ($lampiran_ori as $file) {
+            if (in_array($file->uniqueId, $uniqueIds_diff)) {
+                $files_to_delete[] = $file->path;
+            }
+        }
+
+        // Menyimpan lampiran_file baru dan merge
+        $lampiran_file_baru = [];
+        foreach ($validated['lampiran_baru'] as &$item) {
+            if (isset($item) && $item instanceof UploadedFile) {
+                $uniqueID = uniqid();
+                $uniqueFilename = $uniqueID . '_' . $item->getClientOriginalName(); // Generate Unique Name
+                $oriFileName = $item->getClientOriginalName(); // Sim
+                $item->storeAs('public/formUploadFile', $uniqueFilename); // Simpan Gambar ke Storage
+                
+                // Simpan nama + path
+                $lampiran_file_baru[] = [
+                    'uniqueId' => $uniqueID,
+                    'oriFileName' => $oriFileName,
+                    'path' => 'public/formUploadFile/' . $uniqueFilename,
+                ];
+            }
+        }
+
+        $lampiran_file_updated = array_merge($lampiran_file_baru, $validated['lampiran_lama'][0]);
+
+        // Menyimpan data baru
+        pengaduan::where('ticketId', $ticket)->update([
+            'nama_pelanggar' => $validated['namaPelanggar'],
+            'tempat_kejadian' => $validated['tempatKejadian'],
+            'tanggal_kejadian' => $validated['tanggalKejadian'],
+            'deskripsi_masalah' => $validated['deskripsi'],
+            'lampiran_file' => $lampiran_file_updated,
+            'form_status' => '0',                         // Update form status editable to un-editable
+        ]);
+
+
+        // Save to status_histori
+        $statusDetail = new status_detail();
+        $statusDetail->description = "Laporan Telah Direvisi";
+        $statusDetail->save();
+
+        $history = new status_history();
+        $history->ticketID = $ticket;
+        if($validated['jenis_masalah'] == '0'){
+            // Administratif
+            $history->review = '2';
+
+        } else if($validated['jenis_masalah'] == '1'){
+            // Teknis
+            $history->review = '1';
+        }
+        $history->detail_id = $statusDetail->id;
+        $history->save();
+
+        // Mail to Pelapor & Tim Validator
+        $tanggal = Date::now()->format('d/m/y');
+        $tujuan_pelapor = $validated['email'];
+        $tujuan_reviewer = email::where('role', 'validator')->pluck('email');
+
+        if($validated['jenis_masalah'] === '0'){
+            // Administratif
+            $mail = new EmailController();
+            $mail->pelapor_email($ticket, 1, $tanggal, $tujuan_pelapor);
+            
+            foreach ($tujuan_reviewer as $email) {
+                $mail->reviewer_email($ticket, 1, $email);
+            }
+
+        } else{
+            // Teknis
+            $mail = new EmailController();
+            $mail->pelapor_email($ticket, 2, $tanggal, $tujuan_pelapor);
+            
+            foreach ($tujuan_reviewer as $email) {
+                $mail->reviewer_email($ticket, 2, $email);
+            }
+        }
+
 
     }
 }

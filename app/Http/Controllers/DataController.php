@@ -308,13 +308,13 @@ class DataController extends Controller
         $statusDetail = new status_detail();
         $statusDetail->description = $validated['hasil_investigasi'];
         $statusDetail->file = json_encode($berkas);
-        // $statusDetail->save();
+        $statusDetail->save();
 
         $history = new status_history();
         $history->ticketID = $validated['ticketID'];
         $history->review = '9';
         $history->detail_id = $statusDetail->id;
-        // $history->save();
+        $history->save();
 
         // Mail Pelapor
         $tanggal = Date::now()->format('d/m/y');
@@ -470,13 +470,13 @@ class DataController extends Controller
         $statusDetail = new status_detail();
         $statusDetail->description = $validated['hasil_investigasi'];
         $statusDetail->file = json_encode($berkas);
-        // $statusDetail->save();
+        $statusDetail->save();
 
         $history = new status_history();
         $history->ticketID = $validated['ticketID'];
         $history->review = '9';
         $history->detail_id = $statusDetail->id;
-        // $history->save();
+        $history->save();
 
         // Mail Pelapor
         $tanggal = Date::now()->format('d/m/y');

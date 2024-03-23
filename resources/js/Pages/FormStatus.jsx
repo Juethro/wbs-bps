@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavbarForm from "../Components/NavbarForm";
+import { router } from "@inertiajs/react";
 
 function FormStatus() {
   const [search, setSearch] = useState({
@@ -15,6 +16,11 @@ function FormStatus() {
         ...prev,
         [name]: value,
     }));
+  }
+
+  const formRevisi = (e) => {
+    console.log(e);
+    router.post('/revisi', e);
   }
   
   // Post and catch response
@@ -116,11 +122,12 @@ function FormStatus() {
                   Cek Aduan
                 </button>
               </div>
-              {data && data.some(item => item.description === 'Laporan Perlu Direvisi') && (
+              {data && data.some(item => item.form_status === '1') && (
                 <div className="flex items-center justify-center mt-2">
                   <button
                     className="bg-red-500 hover:bg-red-600 text-white font-bold w-full py-2 px-4 rounded"
                     type="button"
+                    onClick={()=>formRevisi(data[0].ticket)}
                   >
                     Revisi Aduan
                   </button>

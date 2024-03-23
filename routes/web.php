@@ -16,7 +16,6 @@ Route::get('/pengaduan', [FormController::class, 'pengaduan'])->name('pengaduan'
 
 Route::post('/status/track', [FormController::class, 'track'])->name('status.track');
 Route::post('/pengaduan/submit', [FormController::class, 'submitStore'])->name('pengaduan.submit');
-Route::post('/pengaduan/submitrevisi', [FormController::class, 'submitRevision'])->name('pengaduan.revision');
 
 // Login
 Route::get('/login', [LoginController::class, 'showLogin']);
@@ -29,13 +28,14 @@ Route::get('/home', function() {
 });
 
 // Revisi
-Route::get('/revisi', function() {
-    return inertia::render('FormRevisi');
+Route::post('/revisi', [FormController::class, 'revision'])->name('pengaduan.revision');
+Route::get('/revisi', function(){
+    return redirect()->to('status');
 });
+Route::post('/revisi/submitrevisi', [FormController::class, 'submitRevision'])->name('pengaduan.revision.submit');
 
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {
-
 
     // Dashboard Admin
     Route::middleware(['auth', 'onlyAdmin'])->group(function () {
