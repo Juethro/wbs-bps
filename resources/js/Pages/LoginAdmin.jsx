@@ -10,6 +10,7 @@ function LoginAdmin(){
     });
 
     const [error, setError] = useState(null);
+    const [succeed, setSucceed] = useState(null);
     
     const handleChange = (e) => {
         const { id, value, type, checked } = e.target;
@@ -19,26 +20,42 @@ function LoginAdmin(){
         }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        // Validasi di sisi klien
+    const csrfToken = document.head.querySelector("[name~=csrf_token][content]").content;
+
+    const headers = new Headers({
+    'Content-Type': 'application/json',
+    'X-CSRF-TOKEN': csrfToken,
+    });
+
+    const handleSubmit = async (formData) => {
         if (!formData.email || !formData.password) {
             setError("Semua kolom wajib diisi");
             return;
         }
-
         try {
-            const response = await router.post('/login', formData);
-            if (response.status === 200) {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers,
+                body: JSON.stringify(formData),
+            });
+      
+            const data = await response.json();
+
+            if (data.success) {
+                router.visit('/dashboard/admin');
+                setError(null);
+                setSucceed('Login Berhasil!');
 
             } else {
-                setError("Email atau Password salah!");
+                setSucceed(null);
+                setError(data.message); // Use specific error message
+
             }
         } catch (error) {
-            setError("Email atau Password salah!");
+            console.error('Error logging in:', error);
+            setError("Error saat login, coba beberapa saat lagi"); // Informative fallback error message
         }
-        
-    };
+      };
 
     return(
         <div className="bg-contain bg-fixed bg-center" style={{ backgroundImage: "url('images/bpssby.jpg')", backgroundSize: "cover" }}>
@@ -55,6 +72,11 @@ function LoginAdmin(){
                             {error ? (
                                 <div className="bg-white px-4 py-2 border border-red-400 rounded-md shadow-md">
                                     <p className="text-red-500">{error}</p>
+                                </div>
+                            ) : null}
+                            {succeed ? (
+                                <div className="bg-white px-4 py-2 border border-green-400 rounded-md shadow-md">
+                                    <p className="text-green-500">{succeed}</p>
                                 </div>
                             ) : null}
 
@@ -78,8 +100,11 @@ function LoginAdmin(){
                                     </label>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <button className="bg-biru-1 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleSubmit} >
-                                        Login
+                                    <button 
+                                    type="button"
+                                        className="bg-biru-1 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+                                        onClick={() => handleSubmit(formData)} >
+                                            Login
                                     </button>
                                 </div>
                             </form>

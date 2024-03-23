@@ -16,28 +16,32 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'email' => ['required', 'email'],
             'password' => ['required'],
-            'rememberMe' => ['required'],
-        ])->validate();
-
-        $email = $credentials['email'];
-        $passw = $credentials['password'];
-        $remem = $credentials['rememberMe'];
+            'rememberMe' => ['nullable'], // Optional, adjust based on your logic
+        ]);
         
-        if(Auth::attempt([
-            'email' => $email,
-            'password' => $passw
-        ], $remem)){
-            $request->session()->regenerate();
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()->messages(),
+            ], 422);
+        }
 
-            return redirect('/dashboard/admin');
-        }
-        else{
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->has('rememberMe'))) {
             
-            return redirect()->back()->with(['msg' => 'Email atau password salah!'], 401)->withInput();
+            return response()->json([
+                'success' => true,
+                'message' => 'Login Berhasil!',
+                'user' => Auth::user(), // Optionally return user data
+            ], 200);
         }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Email atau Password salah!',
+        ], 401);
 
     }
 
