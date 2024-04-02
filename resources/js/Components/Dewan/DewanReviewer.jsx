@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Review from "./DewanReview";
-import Selesai from '../Dewan/DewanSelesai';
+import Selesai from './DewanSelesai';
 
 // Tim Dewan
 function DewanReviewer(){

@@ -37,7 +37,7 @@ function DewanSelesai(){
 
     const dataTeknis = pengaduanData.filter(item => {
         const isReviewValid = item.review === '8' || item.review === '9';
-        return item.jenis_masalah === '1' && isReviewValid; // 0 adalah Administratif
+        return item.jenis_masalah === '0' && isReviewValid; // 0 adalah Administratif
     });
     
     const sortedData = () => {

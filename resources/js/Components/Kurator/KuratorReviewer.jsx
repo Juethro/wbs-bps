@@ -1,7 +1,6 @@
 import React, {useState} from "react";
-import TeknisReview from "./KuratorReview";
-import TeknisSelesai from '../AdminTeknis/TeknisSelesai';
-import TeknisValidasi from '../AdminTeknis/TeknisValidasi';
+import Review from "./KuratorReview";
+import Selesai from './KuratorSelesai';
 
 // Tim Kurator
 function KuratorReviewer(){
@@ -17,7 +16,7 @@ function KuratorReviewer(){
                 <div className="flex bg-abu-1 h-full w-32">
                     <div className="flex mt-2">
                         <button 
-                            className={"bg-gray-400 p-3 px-6 mr-2 hover:bg-gray-700" +
+                            className={"bg-gray-400 p-3 px-6 mx-2 hover:bg-gray-700" +
                             (currentTab == 'review' ? ' bg-gray-700': '')}
                             onClick={()=>handleChage('review')}
                         >
@@ -25,14 +24,23 @@ function KuratorReviewer(){
                                 Review
                             </p>
                         </button>
+                        <button 
+                            className={"bg-gray-400 p-3 px-6 mr-2 hover:bg-gray-700" +
+                            (currentTab == 'selesai' ? ' bg-gray-700': '')}
+                            onClick={()=>handleChage('selesai')}
+                        >
+                            <p className="text-abu-1 text-sm">
+                                Selesai
+                            </p>
+                        </button>
                     </div>
                 </div>
             </div>
 
             { 
-                currentTab == 'validasi'? <TeknisValidasi/> : 
-                currentTab == 'review'? <TeknisReview/> :
-                <TeknisSelesai/>
+                currentTab == 'review'? <Review/> : 
+                currentTab == 'selesai'? <Selesai/> :
+                <Selesai/>
             }
 
 

@@ -72,6 +72,7 @@ Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/kurator', [DashboardController::class, 'kurator'])->name('dashboard.kurator');
 
         Route::get('/kurator/data', [DataController::class, 'fetchdata'])->name('dashboard.kurator.fetchdata');
+        Route::get('/kurator/data/selesai', [DataController::class, 'fetchDataSelesaiKurator'])->name('dashboard.kurator.fetchdata.selesai');
 
         Route::patch('/kurator/investigate/', [DataController::class, 'investigateLaporanKurator'])->name('kurator.investigate');
         Route::post('/kurator/proven/', [DataController::class, 'provenLaporanKurator'])->name('kurator.proven');
