@@ -27,7 +27,21 @@ class DataController extends Controller
         return response()->json($pengaduandata);
     }
 
-    
+    function descStatus(String $status){
+        $description = [
+            '1' => 'Laporan Diterima',
+            '2' => 'Laporan Diterima',
+            '3' => 'Laporan Perlu Direvisi',
+            '4' => 'Laporan Sedang Direview',
+            '5' => 'Laporan Sedang Direview',
+            '6' => 'Laporan sedang dilakukan investigasi',
+            '7' => 'Laporan Dikirim Ke Pusat',
+            '8' => 'Laporan Terbukti',
+            '9' => 'Ticket Telah Ditutup, Terimakasih Atas Pastisipasinya',
+        ];
+        
+        return $description[$status];
+    }
 
     // Fungsi untuk mendapatkan nama bulan
     private function getMonthName($monthNumber) {
@@ -84,6 +98,55 @@ class DataController extends Controller
         )[0] ?? null;
 
         return Storage::download($path);
+    }
+
+    function fetchDataProgres()
+    {
+        $pengaduandata = pengaduan::whereNotIn('review', [1, 2])->get();
+
+        if ($pengaduandata->isEmpty()) {
+            // Ticket not found, return appropriate message
+            return response()->json([
+                'message' => 'Ticket not found.',
+                'status' => 'error',
+            ], 404);
+        }
+
+        $pengaduandata = json_decode($pengaduandata);
+        $pengaduandata = array_map(function ($pengaduan) {
+            $pengaduan->lampiran_file = json_decode($pengaduan->lampiran_file);
+            return $pengaduan;
+        }, $pengaduandata);
+
+        foreach($pengaduandata as $item){
+            // Tanggal Review
+            $dateTimeParts = explode("T", $item->updated_at);
+            $datesPart = $dateTimeParts[0];
+            $date = explode("-", $datesPart);
+            $newDate = $date[2] . ' ' . $this->getMonthName($date[1]) . ' ' . $date[0];
+
+            // Hasil Review
+            $hasil = $this->descStatus($item->review);
+
+            $data[]=[
+              'ticketID' => $item->ticketID,
+              'email' => $item->email,
+              'nama' => $item->nama,
+              'no_telp' => $item->no_telp,
+              'nama_pelanggar' => $item->nama_pelanggar,
+              'tempat_kejadian' => $item->tempat_kejadian,
+              'tanggal_kejadian' => $item->tanggal_kejadian,
+              'jenis_masalah' => $item->jenis_masalah,
+              'deskripsi_masalah' => $item->deskripsi_masalah,
+              'lampiran_file' => $item->lampiran_file,
+              'form_status' => $item->form_status,
+              'review' => $item->review,
+              'hasil_review' => $hasil,
+              'tanggal_review' => $newDate,
+            ];
+        }
+
+        return response()->json($data);
     }
 
      public function approveLaporanValidator(Request $request)

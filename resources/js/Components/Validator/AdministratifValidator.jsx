@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import AdministratifReview from '../AdminAdministratif/AdministratifReview';
-import AdministratifSelesai from '../AdminAdministratif/AdministratifSelesai';
-import AdministratifValidasi from "./AdministratifValidasi";
+import Validasi from './AdministratifValidasi';
+import Progres from './AdministratifProgres';
 
 function AdministratifValidator(){
     const [currentTab, setCurrentTab] = useState('validasi');
@@ -24,13 +23,22 @@ function AdministratifValidator(){
                                 Validasi
                             </p>
                         </button>
+                        <button 
+                            className={"bg-gray-400 p-3 px-6 ml-2 mr-2 hover:bg-gray-700" +
+                            (currentTab == 'progres' ? ' bg-gray-700': '')}
+                            onClick={()=>handleChage('progres')}
+                        >
+                            <p className="text-abu-1 text-sm">
+                                Progres
+                            </p>
+                        </button>
                     </div>
                 </div>
             </div>
             { 
-                currentTab == 'validasi'? <AdministratifValidasi/> : 
-                currentTab == 'review'? <AdministratifReview/> :
-                <AdministratifSelesai/>
+                currentTab == 'validasi'? <Validasi/> : 
+                currentTab == 'progres'? <Progres/> :
+                <Progres/>
             }
         </div>
     );

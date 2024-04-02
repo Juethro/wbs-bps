@@ -60,6 +60,7 @@ Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/validator', [DashboardController::class, 'validator'])->name('dashboard.validator');
 
         Route::get('/validator/data', [DataController::class, 'fetchdata'])->name('dashboard.validator.fetchdata');
+        Route::get('/validator/data/progres', [DataController::class, 'fetchDataProgres'])->name('dashboard.validator.fetchdata.progres');
 
         Route::patch('/validator/approve', [DataController::class, 'approveLaporanValidator'])->name('validator.approve');
         Route::post('/validator/revisi', [DataController::class, 'revisiLaporan'])->name('validator.revisi');

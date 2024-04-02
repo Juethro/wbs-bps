@@ -1,7 +1,6 @@
 import React, {useState} from "react";
-import TeknisReview from "../AdminTeknis/TeknisReview";
-import TeknisSelesai from '../AdminTeknis/TeknisSelesai';
-import TeknisValidasi from "./TeknisValidasi";
+import Validasi from './TeknisValidasi';
+import Progres from './TeknisProgres';
 
 function TeknisValidator(){
     const [currentTab, setCurrentTab] = useState('validasi');
@@ -16,7 +15,7 @@ function TeknisValidator(){
                 <div className="flex bg-abu-1 h-full w-32">
                     <div className="flex mt-2">
                         <button 
-                            className={"bg-gray-400 p-3 px-6 ml-2 mr-2 hover:bg-gray-700" +
+                            className={"bg-gray-400 p-3 px-6 mx-2 hover:bg-gray-700" +
                             (currentTab == 'validasi' ? ' bg-gray-700': '')}
                             onClick={()=>handleChage('validasi')}
                         >
@@ -24,14 +23,23 @@ function TeknisValidator(){
                                 Validasi
                             </p>
                         </button>
+                        <button 
+                            className={"bg-gray-400 p-3 px-6 ml-2 mr-2 hover:bg-gray-700" +
+                            (currentTab == 'progres' ? ' bg-gray-700': '')}
+                            onClick={()=>handleChage('progres')}
+                        >
+                            <p className="text-abu-1 text-sm">
+                                Progres
+                            </p>
+                        </button>
                     </div>
                 </div>
             </div>
 
             { 
-                currentTab == 'validasi'? <TeknisValidasi/> : 
-                currentTab == 'review'? <TeknisReview/> :
-                <TeknisSelesai/>
+                currentTab == 'validasi'? <Validasi/> : 
+                currentTab == 'progres'? <Progres/> :
+                <Progres/>
             }
 
 
