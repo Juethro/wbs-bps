@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import AdministratifReview from "./DewanReview";
-import AdministratifSelesai from '../AdminAdministratif/AdministratifSelesai';
-import AdministratifValidasi from '../AdminAdministratif/AdministratifValidasi';
+import Review from "./DewanReview";
+import Selesai from '../Dewan/DewanSelesai';
 
 // Tim Dewan
 function DewanReviewer(){
@@ -17,7 +16,7 @@ function DewanReviewer(){
                 <div className="flex bg-abu-1 h-full w-32">
                     <div className="flex mt-2">
                         <button 
-                            className={"bg-gray-400 p-3 px-6 mr-2 hover:bg-gray-700" +
+                            className={"bg-gray-400 p-3 px-6 mx-2 hover:bg-gray-700" +
                             (currentTab == 'review' ? ' bg-gray-700': '')}
                             onClick={()=>handleChage('review')}
                         >
@@ -25,14 +24,23 @@ function DewanReviewer(){
                                 Review
                             </p>
                         </button>
+                        <button 
+                            className={"bg-gray-400 p-3 px-6 mr-2 hover:bg-gray-700" +
+                            (currentTab == 'selesai' ? ' bg-gray-700': '')}
+                            onClick={()=>handleChage('selesai')}
+                        >
+                            <p className="text-abu-1 text-sm">
+                                Selesai
+                            </p>
+                        </button>
                     </div>
                 </div>
             </div>
             
             { 
-                currentTab == 'review'? <AdministratifReview/> : 
-                currentTab == 'validasi'? <AdministratifValidasi/> :
-                <AdministratifSelesai/>
+                currentTab == 'review'? <Review/> : 
+                currentTab == 'selesai'? <Selesai/> :
+                <Selesai/>
             }
 
         </div>

@@ -1,18 +1,19 @@
 import React, {useState, useEffect} from "react";
-import DetailDewan from "../PopupDetail/DetailDewan";
+import DetailDewanSelesai from "../PopupDetail/DetailDewanSelesai";
 
-function DewanReview(){
+function DewanSelesai(){
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(11);
     const [pengaduanData, setPengaduanData] = useState([]);
 
+    // Fetching Data
     useEffect(() => {
         fetchData();
     }, []);
 
     const fetchData = async () => {
         try {
-          const response = await fetch('/dashboard/dewan/data'); // Mengganti dengan endpoint yang sesuai di Laravel Anda
+          const response = await fetch('/dashboard/dewan/data/selesai'); // Mengganti dengan endpoint yang sesuai di Laravel Anda
           const jsonData = await response.json();
           setPengaduanData(jsonData);
         } catch (error) {
@@ -20,6 +21,7 @@ function DewanReview(){
         }
     };
 
+    // Sorting Data Mechanism
     const [sortConfig, setSortConfig] = useState({
         key: null,
         direction: 'ascending',
@@ -34,8 +36,8 @@ function DewanReview(){
     };
 
     const dataTeknis = pengaduanData.filter(item => {
-        const isReviewValid = item.review === '5' || item.review === '6';
-        return item.jenis_masalah === '0' && isReviewValid;
+        const isReviewValid = item.review === '8' || item.review === '9';
+        return item.jenis_masalah === '1' && isReviewValid; // 0 adalah Administratif
     });
     
     const sortedData = () => {
@@ -128,7 +130,7 @@ function DewanReview(){
                     onClick={() => requestSort('tempat_kejadian')}
                     >
                         <div className="flex items-center">
-                            Tempat Kejadian
+                            Tanggal Review
                             {renderArrow('tempat_kejadian')}
                         </div>
                     </th>
@@ -138,7 +140,7 @@ function DewanReview(){
                     onClick={() => requestSort('tanggal_kejadian')}
                     >
                         <div className="flex items-center">
-                            Tanggal Kejadian
+                            Hasil Review
                             {renderArrow('tanggal_kejadian')}
                         </div>
                     </th>
@@ -163,10 +165,10 @@ function DewanReview(){
                         {item.ticketID}
                     </th>
                     <td className="px-6 py-4">{item.nama_pelanggar}</td>
-                    <td className="px-6 py-4">{item.tempat_kejadian}</td>
-                    <td className="px-6 py-4">{item.tanggal_kejadian}</td>
+                    <td className="px-6 py-4">{item.tanggal_review}</td>
+                    <td className="px-6 py-4">{item.hasil_review}</td>
                     <td className="px-6 py-4">
-                        <DetailDewan dataTeknis={item}/>
+                        <DetailDewanSelesai dataTeknis={item}/>
                     </td>
                     </tr>
                 ))}
@@ -229,4 +231,4 @@ function DewanReview(){
     )
 }
 
-export default DewanReview;
+export default DewanSelesai;

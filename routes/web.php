@@ -63,7 +63,7 @@ Route::group(['prefix' => 'dashboard'], function () {
 
         Route::patch('/validator/approve', [DataController::class, 'approveLaporanValidator'])->name('validator.approve');
         Route::post('/validator/revisi', [DataController::class, 'revisiLaporan'])->name('validator.revisi');
-        Route::get('/validator/download/{ticket}/{uniqueId}', [DataController::class, 'downloadFile'])->name('validator.download');
+        Route::get('/validator/download/{ticket}/{uniqueId}', [DataController::class, 'downloadFileValidator'])->name('validator.download');
     });
 
 
@@ -76,6 +76,8 @@ Route::group(['prefix' => 'dashboard'], function () {
         Route::patch('/kurator/investigate/', [DataController::class, 'investigateLaporanKurator'])->name('kurator.investigate');
         Route::post('/kurator/proven/', [DataController::class, 'provenLaporanKurator'])->name('kurator.proven');
         Route::post('/kurator/notproven/', [DataController::class, 'notprovenLaporanKurator'])->name('kurator.notproven');
+        Route::get('/kurator/download/{ticket}/{uniqueId}', [DataController::class, 'downloadFileKurator'])->name('kurator.download');
+        Route::get('/kurator/download/berkas/{ticket}/{uniqueId}', [DataController::class, 'downloadFileKuratorBerkas'])->name('kurator.download.berkas');
     });
 
 
@@ -84,10 +86,13 @@ Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/dewan', [DashboardController::class, 'dewan'])->name('dashboard.dewan');
 
         Route::get('/dewan/data', [DataController::class, 'fetchdata'])->name('dashboard.dewan.fetchdata');
+        Route::get('/dewan/data/selesai', [DataController::class, 'fetchDataSelesaiDewan'])->name('dashboard.dewan.fetchdata.selesai');
 
         Route::post('/dewan/investigate/', [DataController::class, 'investigateLaporanDewan'])->name('dewan.investigate');
         Route::post('/dewan/proven/', [DataController::class, 'approveLaporanDewan'])->name('dewan.proven');
         Route::post('/dewan/notproven/', [DataController::class, 'deniedLaporanDewan'])->name('dewan.not_proven');
+        Route::get('/dewan/download/{ticket}/{uniqueId}', [DataController::class, 'downloadFileDewan'])->name('dewan.download');
+        Route::get('/dewan/download/berkas/{ticket}/{uniqueId}', [DataController::class, 'downloadFileDewanBerkas'])->name('dewan.download.berkas');
 
         Route::post('/dewan/beyond/', [DataController::class, 'beyondOurJurisdiction'])->name('dewan.beyondOurJurisdiction');
         Route::post('/dewan/continue/', [DataController::class, ''])->name('dewan.continue');
