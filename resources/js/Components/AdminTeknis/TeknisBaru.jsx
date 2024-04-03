@@ -12,7 +12,7 @@ function TeknisBaru(){
 
     const fetchData = async () => {
         try {
-          const response = await fetch('/dashboard/admin/data/progres'); // Mengganti dengan endpoint yang sesuai di Laravel Anda
+          const response = await fetch('/dashboard/admin/data'); // Mengganti dengan endpoint yang sesuai di Laravel Anda
           const jsonData = await response.json();
           setPengaduanData(jsonData);
         } catch (error) {
@@ -89,7 +89,6 @@ function TeknisBaru(){
     const lastPostIndex = currentPage * postPerPage;
     const firstPostIndex = lastPostIndex - postPerPage;
     const currentPosts = sortedData(fetchData, sortConfig).slice(firstPostIndex, lastPostIndex);
-    console.log(currentPosts);
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);

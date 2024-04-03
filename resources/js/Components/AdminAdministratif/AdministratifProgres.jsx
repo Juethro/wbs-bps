@@ -32,6 +32,7 @@ function AdministratifProgres(){
         }
         setSortConfig({ key, direction });
     };
+    console.log(pengaduanData);
 
     const dataAdministratif = pengaduanData.filter(item => item.jenis_masalah === '0');
 

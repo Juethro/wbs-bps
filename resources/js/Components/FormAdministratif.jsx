@@ -36,12 +36,12 @@ const FormAdministratif = ({ simpleData }) => {
     };
 
     const handleRemoveFile = (index) => {
-        setFiles((prevFiles) => {
-            const newFiles = [...prevFiles];
-            newFiles.splice(index, 1);
-            return newFiles;
+        setFormData((prevFormData) => {
+            const updatedLampiran = [...prevFormData.lampiran];
+            updatedLampiran.splice(index, 1);
+            return { ...prevFormData, lampiran: updatedLampiran };
         });
-    };  
+    };
 
     const handleFileChange = (event) => {
         const selectedFiles = event.target.files;

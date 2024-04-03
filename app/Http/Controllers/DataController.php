@@ -93,10 +93,7 @@ class DataController extends Controller
 
         if ($pengaduandata->isEmpty()) {
             // Ticket not found, return appropriate message
-            return response()->json([
-                'message' => 'Ticket not found.',
-                'status' => 'error',
-            ], 404);
+            return response()->json($pengaduandata);
         }
 
         $pengaduandata = json_decode($pengaduandata);
@@ -142,12 +139,8 @@ class DataController extends Controller
 
         if ($pengaduandata->isEmpty()) {
             // Ticket not found, return appropriate message
-            return response()->json([
-                'message' => 'Ticket not found.',
-                'status' => 'error',
-            ], 404);
+            return response()->json($pengaduandata);
         }
-
         $pengaduandata = json_decode($pengaduandata);
     
         $pengaduandata = array_map(function ($pengaduan) {
@@ -224,10 +217,7 @@ class DataController extends Controller
 
         if ($pengaduandata->isEmpty()) {
             // Ticket not found, return appropriate message
-            return response()->json([
-                'message' => 'Ticket not found.',
-                'status' => 'error',
-            ], 404);
+            return response()->json($pengaduandata);
         }
 
         $pengaduandata = json_decode($pengaduandata);
@@ -404,10 +394,7 @@ class DataController extends Controller
 
         if ($pengaduandata->isEmpty()) {
             // Ticket not found, return appropriate message
-            return response()->json([
-                'message' => 'Ticket not found.',
-                'status' => 'error',
-            ], 404);
+            return response()->json($pengaduandata);
         }
 
         $pengaduandata = json_decode($pengaduandata);
@@ -656,10 +643,7 @@ class DataController extends Controller
 
         if ($pengaduandata->isEmpty()) {
             // Ticket not found, return appropriate message
-            return response()->json([
-                'message' => 'Ticket not found.',
-                'status' => 'error',
-            ], 404);
+            return response()->json($pengaduandata);
         }
 
         $pengaduandata = json_decode($pengaduandata);
