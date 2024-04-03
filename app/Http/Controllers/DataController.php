@@ -84,6 +84,124 @@ class DataController extends Controller
     // }
 
     /**
+     * Admin Utilities
+     */
+
+    function fetchDataProgresAdmin()
+    {
+        $pengaduandata = pengaduan::whereNotIn('review', [1, 2])->get();
+
+        if ($pengaduandata->isEmpty()) {
+            // Ticket not found, return appropriate message
+            return response()->json([
+                'message' => 'Ticket not found.',
+                'status' => 'error',
+            ], 404);
+        }
+
+        $pengaduandata = json_decode($pengaduandata);
+        $pengaduandata = array_map(function ($pengaduan) {
+            $pengaduan->lampiran_file = json_decode($pengaduan->lampiran_file);
+            return $pengaduan;
+        }, $pengaduandata);
+
+        foreach($pengaduandata as $item){
+            // Tanggal Review
+            $dateTimeParts = explode("T", $item->updated_at);
+            $datesPart = $dateTimeParts[0];
+            $date = explode("-", $datesPart);
+            $newDate = $date[2] . ' ' . $this->getMonthName($date[1]) . ' ' . $date[0];
+
+            // Hasil Review
+            $hasil = $this->descStatus($item->review);
+
+            $data[]=[
+              'ticketID' => $item->ticketID,
+              'email' => $item->email,
+              'nama' => $item->nama,
+              'no_telp' => $item->no_telp,
+              'nama_pelanggar' => $item->nama_pelanggar,
+              'tempat_kejadian' => $item->tempat_kejadian,
+              'tanggal_kejadian' => $item->tanggal_kejadian,
+              'jenis_masalah' => $item->jenis_masalah,
+              'deskripsi_masalah' => $item->deskripsi_masalah,
+              'lampiran_file' => $item->lampiran_file,
+              'form_status' => $item->form_status,
+              'review' => $item->review,
+              'hasil_review' => $hasil,
+              'tanggal_review' => $newDate,
+            ];
+        }
+
+        return response()->json($data);
+    }
+
+    function fetchDataSelesaiAdmin()
+    {
+        $pengaduandata = pengaduan::whereIn('review', [8, 9])->get();
+
+        if ($pengaduandata->isEmpty()) {
+            // Ticket not found, return appropriate message
+            return response()->json([
+                'message' => 'Ticket not found.',
+                'status' => 'error',
+            ], 404);
+        }
+
+        $pengaduandata = json_decode($pengaduandata);
+    
+        $pengaduandata = array_map(function ($pengaduan) {
+            $pengaduan->lampiran_file = json_decode($pengaduan->lampiran_file);
+            return $pengaduan;
+        }, $pengaduandata);
+
+        foreach($pengaduandata as $item){
+            // Tanggal Review
+            $dateTimeParts = explode("T", $item->updated_at);
+            $datesPart = $dateTimeParts[0];
+            $date = explode("-", $datesPart);
+            $newDate = $date[2] . ' ' . $this->getMonthName($date[1]) . ' ' . $date[0];
+
+            // Hasil Review
+            if ($item->review === '8') {
+                $hasil = "Terbukti";
+            } elseif ($item->review === '9') {
+                $hasil = "Tidak terbukti";
+            } else {
+                $hasil = "Nilai review tidak valid";
+            }
+
+            // Detail Review
+            $history = status_history::select('id','review', 'detail_id','created_at')->where('ticketID', $item->ticketID)->orderBy('created_at', 'desc')->first();
+            $statusdetail = $history->statusDetail;
+
+            $data[]=[
+              'ticketID' => $item->ticketID,
+              'email' => $item->email,
+              'nama' => $item->nama,
+              'no_telp' => $item->no_telp,
+              'nama_pelanggar' => $item->nama_pelanggar,
+              'tempat_kejadian' => $item->tempat_kejadian,
+              'tanggal_kejadian' => $item->tanggal_kejadian,
+              'jenis_masalah' => $item->jenis_masalah,
+              'deskripsi_masalah' => $item->deskripsi_masalah,
+              'lampiran_file' => $item->lampiran_file,
+              'form_status' => $item->form_status,
+              'review' => $item->review,
+              'hasil_review' => $hasil,
+              'tanggal_review' => $newDate,
+              'detail_review' => [
+                'laporan_review' => $statusdetail->description,
+                'file_laporan'  => json_decode($statusdetail->file)
+              ]
+            ];
+        }
+
+        return response()->json($data);
+    }
+
+
+    /**
      * Validator Utilities
      */
 

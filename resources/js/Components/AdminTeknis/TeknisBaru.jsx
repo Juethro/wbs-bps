@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
-import DetailAdminTeknis from "../PopupDetail/DetailAdmin";
+import DetailAdmin from "../PopupDetail/DetailAdmin";
 
-function TeknisReview(){
+function TeknisBaru(){
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(11);
     const [pengaduanData, setPengaduanData] = useState([]);
@@ -12,7 +12,7 @@ function TeknisReview(){
 
     const fetchData = async () => {
         try {
-          const response = await fetch('/dashboard/admin/data'); // Mengganti dengan endpoint yang sesuai di Laravel Anda
+          const response = await fetch('/dashboard/admin/data/progres'); // Mengganti dengan endpoint yang sesuai di Laravel Anda
           const jsonData = await response.json();
           setPengaduanData(jsonData);
         } catch (error) {
@@ -33,7 +33,7 @@ function TeknisReview(){
         setSortConfig({ key, direction });
     };
 
-    const dataTeknis = pengaduanData.filter(item => item.jenis_masalah === '1' && item.review === '5');
+    const dataTeknis = pengaduanData.filter(item => item.jenis_masalah === '1' && item.review === '2');
     
     const sortedData = () => {
         const sorted = [...dataTeknis];
@@ -89,13 +89,14 @@ function TeknisReview(){
     const lastPostIndex = currentPage * postPerPage;
     const firstPostIndex = lastPostIndex - postPerPage;
     const currentPosts = sortedData(fetchData, sortConfig).slice(firstPostIndex, lastPostIndex);
+    console.log(currentPosts);
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
     return(
-        <div className="h-full w-full flex flex-col relative overflow-x-auto shadow-md w-full bg-gray-700">
+        <div className="h-full flex flex-col relative overflow-x-auto shadow-md w-full bg-gray-700">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -140,7 +141,7 @@ function TeknisReview(){
                         </div>
                     </th>
                     <th scope="col" className="px-6 py-3">
-                    <span className="sr-only">Detail</span>
+                        <span className="sr-only">Detail</span>
                     </th>
                 </tr>
                 </thead>
@@ -161,7 +162,7 @@ function TeknisReview(){
                     <td className="px-6 py-4">{item.tempat_kejadian}</td>
                     <td className="px-6 py-4">{item.tanggal_kejadian}</td>
                     <td className="px-6 py-4">
-                        <DetailAdminTeknis dataTeknis={item} />
+                        <DetailAdmin dataAdministratif={item} />
                     </td>
                     </tr>
                 ))}
@@ -224,4 +225,4 @@ function TeknisReview(){
     )
 }
 
-export default TeknisReview;
+export default TeknisBaru;

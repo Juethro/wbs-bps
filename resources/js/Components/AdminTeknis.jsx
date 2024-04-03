@@ -1,10 +1,10 @@
 import React, {useState} from "react";
-import TeknisReview from './AdminTeknis/TeknisReview';
+import TeknisProgres from './AdminTeknis/TeknisProgres';
 import TeknisSelesai from './AdminTeknis/TeknisSelesai';
-import TeknisValidasi from './AdminTeknis/TeknisValidasi';
+import TeknisBaru from './AdminTeknis/TeknisBaru';
 
 function AdminTeknis(){
-    const [currentTab, setCurrentTab] = useState('validasi');
+    const [currentTab, setCurrentTab] = useState('baru');
 
     function handleChage(e){
         setCurrentTab(e);
@@ -16,21 +16,21 @@ function AdminTeknis(){
                 <div className="flex bg-abu-1 h-full w-32">
                     <div className="flex mt-2">
                         <button 
-                            className={"bg-gray-400 p-3 px-6 ml-2 mr-2 hover:bg-gray-700" +
-                            (currentTab == 'validasi' ? ' bg-gray-700': '')}
-                            onClick={()=>handleChage('validasi')}
+                            className={"bg-gray-400 p-3 px-6 mx-2 hover:bg-gray-700" +
+                            (currentTab == 'baru' ? ' bg-gray-700': '')}
+                            onClick={()=>handleChage('baru')}
                         >
                             <p className="text-abu-1 text-sm">
-                                Validasi
+                                Baru
                             </p>
                         </button>
                         <button 
                             className={"bg-gray-400 p-3 px-6 mr-2 hover:bg-gray-700" +
-                            (currentTab == 'review' ? ' bg-gray-700': '')}
-                            onClick={()=>handleChage('review')}
+                            (currentTab == 'progres' ? ' bg-gray-700': '')}
+                            onClick={()=>handleChage('progres')}
                         >
                             <p className="text-abu-1 text-sm">
-                                Review
+                                Progres
                             </p>
                         </button>
 
@@ -48,8 +48,8 @@ function AdminTeknis(){
             </div>
 
             { 
-                currentTab == 'validasi'? <TeknisValidasi/> : 
-                currentTab == 'review'? <TeknisReview/> :
+                currentTab == 'baru'? <TeknisBaru/> : 
+                currentTab == 'progres'? <TeknisProgres/> :
                 <TeknisSelesai/>
             }
 

@@ -3,40 +3,14 @@ import React, { useState } from "react";
 
 const DetailAdmin = ({ dataAdministratif}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isTabHidden, setIsTabHidden] = useState(true);
-  const [revisiData, setRevisiData] = useState({
-    "ticket": dataAdministratif.ticketID,
-    "instruksi": ""
-  });
 
   const openModal = () => {
     setIsOpen(true);
   };
 
-  const handleRevisiClick = () => {
-    setIsTabHidden(!isTabHidden);
-  };
-
-  const handleChange = (e) =>{
-    const { name, value } = e.target;
-    setRevisiData((prev) => ({
-        ...prev,
-        [name]: value,
-    }));
-  };
-
   const closeModal = () => {
     setIsOpen(false);
   };
-
-  const handleSetujuClick = (ticketID) => {
-    router.patch('validator/approve/', ticketID);
-    setIsOpen(false);
-  };
-
-  const submitRevisi = (data) => {
-    router.post("/dashboard/validator/revisi",data);
-  }
 
   return (
     <React.Fragment>
@@ -122,7 +96,7 @@ const DetailAdmin = ({ dataAdministratif}) => {
                           {dataAdministratif.lampiran_file.map((item) => (
                             <li className="p-1 flex flex-row justify-between">
                               {item.oriFileName.substring(0, 35) + '...'}
-                              <a target="blank" href={"/dashboard/validator/download/" + dataAdministratif.ticketID + "/" + item.uniqueId}>
+                              <a target="blank" href={"/dashboard/admin/download/" + dataAdministratif.ticketID + "/" + item.uniqueId}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 hover:stroke-blue-500">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                                 </svg>

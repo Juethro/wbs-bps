@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import AdministratifReview from './AdminAdministratif/AdministratifReview';
+import AdministratifProgres from './AdminAdministratif/AdministratifProgres';
 import AdministratifSelesai from './AdminAdministratif/AdministratifSelesai';
-import AdministratifValidasi from './AdminAdministratif/AdministratifValidasi';
+import AdministratifBaru from './AdminAdministratif/AdministratifBaru';
 
 function AdminAdministratif(){
-    const [currentTab, setCurrentTab] = useState('validasi');
+    const [currentTab, setCurrentTab] = useState('baru');
 
     function handleChage(e){
         setCurrentTab(e);
@@ -17,20 +17,20 @@ function AdminAdministratif(){
                     <div className="flex mt-2">
                         <button 
                             className={"bg-gray-400 p-3 px-6 ml-2 mr-2 hover:bg-gray-700" +
-                            (currentTab == 'validasi' ? ' bg-gray-700': '')}
-                            onClick={()=>handleChage('validasi')}
+                            (currentTab == 'baru' ? ' bg-gray-700': '')}
+                            onClick={()=>handleChage('baru')}
                         >
                             <p className="text-abu-1 text-sm">
-                                Validasi
+                                Baru
                             </p>
                         </button>
                         <button 
                             className={"bg-gray-400 p-3 px-6 mr-2 hover:bg-gray-700" +
-                            (currentTab == 'review' ? ' bg-gray-700': '')}
-                            onClick={()=>handleChage('review')}
+                            (currentTab == 'progres' ? ' bg-gray-700': '')}
+                            onClick={()=>handleChage('progres')}
                         >
                             <p className="text-abu-1 text-sm">
-                                Review
+                                Progres
                             </p>
                         </button>
 
@@ -48,8 +48,8 @@ function AdminAdministratif(){
             </div>
             
             { 
-                currentTab == 'validasi'? <AdministratifValidasi/> : 
-                currentTab == 'review'? <AdministratifReview/> :
+                currentTab == 'baru'? <AdministratifBaru/> : 
+                currentTab == 'progres'? <AdministratifProgres/> :
                 <AdministratifSelesai/>
             }
 

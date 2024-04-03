@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import DetailAdmin from "../PopupDetail/DetailAdmin";
 
-function AdministratifValidasi(){
+function AdministratifBaru(){
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(11);
     const [pengaduanData, setPengaduanData] = useState([]);
@@ -224,4 +224,4 @@ function AdministratifValidasi(){
     )
 }
 
-export default AdministratifValidasi;
+export default AdministratifBaru;

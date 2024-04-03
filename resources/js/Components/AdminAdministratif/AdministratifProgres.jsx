@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import DetailAdmin from "../PopupDetail/DetailAdmin";
 
-function TeknisValidasi(){
+function AdministratifProgres(){
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(11);
     const [pengaduanData, setPengaduanData] = useState([]);
@@ -12,7 +12,7 @@ function TeknisValidasi(){
 
     const fetchData = async () => {
         try {
-          const response = await fetch('/dashboard/admin/data'); // Mengganti dengan endpoint yang sesuai di Laravel Anda
+          const response = await fetch('/dashboard/admin/data/progres'); // Mengganti dengan endpoint yang sesuai di Laravel Anda
           const jsonData = await response.json();
           setPengaduanData(jsonData);
         } catch (error) {
@@ -33,13 +33,13 @@ function TeknisValidasi(){
         setSortConfig({ key, direction });
     };
 
-    const dataTeknis = pengaduanData.filter(item => item.jenis_masalah === '1' && item.review === '2');
-    
+    const dataAdministratif = pengaduanData.filter(item => item.jenis_masalah === '0');
+
     const sortedData = () => {
-        const sorted = [...dataTeknis];
+        const sorted = [...dataAdministratif];
         if (sortConfig.key) {
           sorted.sort((a, b) => {
-            if (sortConfig.key === 'tanggal_kejadian') {
+            if (sortConfig.key === 'tanggalKejadian') {
               // Konversi tanggal ke format yang bisa dibandingkan langsung
               const dateA = new Date(
                 a[sortConfig.key].split('-').reverse().join('-')
@@ -89,14 +89,13 @@ function TeknisValidasi(){
     const lastPostIndex = currentPage * postPerPage;
     const firstPostIndex = lastPostIndex - postPerPage;
     const currentPosts = sortedData(fetchData, sortConfig).slice(firstPostIndex, lastPostIndex);
-    console.log(currentPosts);
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
     return(
-        <div className="h-full flex flex-col relative overflow-x-auto shadow-md w-full bg-gray-700">
+        <div className="h-full w-full flex flex-col relative overflow-x-auto shadow-md w-full bg-gray-700">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -123,25 +122,27 @@ function TeknisValidasi(){
                     <th
                     scope="col"
                     className="px-6 py-3 cursor-pointer"
-                    onClick={() => requestSort('tempat_kejadian')}
+                    onClick={() => requestSort('tempat_review')}
                     >
                         <div className="flex items-center">
-                            Tempat Kejadian
-                            {renderArrow('tempat_kejadian')}
+                            Tanggal Update
+                            {renderArrow('tanggal_review')}
                         </div>
                     </th>
                     <th
                     scope="col"
                     className="px-6 py-3 cursor-pointer"
-                    onClick={() => requestSort('tanggal_kejadian')}
+                    onClick={() => requestSort('hasil_review')}
                     >
                         <div className="flex items-center">
-                            Tanggal Kejadian
-                            {renderArrow('tanggal_kejadian')}
+                            Status
+                            {renderArrow('hasil_review')}
                         </div>
                     </th>
                     <th scope="col" className="px-6 py-3">
-                        <span className="sr-only">Detail</span>
+                        <div className="flex items-center">
+                            Detail
+                        </div>
                     </th>
                 </tr>
                 </thead>
@@ -159,8 +160,8 @@ function TeknisValidasi(){
                         {item.ticketID}
                     </th>
                     <td className="px-6 py-4">{item.nama_pelanggar}</td>
-                    <td className="px-6 py-4">{item.tempat_kejadian}</td>
-                    <td className="px-6 py-4">{item.tanggal_kejadian}</td>
+                    <td className="px-6 py-4">{item.tanggal_review}</td>
+                    <td className="px-6 py-4">{item.hasil_review}</td>
                     <td className="px-6 py-4">
                         <DetailAdmin dataAdministratif={item} />
                     </td>
@@ -225,4 +226,4 @@ function TeknisValidasi(){
     )
 }
 
-export default TeknisValidasi;
+export default AdministratifProgres;

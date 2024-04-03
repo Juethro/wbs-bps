@@ -127,21 +127,21 @@ function DewanSelesai(){
                     <th
                     scope="col"
                     className="px-6 py-3 cursor-pointer"
-                    onClick={() => requestSort('tempat_kejadian')}
+                    onClick={() => requestSort('tanggal_review')}
                     >
                         <div className="flex items-center">
                             Tanggal Review
-                            {renderArrow('tempat_kejadian')}
+                            {renderArrow('tanggal_review')}
                         </div>
                     </th>
                     <th
                     scope="col"
                     className="px-6 py-3 cursor-pointer"
-                    onClick={() => requestSort('tanggal_kejadian')}
+                    onClick={() => requestSort('hasil_review')}
                     >
                         <div className="flex items-center">
                             Hasil Review
-                            {renderArrow('tanggal_kejadian')}
+                            {renderArrow('hasil_review')}
                         </div>
                     </th>
                     <th scope="col" className="px-6 py-3">

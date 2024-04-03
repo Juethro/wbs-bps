@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
-import DetailAdministratif from "../PopupDetail/DetailAdmin";
+import DetailAdminTeknis from "../PopupDetail/DetailAdmin";
 
-function AdministratifReview(){
+function TeknisProgres(){
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage] = useState(11);
     const [pengaduanData, setPengaduanData] = useState([]);
@@ -33,13 +33,13 @@ function AdministratifReview(){
         setSortConfig({ key, direction });
     };
 
-    const dataAdministratif = pengaduanData.filter(item => item.jenis_masalah === '0' && item.review === '4');
-
+    const dataTeknis = pengaduanData.filter(item => item.jenis_masalah === '1' && item.review === '5');
+    
     const sortedData = () => {
-        const sorted = [...dataAdministratif];
+        const sorted = [...dataTeknis];
         if (sortConfig.key) {
           sorted.sort((a, b) => {
-            if (sortConfig.key === 'tanggalKejadian') {
+            if (sortConfig.key === 'tanggal_kejadian') {
               // Konversi tanggal ke format yang bisa dibandingkan langsung
               const dateA = new Date(
                 a[sortConfig.key].split('-').reverse().join('-')
@@ -122,25 +122,27 @@ function AdministratifReview(){
                     <th
                     scope="col"
                     className="px-6 py-3 cursor-pointer"
-                    onClick={() => requestSort('tempat_kejadian')}
+                    onClick={() => requestSort('tanggal_review')}
                     >
                         <div className="flex items-center">
-                            Tempat Kejadian
-                            {renderArrow('tempat_kejadian')}
+                            Tanggal Update
+                            {renderArrow('tanggal_review')}
                         </div>
                     </th>
                     <th
                     scope="col"
                     className="px-6 py-3 cursor-pointer"
-                    onClick={() => requestSort('tanggal_kejadian')}
+                    onClick={() => requestSort('hasil_review')}
                     >
                         <div className="flex items-center">
-                            Tanggal Kejadian
-                            {renderArrow('tanggal_kejadian')}
+                            Hasil Review
+                            {renderArrow('hasil_review')}
                         </div>
                     </th>
                     <th scope="col" className="px-6 py-3">
-                    <span className="sr-only">Detail</span>
+                        <div className="flex items-center">
+                            Detail
+                        </div>
                     </th>
                 </tr>
                 </thead>
@@ -158,10 +160,10 @@ function AdministratifReview(){
                         {item.ticketID}
                     </th>
                     <td className="px-6 py-4">{item.nama_pelanggar}</td>
-                    <td className="px-6 py-4">{item.tempat_kejadian}</td>
-                    <td className="px-6 py-4">{item.tanggal_kejadian}</td>
+                    <td className="px-6 py-4">{item.tanggal_review}</td>
+                    <td className="px-6 py-4">{item.hasil_review}</td>
                     <td className="px-6 py-4">
-                        <DetailAdministratif dataAdministratif={item} />
+                        <DetailAdmin dataAdministratif={item} />
                     </td>
                     </tr>
                 ))}
@@ -224,4 +226,4 @@ function AdministratifReview(){
     )
 }
 
-export default AdministratifReview;
+export default TeknisProgres;

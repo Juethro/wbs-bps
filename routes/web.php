@@ -40,11 +40,10 @@ Route::group(['prefix' => 'dashboard'], function () {
     // Dashboard Admin
     Route::middleware(['auth', 'onlyAdmin'])->group(function () {
         Route::get('/admin', [DashboardController::class, 'admin'])->name('dashboard.admin');
-        Route::get('/admin/status/administratif', [DashboardController::class, 'statusAdministratif'])->name('admin.status.administratif');
-        Route::get('/admin/status/teknis', [DashboardController::class, 'statusTeknis'])->name('admin.status.teknis');
         
         Route::get('/admin/data', [DataController::class, 'fetchdata'])->name('dashboard.fetchdata');
-        Route::put('/admin/update-review', [DataController::class, 'updateReview'])->name('dashboard.updateReview');
+        Route::get('/admin/data/progres', [DataController::class, 'fetchDataProgresAdmin'])->name('dashboard.fetchdata.progres');
+        Route::get('/admin/data/selesai', [DataController::class, 'fetchDataSelesaiAdmin'])->name('dashboard.fetchdata.selesai');
 
         Route::get('/users', [UserController::class, 'fetchUser'])->name('user.fetchuser');
         Route::post('/users/store', [UserController::class, 'store'])->name('user.store');
@@ -53,6 +52,9 @@ Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/email', [EmailController::class, 'fetchEmail'])->name('admin.fetchemail');
         Route::post('/email/store', [EmailController::class, 'create'])->name('email.store');
         Route::delete('/email/destroy/{id}', [EmailController::class, 'destroy'])->name('email.delete');
+
+        Route::get('/admin/download/{ticket}/{uniqueId}', [DataController::class, 'downloadFileKurator'])->name('admin.download');
+        Route::get('/admin/download/berkas/{ticket}/{uniqueId}', [DataController::class, 'downloadFileKuratorBerkas'])->name('admin.download.berkas');
     });
 
     // Dashboard Tim Validator
