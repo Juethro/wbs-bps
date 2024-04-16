@@ -23,8 +23,8 @@ function LoginAdmin(){
     const csrfToken = document.head.querySelector("[name~=csrf_token][content]").content;
 
     const headers = new Headers({
-    'Content-Type': 'application/json',
-    'X-CSRF-TOKEN': csrfToken,
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': csrfToken,
     });
 
     const handleSubmit = async (formData) => {

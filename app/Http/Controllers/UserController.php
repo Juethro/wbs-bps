@@ -28,11 +28,14 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()->messages(),
+            ], 422);
         }
 
         $validated = $validator->validate();
-        // dd("Validate Complete");
+
         User::create([
             'name' => $validated["nama"],
             'email' => $validated["email"],
@@ -40,7 +43,10 @@ class UserController extends Controller
             'role' => $validated["role"],
         ]);
 
-        return redirect()->back()->with(['msg' => 'Success'], 202)->withInput();
+        return response()->json([
+            'success' => true,
+            'message' => 'User saved!',
+        ], 202);
     }
 
     // Archived

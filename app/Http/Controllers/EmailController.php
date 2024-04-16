@@ -28,7 +28,10 @@ class EmailController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()->messages(),
+            ], 422);
         }
 
         $validated = $validator->validate();
@@ -37,7 +40,10 @@ class EmailController extends Controller
 
         email::create($validated);
         $this->added_email($role, $tujuan);
-        return redirect()->back()->with(['msg' => 'Email Saved!'], 202)->withInput();
+        return response()->json([
+            'success' => true,
+            'message' => 'Email Saved!',
+        ], 202);
     }
 
     // Archived

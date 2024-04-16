@@ -11,7 +11,8 @@ function AdminRole(){
         passw: '',
         role: '',
     });
-    const {errors} = usePage().props;
+    const [errors, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
 
     const handleChange= (e) => {
         const { name, value } = e.target;
@@ -21,11 +22,40 @@ function AdminRole(){
         }));
     }
 
-    const handleSubmit = (e) => {
+    const csrfToken = document.head.querySelector("[name~=csrf_token][content]").content;
+
+    const headers = new Headers({
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': csrfToken,
+    });
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log({...createData});
-        router.post('/dashboard/users/store', {...createData});
-        fetchData();
+
+        try {
+            const response = await fetch('/dashboard/users/store', {
+                method: 'POST',
+                headers,
+                body: JSON.stringify(createData),
+            });
+      
+            const data = await response.json();
+
+            if (data.success) {
+                setError(null);
+                setSuccess({"message": "User Saved!"});
+                fetchData();
+
+            } else {
+                setSuccess(null)
+                setError(data.errors); // Use specific error message
+
+            }
+        } catch (error) {
+            console.error('Error Create in:', error);
+            setError({"error":"Error saat create user, coba beberapa saat lagi"}); // Informative fallback error message
+        }
+        
     };
 
     const deleteUser = (id) => {
@@ -171,6 +201,11 @@ function AdminRole(){
                 {errors && Object.keys(errors).map(key => (
                     <div key={key} className="text-red-500 text-xs italic mt-2 mr-2">
                         {errors[key]}
+                    </div>
+                ))}
+                {success && Object.keys(success).map(key => (
+                    <div key={key} className="text-green-500 text-xs italic mt-2 mr-2">
+                        {success[key]}
                     </div>
                 ))}
             </div>
