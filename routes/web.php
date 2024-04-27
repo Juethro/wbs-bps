@@ -92,7 +92,7 @@ Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/dewan/data', [DataController::class, 'fetchdata'])->name('dashboard.dewan.fetchdata');
         Route::get('/dewan/data/selesai', [DataController::class, 'fetchDataSelesaiDewan'])->name('dashboard.dewan.fetchdata.selesai');
 
-        Route::post('/dewan/investigate/', [DataController::class, 'investigateLaporanDewan'])->name('dewan.investigate');
+        Route::patch('/dewan/investigate/', [DataController::class, 'investigateLaporanDewan'])->name('dewan.investigate');
         Route::post('/dewan/proven/', [DataController::class, 'approveLaporanDewan'])->name('dewan.proven');
         Route::post('/dewan/notproven/', [DataController::class, 'deniedLaporanDewan'])->name('dewan.not_proven');
         Route::get('/dewan/download/{ticket}/{uniqueId}', [DataController::class, 'downloadFileDewan'])->name('dewan.download');
