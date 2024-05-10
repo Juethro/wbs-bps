@@ -428,5 +428,49 @@ class EmailController extends Controller
         // return new reviewer_notification($ticket, $subject, $tujuan, $konten);
                 
     }
+    
+    function added_user(String $role, String $tujuan)
+    {
+        $ticket = '';  # ga penting cuma biar bisa make Mail
+        $subject = "Anda Ditambahkan ke Dalam Tim ". $role;
+        $konten = '<section class="teks" style="padding: 0px 20px 20px 20px;">
+                    <p>
+                        Halo,
+                        <br>
+                        <br>
+                        Administrator telah menambahkan user anda ke dalam Tim '. $role .
+                        ' <br>
+                        <br>
+                        Terima kasih,
+                        Sistem
+                    </p>
+                </section>';
+
+        Mail::send(new reviewer_notification($ticket, $subject ,$tujuan, $konten));
+        // return new reviewer_notification($ticket, $subject, $tujuan, $konten);
+                
+    
+    }
+    function removed_user(String $role, String $tujuan)
+    {
+        $ticket = '';   # ga penting cuma biar bisa make Mail
+        $subject = "Anda Dihapus Dari Tim ". $role;
+        $konten = '<section class="teks" style="padding: 0px 20px 20px 20px;">
+                    <p>
+                        Halo,
+                        <br>
+                        <br>
+                        Administrator telah menghapus user anda dari Tim '. $role .
+                        ' <br>
+                        <br>
+                        Terima kasih,
+                        Sistem
+                    </p>
+                </section>';
+
+        Mail::send(new reviewer_notification($ticket, $subject ,$tujuan, $konten));
+        // return new reviewer_notification($ticket, $subject, $tujuan, $konten);
+                
+    }
 
 }

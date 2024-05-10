@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\EmailController;
 
 class UserController extends Controller
 {
@@ -43,6 +44,9 @@ class UserController extends Controller
             'role' => $validated["role"],
         ]);
 
+        $mail = new EmailController();
+        $mail->added_user($validated["role"], $validated["email"]);
+
         return response()->json([
             'success' => true,
             'message' => 'User saved!',
@@ -70,10 +74,17 @@ class UserController extends Controller
 
     public function destroy(String $id)
     {
+        // User Role + Email
+        $role = User::find($id)->role;
+        $email = User::find($id)->email;
+
         // Delete the user
-        $res=User::where('id', $id)->delete();
+        $res = User::where('id', $id)->delete();
         
         if($res){
+            $mail = new EmailController();
+            $mail->removed_user($role, $email);
+
             return redirect()->back()->with(['msg' => 'Success'], 204)->withInput();
         }else{
             return redirect()->back()->with(['msg' => 'Failed'], 404)->withInput();   

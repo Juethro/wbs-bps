@@ -790,6 +790,7 @@ class DataController extends Controller
         $tujuan_pelapor = pengaduan::where('ticketID', $validated['ticketID'])->pluck('email');
         $mail = new EmailController();
         $mail->pelapor_email($validated['ticketID'], 8, $tanggal, $tujuan_pelapor[0]);
+        $mail->pelapor_email($validated['ticketID'], 9, $tanggal, $tujuan_pelapor[0]);
 
         return to_route('dashboard.kurator');
      }
